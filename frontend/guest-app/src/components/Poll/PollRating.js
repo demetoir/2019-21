@@ -27,7 +27,7 @@ const RowWrapper = styled.div`
 	border: ${props => (props.border ? "1px solid #adb5bd" : "none")};
 `;
 
-function ActiveRating({
+function PollRating({
 	id,
 	rated,
 	ratingValue,
@@ -67,4 +67,4 @@ function ActiveRating({
 	);
 }
 
-export default ActiveRating;
+export default PollRating;

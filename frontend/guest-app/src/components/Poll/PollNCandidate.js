@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Item from "./Item";
+import PollCandidate from "./PollCandidate.js";
 
 const ColumnWrapper = styled.div`
 	display: flex;
@@ -12,13 +12,13 @@ const ColumnWrapper = styled.div`
 	width: 100%;
 `;
 
-function SelectionItem(props) {
+function PollNCandidate(props) {
 	const {nItems, totalVoters, ...others} = props;
 
 	return (
 		<ColumnWrapper>
 			{nItems.map(item => (
-				<Item
+				<PollCandidate
 					{...item}
 					totalVoters={totalVoters}
 					key={item.id}
@@ -30,4 +30,4 @@ function SelectionItem(props) {
 	);
 }
 
-export default SelectionItem;
+export default PollNCandidate;

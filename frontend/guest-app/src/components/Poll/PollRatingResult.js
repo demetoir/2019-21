@@ -1,7 +1,7 @@
 import React from "react";
 import Rating from "@material-ui/lab/Rating";
 import styled from "styled-components";
-import ActiveRating from "./ActiveRating";
+import PollRating from "./PollRating.js";
 
 const ColumnWrapper = styled.div`
 	display: flex;
@@ -15,7 +15,7 @@ const ColumnWrapper = styled.div`
 	border: 1px solid #dee2e6; /* Gray3 */
 `;
 
-function RatingItem({
+function PollRatingResult({
 	id,
 	state,
 	rated,
@@ -27,7 +27,7 @@ function RatingItem({
 	return (
 		<ColumnWrapper>
 			{state === "running" && (
-				<ActiveRating
+				<PollRating
 					id={id}
 					rated={rated}
 					ratingValue={ratingValue}
@@ -52,4 +52,4 @@ function RatingItem({
 	);
 }
 
-export default RatingItem;
+export default PollRatingResult;

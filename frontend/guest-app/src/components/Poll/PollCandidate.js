@@ -46,7 +46,7 @@ const GraphWrapper = styled.div`
 	box-sizing: border-box;
 `;
 
-function Item({
+function PollCandidate({
 	id,
 	number,
 	content,
@@ -74,4 +74,4 @@ function Item({
 	);
 }
 
-export default Item;
+export default PollCandidate;

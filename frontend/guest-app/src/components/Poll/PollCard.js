@@ -1,8 +1,8 @@
 import React from "react";
 import styled, {css} from "styled-components";
 import {MdPerson} from "react-icons/md";
-import SelectionItems from "./SelectionItems";
-import RatingItem from "./RatingItem";
+import SelectionItems from "./PollNCandidate.js";
+import PollRatingResult from "./PollRatingResult.js";
 
 const ColumnWrapper = styled.div`
 	display: flex;
@@ -70,13 +70,12 @@ function PollCard(props) {
 		<ColumnWrapper>
 			<RowWrapper left bold>
 				{pollName}
-				<div>{state === "running" && "(투표중)"}</div>
-				<div>{state === "closed" && "(종료됨)"}</div>
+				{state === "running" && "(투표중)"}
+				{state === "closed" && "(종료됨)"}
 			</RowWrapper>
 			<RowWrapper left small>
-				{allowDuplication ?
-					`복수선택 | ${localePollDate}` :
-					`${localePollDate}`}
+				{allowDuplication ? `복수선택 | ` : ""}
+				{localePollDate}
 			</RowWrapper>
 			{pollType === "nItems" && (
 				<SelectionItems
@@ -85,7 +84,9 @@ function PollCard(props) {
 					{...others}
 				/>
 			)}
-			{pollType === "rating" && <RatingItem state={state} {...others} />}
+			{pollType === "rating" && (
+				<PollRatingResult state={state} {...others} />
+			)}
 			<RowWrapper left>
 				<MdPerson />
 				{`${parseInt(totalVoters, 10).toLocaleString()} 명 참여`}

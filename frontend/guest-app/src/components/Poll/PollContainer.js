@@ -1,6 +1,6 @@
 import React, {useReducer, useState} from "react";
 import styled from "styled-components";
-import PollCard from "./PollCard";
+import PollCard from "./PollCard.js";
 import {useSocket} from "../../socket.io";
 import reducer from "../../reducers/PollsReducer.js";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
@@ -21,21 +21,21 @@ function PollContainer() {
 	const {guest} = useGlobalData();
 	const GuestId = guest.id;
 
-	const {pollGuest} = usePolls();
+	const {pollGuest = []} = usePolls();
 	const data = pollGuest;
 
-	let rPolls = null;
-	let cPolls = null;
+	const runningPollsInitialValue = data.filter(
+		poll => poll.state === "running",
+	);
+	const [runningPolls, dispatch] = useReducer(
+		reducer,
+		runningPollsInitialValue,
+	);
 
-	if (data) {
-		const initialPolls = data;
-
-		rPolls = initialPolls.filter(poll => poll.state === "running");
-		cPolls = initialPolls.filter(poll => poll.state === "closed");
-	}
-
-	const [runningPolls, dispatch] = useReducer(reducer, rPolls);
-	const [closedPolls, setClosedPolls] = useState(cPolls);
+	const closedPollsInitialValue = data.filter(
+		poll => poll.state === "closed",
+	);
+	const [closedPolls, setClosedPolls] = useState(closedPollsInitialValue);
 
 	// guest가 N지선다형 투표를 했을때 호출되는 handler
 	const onVote = (id, candidateId, number, state) => {
@@ -136,6 +136,7 @@ function PollContainer() {
 			console.error("vote/off ERROR");
 			return;
 		}
+
 		// 하나의 브라우저에서 여러개의 tab으로 guest들을 생성한 경우,
 		// 해당 guest를 제외한 나머지 guest에 상태가 적용되지 않아서 comment 처리했음
 		dispatch({
@@ -153,6 +154,7 @@ function PollContainer() {
 		if (res.status === "error") {
 			return;
 		}
+
 		// 하나의 브라우저에서 여러개의 tab으로 guest들을 생성한 경우,
 		// 해당 guest를 제외한 나머지 guest에 상태가 적용되지 않아서 comment 처리했음
 		dispatch({
@@ -170,6 +172,7 @@ function PollContainer() {
 		if (res.status === "error") {
 			return;
 		}
+
 		// 하나의 브라우저에서 여러개의 tab으로 guest들을 생성한 경우,
 		// 해당 guest를 제외한 나머지 guest에 상태가 적용되지 않아서 comment 처리했음
 		dispatch({
