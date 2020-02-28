@@ -1,33 +1,27 @@
 import assert from "assert";
-import {GraphQLServer} from "graphql-yoga";
 import {after, before, describe, it} from "mocha";
-import GQLClient from "./graphqlTestClient.js";
+import GQLClient from "../testHelper/graphqlTestClient.js";
 import typeDefs from "../../graphQL/typeDefs.js";
 import resolvers from "../../graphQL/resolvers.js";
 import config from "../../graphQL/config.js";
-import models from "../../DB/models";
+import GQLServerTestHelper from "../testHelper/GQLServerTestHelper.js";
+import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
 
 describe("graphql yoga guest model", () => {
-	let app = null;
+	const gqlServerMock = new GQLServerTestHelper({
+		typeDefs,
+		resolvers,
+		config,
+	});
+	const sequelizeMock = new SequelizeTestHelper();
 
 	before(async () => {
-		const server = new GraphQLServer({
-			typeDefs,
-			resolvers,
-		});
-
-		const serverPromise = server.start(config);
-		const initDBPromise = models.sequelize.sync();
-
-		const res = await Promise.all([serverPromise, initDBPromise]);
-
-		app = res[0];
+		await Promise.all([gqlServerMock.setup(), sequelizeMock.setup()]);
 	});
 
-	after(() => {
-		app.close();
+	after(async () => {
+		await Promise.all([gqlServerMock.teardown(), sequelizeMock.teardown()]);
 	});
-
 
 	it("able query guest", async () => {
 		const query = `
@@ -47,7 +41,8 @@ describe("graphql yoga guest model", () => {
 		const variables = {
 			EventId: 2,
 		};
-		const res = await GQLClient.request(query, variables);
+
+		await GQLClient.request(query, variables);
 
 		assert(false);
 	});

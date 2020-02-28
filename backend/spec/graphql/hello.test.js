@@ -1,31 +1,26 @@
 import assert from "assert";
-import {GraphQLServer} from "graphql-yoga";
 import {after, before, describe, it} from "mocha";
-import GQLClient from "./graphqlTestClient.js";
+import GQLClient from "../testHelper/graphqlTestClient.js";
 import typeDefs from "../../graphQL/typeDefs.js";
 import resolvers from "../../graphQL/resolvers.js";
+import GQLServerTestHelper from "../testHelper/GQLServerTestHelper.js";
+import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
 import config from "../../graphQL/config.js";
-import models from "../../DB/models";
 
-describe("graphql yoga server hello", () => {
-	let app = null;
+describe("graphql yoga promise hello", () => {
+	const gqlServerMock = new GQLServerTestHelper({
+		typeDefs,
+		resolvers,
+		config,
+	});
+	const sequelizeMock = new SequelizeTestHelper();
 
 	before(async () => {
-		const server = new GraphQLServer({
-			typeDefs,
-			resolvers,
-		});
-
-		const serverPromise = server.start(config);
-		const initDBPromise = models.sequelize.sync();
-
-		const res = await Promise.all([serverPromise, initDBPromise]);
-
-		app = res[0];
+		await Promise.all([gqlServerMock.setup(), sequelizeMock.setup()]);
 	});
 
-	after(() => {
-		app.close();
+	after(async () => {
+		await Promise.all([gqlServerMock.teardown(), sequelizeMock.teardown()]);
 	});
 
 	it("able query hello", async () => {

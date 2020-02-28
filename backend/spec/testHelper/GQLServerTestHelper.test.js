@@ -4,7 +4,7 @@ import * as path from "path";
 import {fileLoader, mergeTypes} from "merge-graphql-schemas";
 import GQLServerTestHelper from "./GQLServerTestHelper.js";
 import config from "../../graphQL/config.js";
-import GQLClient from "../graphql/graphqlTestClient.js";
+import GQLClient from "./graphqlTestClient.js";
 
 describe("GQLServerTestHelper", () => {
 	const typesArray = fileLoader(path.join(__dirname, "./**/*.graphql"), {
