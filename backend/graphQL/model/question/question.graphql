@@ -10,6 +10,6 @@ type Question {
 	QuestionId: ID
 }
 
-type Query {
+extend type Query {
 	questions(EventId: ID!): [Question]!
 }

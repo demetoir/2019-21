@@ -12,7 +12,7 @@ type EventAndGuest {
 	guest: Guest
 }
 
-type Query {
+extend type Query {
 	guests(EventId: ID!): [Guest]!
 	guestInEvent: EventAndGuest
 }
