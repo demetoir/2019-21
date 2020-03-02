@@ -1,5 +1,5 @@
 import {getPollsByEventId} from "../../../DB/queries/poll.js";
-import {getCandidatesByPolls, setPollItems, simplifyList} from "./resolveHelper.js";
+import {getCandidatesByPolls, setPollItems} from "./resolveHelper.js";
 
 /**
  *
@@ -16,8 +16,6 @@ async function pollHostResolver(EventId) {
 	 */
 
 	let polls = await getPollsByEventId(EventId);
-
-	polls = simplifyList(polls);
 
 	const candidates = await getCandidatesByPolls(polls);
 

@@ -32,11 +32,18 @@ export async function closePoll(id) {
 	);
 }
 
+/**
+ *
+ * @param EventId
+ * @return {Promise<Object[]>}
+ */
 export async function getPollsByEventId(EventId) {
-	return Poll.findAll({
+	const res = await Poll.findAll({
 		where: {EventId},
 		order: [["id", "DESC"]],
 	});
+
+	return res.map(x => x.get({plain: true}));
 }
 
 // todo: refactoring
@@ -55,7 +62,6 @@ const makeCandidateRows = (id, pollType, candidates) => {
 
 	return nItems;
 };
-
 
 // todo: refactoring
 // look for inject transaction object

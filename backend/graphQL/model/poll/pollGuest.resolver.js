@@ -71,8 +71,6 @@ async function pollGuestResolver(EventId, guestId) {
 
 	let polls = await getPollsByEventId(EventId);
 
-	polls = simplifyList(polls);
-
 	const candidates = await getCandidatesByPolls(polls);
 
 	polls = await setPollItems(polls, candidates);
