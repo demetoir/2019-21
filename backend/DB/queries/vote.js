@@ -7,6 +7,7 @@ const sequelize = models.sequelize;
 const Vote = models.Vote;
 const Op = Sequelize.Op;
 
+// todo add unit test
 export async function addVote({GuestId, CandidateId}) {
 	return Vote.create({GuestId, CandidateId});
 }
