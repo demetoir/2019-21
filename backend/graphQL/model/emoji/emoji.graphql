@@ -2,7 +2,7 @@ type Emoji {
 	name: String!
 	count: Int!
 	QuestionId: Int!
-	createdAt:String!
+	createdAt: String!
 }
 
 type EmojiPick {
@@ -10,7 +10,7 @@ type EmojiPick {
 	QuestionId: Int!
 }
 
-type Query {
+extend type Query {
 	emojis(EventId: ID!): [Emoji]
 	emojiPicks(EventId: ID!, GuestId: ID!): [EmojiPick]
 }

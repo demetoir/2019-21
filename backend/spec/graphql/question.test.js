@@ -1,9 +1,28 @@
 import assert from "assert";
-import {describe, it} from "mocha";
-import GQLClient from "./graphqlTestClient.js";
-import testCase from "./question.testcase.js";
+import {after, before, describe, it} from "mocha";
+import GQLClient from "../testHelper/graphqlTestClient.js";
+import typeDefs from "../../graphQL/typeDefs.js";
+import resolvers from "../../graphQL/resolvers.js";
+import GQLServerTestHelper from "../testHelper/GQLServerTestHelper.js";
+import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
+import config from "../../graphQL/config.js";
 
 describe("graphql yoga question model", () => {
+	const gqlServerMock = new GQLServerTestHelper({
+		typeDefs,
+		resolvers,
+		config,
+	});
+	const sequelizeMock = new SequelizeTestHelper();
+
+	before(async () => {
+		await Promise.all([gqlServerMock.setup(), sequelizeMock.setup()]);
+	});
+
+	after(async () => {
+		await Promise.all([gqlServerMock.teardown(), sequelizeMock.teardown()]);
+	});
+
 	it("able query questions", async () => {
 		const queryQuestions = `
 		query getQuestions(
@@ -25,8 +44,10 @@ describe("graphql yoga question model", () => {
 		const variables = {
 			EventId: 2,
 		};
-		const res = await GQLClient.request(queryQuestions, variables);
 
-		assert.deepEqual(res, testCase.question);
+		await GQLClient.request(queryQuestions, variables);
+
+		assert(false);
+		// assert.deepEqual(res, testCase.question);
 	});
 });

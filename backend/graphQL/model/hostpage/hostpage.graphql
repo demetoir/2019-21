@@ -62,14 +62,11 @@ type Mutation {
 	createEvent(info: EventInfo!): Event
 	createHashTags(hashTags: [HashTagInput]!): HashTag
 	updateEvent(event: EventUpdate!): Event
+	moderation(eventId: Int!, moderationOption: Boolean!): Int!
 }
 
-type Query {
+extend type Query {
 	events: [Event]!
 	init: InitData!
 	getEventOption(EventId: ID!): EventOption!
-}
-
-type Mutation {
-	moderation(eventId: Int!, moderationOption: Boolean!): Int!
 }

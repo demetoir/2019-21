@@ -74,12 +74,15 @@ export async function getEmojiCountBy({name, QuestionId}) {
  * @returns {Promise<object[]>}
  */
 export async function getEmojiCountByEventIdGroupByQuestionId({EventId}) {
-	return Emoji.findAll({
+	const res = await Emoji.findAll({
 		attributes: ["QuestionId", "name", [sequelize.fn("count", "id"), "count"], [sequelize.literal("MIN(createdAt)"), "createdAt"]],
 		where: {EventId},
 		group: ["QuestionId", "name"],
-		raw: true,
 	});
+
+	// raw: true 하는 방식은 timestamp가 정수형 String(ex "12312412412414") 타입으로 반환된다.
+	// 따라서 await 한뒤 plain: true 방식으로 해야하 Date object type 으로 반환한ㄷ.
+	return res.map(x => x.get({plain: true}));
 }
 
 /**

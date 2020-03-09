@@ -9,7 +9,7 @@ type Hello {
 }
 
 type World {
-	name:String
-	value:Int
-	size:Int
+	name: String
+	value: Int
+	size: Int
 }
