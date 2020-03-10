@@ -5,7 +5,7 @@ import logger from "../../logger.js";
 
 const QUESTION_STATE_MODERATION = "moderation";
 
-function getNewQuestion({
+function toQuestionRequestDTO({
 	EventId,
 	GuestId,
 	guestName,
@@ -40,7 +40,7 @@ function getNewQuestion({
 
 const createQuestionSocketHandler = async (data, emit, socket) => {
 	try {
-		const newQuestion = getNewQuestion(data);
+		const questionRequestDTO = toQuestionRequestDTO(data);
 		const {
 			EventId,
 			content,
@@ -48,18 +48,16 @@ const createQuestionSocketHandler = async (data, emit, socket) => {
 			guestName,
 			isAnonymous,
 			QuestionId,
-		} = newQuestion;
+		} = questionRequestDTO;
 
 		logger.debug(data);
 
 		const event = await eventCache.get(EventId);
-		const currentModerationOption = event.moderationOption;
-		const reqData = newQuestion;
-		let state;
+		const isModerationMode = event.moderationOption;
+		const responseDTO = questionRequestDTO;
 
-		if (currentModerationOption) {
-			reqData.state = QUESTION_STATE_MODERATION;
-			state = QUESTION_STATE_MODERATION;
+		if (isModerationMode) {
+			responseDTO.state = QUESTION_STATE_MODERATION;
 		}
 
 		const createQuestionPromise = createQuestion({
@@ -67,24 +65,19 @@ const createQuestionSocketHandler = async (data, emit, socket) => {
 			content,
 			GuestId,
 			QuestionId,
-			state,
+			state: responseDTO.state,
 		});
 		const updateGuestByIdPromise = updateGuestById({
 			id: GuestId,
 			name: guestName,
 			isAnonymous,
 		});
-		const [newData] = await Promise.all([createQuestionPromise, updateGuestByIdPromise]);
+		const [question] = await Promise.all([createQuestionPromise, updateGuestByIdPromise]);
 
-		reqData.id = newData.id;
-		if (QuestionId) {
-			reqData.QuestionId = QuestionId;
-		} else {
-			reqData.QuestionId = null;
-		}
+		responseDTO.id = question.id;
 
 		// todo 성능 개선: moderation기능이 on인경우 host에만 send 하도록 수정
-		emit(reqData);
+		emit(responseDTO);
 	} catch (e) {
 		logger.error(`${e.toString()}\n${e.stack}`);
 		socket.send({status: "error", error: e});
