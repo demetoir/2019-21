@@ -1,13 +1,19 @@
-require("dotenv").config();
+const path = require("path");
+
+const envPath = path.resolve(__dirname, "../../.env");
+
+require("dotenv").config({path: envPath});
 
 const host = process.env.MYSQL_TEST_HOST;
-const user = process.env.MYSQL_TEST_USER;
+const username = process.env.MYSQL_TEST_USER;
 const password = process.env.MYSQL_TEST_PASSWORD;
 const scheme = process.env.MYSQL_TEST_SCHEME;
 const dialect = process.env.MYSQL_TEST_DIALECT;
 const port = process.env.MYSQL_TEST_PORT;
 const containerName = process.env.MYSQL_TEST_CONTAINER_NAME;
 const storage = process.env.MYSQL_TEST_STORAGE;
+const logging = false;
+
 const pool = {
 	max: 5,
 	min: 0,
@@ -15,9 +21,9 @@ const pool = {
 	idle: 10000,
 };
 
-export const config = {
+const config = {
 	host,
-	user,
+	username,
 	password,
 	scheme,
 	dialect,
@@ -25,4 +31,8 @@ export const config = {
 	pool,
 	containerName,
 	storage,
+	logging,
+	database: scheme,
 };
+
+export default config;
