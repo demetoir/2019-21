@@ -62,20 +62,19 @@ const createQuestionSocketHandler = async (data, emit, socket) => {
 			state = QUESTION_STATE_MODERATION;
 		}
 
-		// todo 성능 개선: 위해 여러개의 DB query를 promise.all 처리해야함
-		const newData = await createQuestion({
+		const createQuestionPromise = createQuestion({
 			EventId,
 			content,
 			GuestId,
 			QuestionId,
 			state,
 		});
-
-		await updateGuestById({
+		const updateGuestByIdPromise = updateGuestById({
 			id: GuestId,
 			name: guestName,
 			isAnonymous,
 		});
+		const [newData] = await Promise.all([createQuestionPromise, updateGuestByIdPromise]);
 
 		reqData.id = newData.id;
 		if (QuestionId) {
