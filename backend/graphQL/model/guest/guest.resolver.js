@@ -4,9 +4,9 @@ import {
 } from "../../../DB/queries/guest.js";
 import {getEventById} from "../../../DB/queries/event.js";
 
-const guestResolver = async EventId => getGuestByEventId(EventId);
+const guestResolver = async (_, {EventId}) => getGuestByEventId(EventId);
 
-const guestInEventResolver = async authority => {
+const guestInEventResolver = async (_, args, authority) => {
 	if (authority.sub !== "guest") {
 		throw Error("AuthenticationError in guestInEventResolver");
 	}
@@ -20,8 +20,7 @@ const guestInEventResolver = async authority => {
 // noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
-		guests: (_, {EventId}) => guestResolver(EventId),
-		// eslint-disable-next-line no-empty-pattern
-		guestInEvent: (_, {}, authority) => guestInEventResolver(authority),
+		guests: guestResolver,
+		guestInEvent: guestInEventResolver,
 	},
 };

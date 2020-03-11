@@ -3,11 +3,12 @@ import {getCandidatesByPolls, setPollItems} from "./resolveHelper.js";
 
 /**
  *
+ * @param _
  * @param {int} EventId
  *
  * Yoga Resolver
  */
-async function pollHostResolver(EventId) {
+async function pollHostResolver(_, {EventId}) {
 	/**
 	 * getEventIdByEventCode(eventCode)
 	 * getPollsByEventId(event.id)
@@ -26,6 +27,6 @@ async function pollHostResolver(EventId) {
 // noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
-		pollHost: (_, {EventId}) => pollHostResolver(EventId),
+		pollHost: pollHostResolver,
 	},
 };
