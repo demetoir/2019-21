@@ -47,72 +47,77 @@ async function generateEventCode() {
 	return generatedEventCode;
 }
 
-const getEventOptionResolver = async eventId =>
-	getEventOptionByEventId(eventId);
+const getEventOptionResolver = async (_, {EventId}) =>
+	getEventOptionByEventId(EventId);
+
+const initQueryResolver = async (_, {param}, authority) => {
+	verifySubjectHostJwt(authority.sub);
+	const host = authority.info;
+	let events = await getEventsByHostId(host.id);
+
+	const eventMap = new Map();
+	const eventIdList = events.map(event => {
+		eventMap.set(event.id, []);
+		return event.id;
+	});
+
+	const hashTags = await getHashtagByEventIds(eventIdList);
+
+	events = mappingHashTagsToEvents(hashTags, events, eventMap);
+
+	return {events, host};
+};
+
+const createHashTagsResolver = async (_, {hashTags}, authority) => {
+	verifySubjectHostJwt(authority.sub);
+	// todo fix to bulk insert
+	for (const hashTag of hashTags) {
+		// eslint-disable-next-line no-await-in-loop
+		await createHashtag({
+			name: hashTag.name,
+			EventId: hashTag.EventId,
+		});
+	}
+};
+
+const createEventResolver = async (_, {info}, authority) => {
+	verifySubjectHostJwt(authority.sub);
+	const eventCode = await generateEventCode();
+	const event = await createEvent({
+		eventName: info.eventName,
+		eventCode,
+		HostId: authority.info.id,
+		startAt: info.startAt,
+		endAt: info.endAt,
+	});
+
+	return {...event};
+};
+
+const updateEventResolver = async (_, {event}, authority) => {
+	verifySubjectHostJwt(authority.sub);
+	await updateEventById({
+		id: event.EventId,
+		eventName: event.eventName,
+		startAt: event.startAt,
+		endAt: event.endAt,
+	});
+
+	const updatedEvent = await getEventById(event.EventId);
+
+	return updatedEvent.get({plain: true});
+};
 
 // noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
-		init: async (_, {param}, authority) => {
-			verifySubjectHostJwt(authority.sub);
-			const host = authority.info;
-			let events = await getEventsByHostId(host.id);
-
-			const eventMap = new Map();
-			const eventIdList = events.map(event => {
-				eventMap.set(event.id, []);
-				return event.id;
-			});
-
-			const hashTags = await getHashtagByEventIds(eventIdList);
-
-			events = mappingHashTagsToEvents(hashTags, events, eventMap);
-
-			return {events, host};
-		},
-
-		getEventOption: async (_, {EventId}) => getEventOptionResolver(EventId),
+		init: initQueryResolver,
+		getEventOption: getEventOptionResolver,
 	},
 
 	Mutation: {
-		createHashTags: async (_, {hashTags}, authority) => {
-			verifySubjectHostJwt(authority.sub);
-			// todo fix to bulk insert
-			for (const hashTag of hashTags) {
-				// eslint-disable-next-line no-await-in-loop
-				await createHashtag({
-					name: hashTag.name,
-					EventId: hashTag.EventId,
-				});
-			}
-		},
-
-		createEvent: async (_, {info}, authority) => {
-			verifySubjectHostJwt(authority.sub);
-			const eventCode = await generateEventCode();
-			const event = await createEvent({
-				eventName: info.eventName,
-				eventCode,
-				HostId: authority.info.id,
-				startAt: info.startAt,
-				endAt: info.endAt,
-			});
-
-			return {...event};
-		},
-
-		updateEvent: async (_, {event}, authority) => {
-			verifySubjectHostJwt(authority.sub);
-			await updateEventById({
-				id: event.EventId,
-				eventName: event.eventName,
-				startAt: event.startAt,
-				endAt: event.endAt,
-			});
-
-			const updatedEvent = await getEventById(event.EventId);
-
-			return updatedEvent.get({plain: true});
-		},
+		createHashTags: createHashTagsResolver,
+		createEvent: createEventResolver,
+		updateEvent: updateEventResolver,
 	},
 };

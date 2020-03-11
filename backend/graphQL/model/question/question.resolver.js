@@ -1,12 +1,12 @@
 import {getQuestionsByEventId} from "../../../DB/queries/question.js";
 
-async function questionResolver(EventId) {
+async function questionsResolver(_, {EventId}) {
 	return getQuestionsByEventId(EventId);
 }
 
 // noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
-		questions: (_, {EventId}) => questionResolver(EventId),
+		questions: questionsResolver,
 	},
 };

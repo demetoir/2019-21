@@ -7,7 +7,6 @@ import {
 } from "./resolveHelper.js";
 import {getPollsByEventId} from "../../../DB/queries/poll.js";
 
-
 // todo 이함수 동장이 무엇인지 알아내기
 // noinspection JSClosureCompilerSyntax,JSCommentMatchesSignature
 /**
@@ -56,12 +55,13 @@ async function setVotedOnPolls(polls, guestId) {
 
 /**
  *
+ * @param _
  * @param {int} EventId
  * @param {int} guestId
  *
  * Yoga Resolver
  */
-async function pollGuestResolver(EventId, guestId) {
+async function pollGuestResolver(_, {EventId, guestId}) {
 	/**
 	 * getEventIdByEventCode(eventCode)
 	 * getPollsByEventId(event.id)
@@ -82,7 +82,6 @@ async function pollGuestResolver(EventId, guestId) {
 // noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
-		pollGuest: (_, {EventId, guestId}) =>
-			pollGuestResolver(EventId, guestId),
+		pollGuest: pollGuestResolver,
 	},
 };
