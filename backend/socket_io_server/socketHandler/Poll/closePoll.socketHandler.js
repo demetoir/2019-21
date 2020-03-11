@@ -6,17 +6,20 @@ const closePollSocketHandler = async (data, emit) => {
 		let status = "ok";
 		const {pollId} = data;
 
-		const result = await closePoll(pollId);
+		const affectedRows = await closePoll(pollId);
 
-		if (result[0] !== 1) {
+		if (affectedRows !== 1) {
 			logger.error(
-				`Something wrong with poll/close: affected number of rows = ${result[0]}`,
+				`Something wrong with poll/close: affected number of rows = ${affectedRows}`,
 			);
+
 			status = "error";
 		}
+
 		emit({status, pollId});
 	} catch (e) {
 		logger.error(e);
+
 		emit({status: "error", e});
 	}
 };
