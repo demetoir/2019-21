@@ -3,8 +3,8 @@ import {
 	updateQuestionById,
 } from "../../../DB/queries/question";
 import logger from "../../logger.js";
-import {QUESTION_STATE_ACTIVE} from "./createQuestion.socketHandler.js";
-import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../socket.io-response-state.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../../constants/socket.ioResponseState.js";
+import {QUESTION_STATE_ACTIVE} from "../../../constants/questionState.js";
 
 const moveQuestionSocketHandler = async (data, emit) => {
 	try {

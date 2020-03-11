@@ -54,8 +54,7 @@ describe("candidate DB query api", () => {
 				number: 1,
 				content: "content1",
 				PollId: null,
-			},
-			{
+			}, {
 				number: 2,
 				content: "content2",
 				PollId: null,

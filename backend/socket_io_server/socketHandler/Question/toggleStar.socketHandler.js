@@ -1,6 +1,6 @@
 import {updateQuestionIsStared} from "../../../DB/queries/question";
 import logger from "../../logger.js";
-import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../socket.io-response-state.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../../constants/socket.ioResponseState.js";
 
 const toggleStarSocketHandler = async (data, emit) => {
 	try {

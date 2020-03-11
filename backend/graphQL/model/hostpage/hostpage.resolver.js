@@ -11,9 +11,10 @@ import {
 	createHashtag,
 	getHashtagByEventIds,
 } from "../../../DB/queries/hashtag.js";
+import {AUTHORITY_TYPE_HOST} from "../../../constants/authorityTypes.js";
 
 function verifySubjectHostJwt(jwtSub) {
-	if (jwtSub !== "host") {
+	if (jwtSub !== AUTHORITY_TYPE_HOST) {
 		throw new Error("AuthenticationError");
 	}
 }

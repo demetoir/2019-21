@@ -2,7 +2,8 @@ import {createQuestion} from "../../../DB/queries/question";
 import {updateGuestById} from "../../../DB/queries/guest";
 import eventCache from "../../EventCache.js";
 import logger from "../../logger.js";
-import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../socket.io-response-state.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../../constants/socket.ioResponseState.js";
+import {QUESTION_STATE_ACTIVE} from "../../../constants/questionState.js";
 
 const QUESTION_STATE_MODERATION = "moderation";
 
@@ -18,7 +19,7 @@ function toQuestionRequestDTO({
 	isShowEditButton = true,
 	didILike = false,
 	likeCount = 0,
-	state = "active",
+	state = QUESTION_STATE_ACTIVE,
 	QuestionId = null,
 	isStared = false,
 }) {

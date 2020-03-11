@@ -1,16 +1,16 @@
 import models from "../models";
 import logger from "../logger.js";
 import {createBulkCandidates} from "./candidate.js";
+import {
+	POLL_STATE_CLOSED,
+	POLL_STATE_RUNNING,
+	POLL_STATE_STAND_BY,
+} from "../../constants/pollState.js";
+import {POLL_TYPE_N_ITEMS} from "../../constants/pollType.js";
 
 const sequelize = models.sequelize;
 // noinspection JSUnresolvedVariable
 const Poll = models.Poll;
-
-export const POLL_STATE_RUNNING = "running";
-export const POLL_STATE_CLOSED = "closed";
-export const POLL_STATE_STAND_BY = "standby";
-
-export const POLL_TYPE_N_ITEMS = "nItems";
 
 /**
  *

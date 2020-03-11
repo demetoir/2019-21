@@ -8,6 +8,7 @@ import {createGuest, isExistGuest} from "../../DB/queries/guest";
 import {convertPathToEventId} from "../utils";
 import CookieKeys from "../CookieKeys.js";
 import logger from "../logger.js";
+import {AUTHORITY_TYPE_GUEST} from "../../constants/authorityTypes.js";
 
 const {routePage, tokenArgs} = config;
 const router = express.Router();
@@ -44,7 +45,10 @@ router.get("/:path", guestAuthenticate(), async (req, res) => {
 		const path = req.params.path;
 		const eventId = await convertPathToEventId(path);
 		const guest = await createGuest(eventId);
-		const accessToken = generateAccessToken(guest.guestSid, "guest");
+		const accessToken = generateAccessToken(
+			guest.guestSid,
+			AUTHORITY_TYPE_GUEST,
+		);
 
 		res.cookie(CookieKeys.GUEST_APP, accessToken, {
 			expires: getTokenExpired(cookieExpireTime),
