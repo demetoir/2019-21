@@ -2,6 +2,7 @@ import {createQuestion} from "../../../DB/queries/question";
 import {updateGuestById} from "../../../DB/queries/guest";
 import eventCache from "../../EventCache.js";
 import logger from "../../logger.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../socket.io-response-state.js";
 
 const QUESTION_STATE_MODERATION = "moderation";
 
@@ -80,7 +81,7 @@ const createQuestionSocketHandler = async (data, emit, socket) => {
 		emit(responseDTO);
 	} catch (e) {
 		logger.error(`${e.toString()}\n${e.stack}`);
-		socket.send({status: "error", error: e});
+		socket.send({status: SOCKET_IO_RESPONSE_STATE_ERROR, error: e});
 	}
 };
 

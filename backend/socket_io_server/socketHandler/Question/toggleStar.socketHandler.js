@@ -1,5 +1,6 @@
 import {updateQuestionIsStared} from "../../../DB/queries/question";
 import logger from "../../logger.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../socket.io-response-state.js";
 
 const toggleStarSocketHandler = async (data, emit) => {
 	try {
@@ -7,10 +8,12 @@ const toggleStarSocketHandler = async (data, emit) => {
 		const to = data.to[0];
 
 		await updateQuestionIsStared({from: from.id, to: to.id});
+
 		emit(to);
 	} catch (e) {
 		logger.error(e);
-		emit({status: "error", e});
+
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 

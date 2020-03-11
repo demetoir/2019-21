@@ -1,9 +1,13 @@
 import {closePoll} from "../../../DB/queries/poll";
 import logger from "../../logger.js";
+import {
+	SOCKET_IO_RESPONSE_STATE_ERROR,
+	SOCKET_IO_RESPONSE_STATE_OK,
+} from "../socket.io-response-state.js";
 
 const closePollSocketHandler = async (data, emit) => {
 	try {
-		let status = "ok";
+		let status = SOCKET_IO_RESPONSE_STATE_OK;
 		const {pollId} = data;
 
 		const affectedRows = await closePoll(pollId);
@@ -13,14 +17,14 @@ const closePollSocketHandler = async (data, emit) => {
 				`Something wrong with poll/close: affected number of rows = ${affectedRows}`,
 			);
 
-			status = "error";
+			status = SOCKET_IO_RESPONSE_STATE_ERROR;
 		}
 
 		emit({status, pollId});
 	} catch (e) {
 		logger.error(e);
 
-		emit({status: "error", e});
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 

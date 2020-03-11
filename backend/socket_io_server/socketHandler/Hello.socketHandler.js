@@ -1,3 +1,5 @@
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "./socket.io-response-state.js";
+
 function verySlowJob() {
 	return new Promise(resolve =>
 		setTimeout(() => {
@@ -16,7 +18,7 @@ const helloHandler = async (data, emit) => {
 		emit(data);
 	} catch (e) {
 		// console.log(e);
-		emit({status: "error", e});
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 
