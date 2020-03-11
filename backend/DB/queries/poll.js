@@ -5,32 +5,47 @@ import {createBulkCandidates} from "./candidate.js";
 const sequelize = models.sequelize;
 // noinspection JSUnresolvedVariable
 const Poll = models.Poll;
-// noinspection JSUnresolvedVariable
-const Candidate = models.Candidate;
 
+export const POLL_STATE_RUNNING = "running";
+export const POLL_STATE_CLOSED = "closed";
+
+/**
+ *
+ * @param id {Number|null} poll id
+ * @return {Promise<number>} affected row number
+ */
 export async function openPoll(id) {
 	// result should be == [1], 1개의 row가 성공했다는 의미
-	return Poll.update(
+	const result = await Poll.update(
 		{
-			state: "running",
+			state: POLL_STATE_RUNNING,
 			pollDate: new Date(),
 		},
 		{
 			where: {id},
 		},
 	);
+
+	return result[0];
 }
 
+/**
+ *
+ * @param id {Number|null} poll id
+ * @return {Promise<number>} affected row number
+ */
 export async function closePoll(id) {
 	// result should be == [1], 1개의 row가 성공했다는 의미
-	return Poll.update(
+	const result = await Poll.update(
 		{
-			state: "closed",
+			state: POLL_STATE_CLOSED,
 		},
 		{
 			where: {id},
 		},
 	);
+
+	return result[0];
 }
 
 /**
@@ -74,13 +89,12 @@ export async function createPoll(
 	selectionType,
 	allowDuplication,
 	candidates,
+	state = "standby",
+	pollDate = new Date(),
 ) {
 	let transaction;
 	let poll;
 	let nItems;
-
-	const state = "standby";
-	const pollDate = new Date();
 
 	try {
 		// get transaction

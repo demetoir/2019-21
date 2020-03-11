@@ -5,18 +5,20 @@ const openPollSocketHandler = async (data, emit) => {
 	try {
 		let status = "ok";
 		const {pollId} = data;
+		const affectedRows = await openPoll(pollId);
 
-		const result = await openPoll(pollId);
-
-		if (result[0] !== 1) {
+		if (affectedRows !== 1) {
 			logger.error(
-				`Something wrong with poll/open: affected number of rows = ${result[0]}`,
+				`Something wrong with poll/open: affected number of rows = ${affectedRows}`,
 			);
+
 			status = "error";
 		}
+
 		emit({status, pollId});
 	} catch (e) {
 		logger.error(e);
+
 		emit({status: "error", e});
 	}
 };
