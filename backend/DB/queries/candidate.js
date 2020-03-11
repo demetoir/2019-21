@@ -34,7 +34,7 @@ export async function createCandidate({content, number, PollId}) {
 /**
  *
  * @param candidates {Object[]}
- * @param transaction
+ * @param transaction {Object|undefined}
  * @return {Promise<Object[]>} bulk created Candidate objects
  */
 export async function createBulkCandidates(candidates, transaction) {

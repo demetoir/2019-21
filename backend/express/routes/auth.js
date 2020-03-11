@@ -4,6 +4,7 @@ import {getTokenExpired} from "../../libs/utils";
 import generateAccessToken from "../authentication/token";
 import config from "../config";
 import CookieKeys from "../CookieKeys.js";
+import {AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
 
 const EXPIRE_TIME = 2;
 const {routePage} = config;
@@ -25,7 +26,7 @@ router.get(
 	}),
 	(req, res) => {
 		const {user} = req;
-		const accessToken = generateAccessToken(user.oauthId, "host");
+		const accessToken = generateAccessToken(user.oauthId, AUTHORITY_TYPE_HOST);
 
 		res.cookie(CookieKeys.HOST_APP, accessToken, {
 			expires: getTokenExpired(EXPIRE_TIME),

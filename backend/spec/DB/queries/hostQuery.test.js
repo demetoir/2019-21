@@ -68,6 +68,7 @@ describe("host query api", () => {
 		const image = "image";
 		const name = "name";
 		const email = "email";
+
 		await findOrCreateHostByOAuth({
 			oauthId,
 			image,

@@ -6,6 +6,7 @@ import {
 	simplifyList,
 } from "./resolveHelper.js";
 import {getPollsByEventId} from "../../../DB/queries/poll.js";
+import {POLL_TYPE_RATING} from "../../../constants/pollType.js";
 
 // todo 이함수 동장이 무엇인지 알아내기
 // noinspection JSClosureCompilerSyntax,JSCommentMatchesSignature
@@ -20,7 +21,7 @@ const setVotedOnCandidate = (poll, votedList) => {
 	poll.nItems.forEach((item, index) => {
 		if (votedList.includes(item.id)) {
 			item.voted = true;
-			if (poll.pollType === "rating") {
+			if (poll.pollType === POLL_TYPE_RATING) {
 				poll.rated = true;
 				poll.ratingValue = index + 1;
 				// console.log("Rated", poll.id, poll.ratingValue, poll.rated);

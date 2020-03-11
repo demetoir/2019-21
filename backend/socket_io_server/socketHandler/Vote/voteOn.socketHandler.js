@@ -4,7 +4,7 @@ import logger from "../../logger.js";
 import {
 	SOCKET_IO_RESPONSE_STATE_ERROR,
 	SOCKET_IO_RESPONSE_STATE_OK,
-} from "../socket.io-response-state.js";
+} from "../../../constants/socket.ioResponseState.js";
 
 const voteOnSocketHandler = async (data, emit) => {
 	try {

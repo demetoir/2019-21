@@ -1,4 +1,4 @@
-import {SOCKET_IO_RESPONSE_STATE_ERROR} from "./socket.io-response-state.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../constants/socket.ioResponseState.js";
 
 function verySlowJob() {
 	return new Promise(resolve =>

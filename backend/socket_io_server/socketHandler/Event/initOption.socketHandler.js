@@ -1,7 +1,7 @@
 import {getEventOptionByEventId} from "../../../DB/queries/event";
 import eventCache from "../../EventCache";
 import logger from "../../logger.js";
-import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../socket.io-response-state.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../../constants/socket.ioResponseState.js";
 
 const initOptionSocketHandler = async (data, emit) => {
 	try {
