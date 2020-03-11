@@ -10,6 +10,7 @@ export const simplifyList = list => list.map(n => n.get({plain: true}));
  * CandidateId (int) 만 읽어서 array로 반환해주는 함수
  */
 export const getCandidateList = items => items.map(n => n.id);
+
 /**
  *
  * @param {int} pollId
@@ -63,9 +64,8 @@ export async function getItems(pollId, candidates) {
  */
 export async function getCandidatesByPolls(polls) {
 	const pollIdList = polls.map(poll => poll.id);
-	const candidates = await getCandidatesByPollId(pollIdList);
 
-	return simplifyList(candidates);
+	return getCandidatesByPollId(pollIdList);
 }
 
 /**
