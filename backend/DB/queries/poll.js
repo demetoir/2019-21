@@ -1,5 +1,6 @@
 import models from "../models";
 import logger from "../logger.js";
+import {createBulkCandidates} from "./candidate.js";
 
 const sequelize = models.sequelize;
 // noinspection JSUnresolvedVariable
@@ -102,7 +103,7 @@ export async function createPoll(
 		// step 2
 		const rows = makeCandidateRows(poll.id, pollType, candidates);
 
-		nItems = await Candidate.bulkCreate(rows, {transaction});
+		nItems = createBulkCandidates(rows, transaction);
 
 		// commit
 		await transaction.commit();
@@ -114,7 +115,7 @@ export async function createPoll(
 
 	if (poll && nItems) {
 		poll = poll.get({plain: true});
-		poll.nItems = nItems.map(item => item.get({plain: true}));
+		poll.nItems = nItems;
 	}
 
 	return poll;
