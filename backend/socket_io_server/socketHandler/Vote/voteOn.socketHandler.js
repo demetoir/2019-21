@@ -1,6 +1,10 @@
-import {addVote, addAndDelete} from "../../../DB/queries/vote";
+import {addAndDelete, addVote} from "../../../DB/queries/vote";
 import updateVoters from "./updateVoters";
 import logger from "../../logger.js";
+import {
+	SOCKET_IO_RESPONSE_STATE_ERROR,
+	SOCKET_IO_RESPONSE_STATE_OK,
+} from "../socket.io-response-state.js";
 
 const voteOnSocketHandler = async (data, emit) => {
 	try {
@@ -21,13 +25,14 @@ const voteOnSocketHandler = async (data, emit) => {
 		await updateVoters(poll);
 
 		emit({
-			status: "ok",
+			status: SOCKET_IO_RESPONSE_STATE_OK,
 			GuestId,
 			poll,
 		});
 	} catch (e) {
 		logger.error(e);
-		emit({status: "error", e});
+
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 

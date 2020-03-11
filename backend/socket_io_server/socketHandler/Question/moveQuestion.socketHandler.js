@@ -3,6 +3,8 @@ import {
 	updateQuestionById,
 } from "../../../DB/queries/question";
 import logger from "../../logger.js";
+import {QUESTION_STATE_ACTIVE} from "./createQuestion.socketHandler.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../socket.io-response-state.js";
 
 const moveQuestionSocketHandler = async (data, emit) => {
 	try {
@@ -10,7 +12,7 @@ const moveQuestionSocketHandler = async (data, emit) => {
 		const state = data.to;
 
 		if (id === "all") {
-			await updateEveryState("active", {state});
+			await updateEveryState(QUESTION_STATE_ACTIVE, {state});
 		} else {
 			await updateQuestionById({id, state});
 		}
@@ -19,7 +21,7 @@ const moveQuestionSocketHandler = async (data, emit) => {
 	} catch (e) {
 		logger.error(e);
 
-		emit({status: "error", e});
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 

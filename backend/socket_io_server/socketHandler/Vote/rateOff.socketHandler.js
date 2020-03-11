@@ -1,6 +1,10 @@
 import {deleteVoteBy} from "../../../DB/queries/vote";
 import updateVoters from "./updateVoters";
 import logger from "../../logger.js";
+import {
+	SOCKET_IO_RESPONSE_STATE_ERROR,
+	SOCKET_IO_RESPONSE_STATE_OK,
+} from "../socket.io-response-state.js";
 
 const rateOffSocketHandler = async (data, emit) => {
 	try {
@@ -11,14 +15,14 @@ const rateOffSocketHandler = async (data, emit) => {
 		await updateVoters(poll);
 
 		emit({
-			status: "ok",
+			status: SOCKET_IO_RESPONSE_STATE_OK,
 			GuestId,
 			poll,
 			index,
 		});
 	} catch (e) {
 		logger.error(e);
-		emit({status: "error", e});
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 
