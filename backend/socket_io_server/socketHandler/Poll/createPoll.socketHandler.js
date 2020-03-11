@@ -1,4 +1,4 @@
-import {createPoll} from "../../../DB/queries/poll";
+import {createPollAndCandidates} from "../../../DB/queries/poll";
 import logger from "../../logger.js";
 
 const createPollSocketHandler = async (data, emit) => {
@@ -12,7 +12,7 @@ const createPollSocketHandler = async (data, emit) => {
 			candidates,
 		} = data;
 
-		const poll = await createPoll(
+		const poll = await createPollAndCandidates(
 			EventId,
 			pollName,
 			pollType,

@@ -3,6 +3,7 @@ import {before, beforeEach, describe, it} from "mocha";
 import models from "../../../DB/models";
 import {
 	closePoll,
+	createPoll,
 	getPollsByEventId,
 	openPoll,
 	POLL_STATE_CLOSED,
@@ -20,7 +21,7 @@ describe("poll query api", () => {
 		await models.Poll.destroy({where: {}, truncate: true});
 	});
 
-	it("should able to create Like", async () => {
+	it("should able to getPollsByEventId", async () => {
 		// given
 
 		const EventId = null;
@@ -107,5 +108,31 @@ describe("poll query api", () => {
 		const real = await Poll.findOne({where: {id: poll.id}});
 
 		assert.equal(real.state, POLL_STATE_CLOSED);
+	});
+
+	it("should able to create poll", async () => {
+		// given
+		const EventId = null;
+		const pollName = "poll name";
+		const pollType = "poll type";
+		const selectionType = "selection type";
+		const allowDuplication = false;
+
+		// when
+		const poll = await createPoll({
+			EventId,
+			pollName,
+			pollType,
+			selectionType,
+			allowDuplication,
+		});
+
+		// than
+		assert(poll.id > 0);
+		assert.equal(poll.EventId, EventId);
+		assert.equal(poll.pollName, pollName);
+		assert.equal(poll.pollType, pollType);
+		assert.equal(poll.selectionType, selectionType);
+		assert.equal(poll.allowDuplication, allowDuplication);
 	});
 });
