@@ -7,7 +7,6 @@ const sequelize = models.sequelize;
 const Vote = models.Vote;
 const Op = Sequelize.Op;
 
-
 /**
  *
  * @param GuestId {number|null}
@@ -32,42 +31,39 @@ export async function deleteVoteBy({GuestId, CandidateId}) {
 
 /**
  *
- * @param guestId {number|null}
- * @param candidateToAdd {number|null}
- * @param candidateToDelete {number|null}
- * @return {Promise<number>} affected rows
+ * @param GuestId {number|null}
+ * @param newCandidateId {number|null}
+ * @param oldCandidateId {number|null}
+ * @return {Promise<object>} swapped vote object
  */
-export async function addAndDelete(guestId, candidateToAdd, candidateToDelete) {
-	const GuestId = guestId;
-	let CandidateId = candidateToAdd;
+export async function swapVoteByGuestId(GuestId, newCandidateId, oldCandidateId) {
 	let transaction;
-	let rows;
 
 	try {
 		// get transaction
 		transaction = await sequelize.transaction();
 
 		// step 1
-		await Vote.create(
-			{
-				GuestId,
-				CandidateId,
-			},
-			{transaction},
-		);
-
-		// step 2
-		CandidateId = candidateToDelete;
-		rows = await Vote.destroy({
+		const vote = await Vote.findOne({
 			where: {
 				GuestId,
-				CandidateId,
+				CandidateId: oldCandidateId,
 			},
-			transaction,
 		});
+
+		if (vote === null) {
+			throw new Error(
+				`vote not exist, where GuestId: ${GuestId} && CandidateId${oldCandidateId}`,
+			);
+		}
+
+		vote.CandidateId = newCandidateId;
+		await vote.save();
 
 		// commit
 		await transaction.commit();
+
+		return vote.get({plain: true});
 	} catch (err) {
 		// Rollback transaction only if the transaction object is defined
 		if (transaction) {
@@ -75,9 +71,9 @@ export async function addAndDelete(guestId, candidateToAdd, candidateToDelete) {
 		}
 
 		logger.error("Transaction rollback", err);
-	}
 
-	return rows;
+		throw new Error(`transaction fail and rollback of \n${err}`);
+	}
 }
 
 /**

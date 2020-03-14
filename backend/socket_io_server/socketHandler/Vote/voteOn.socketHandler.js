@@ -1,4 +1,4 @@
-import {addAndDelete, addVote} from "../../../DB/queries/vote";
+import {swapVoteByGuestId, addVote} from "../../../DB/queries/vote";
 import updateVoters from "./updateVoters";
 import logger from "../../logger.js";
 import {
@@ -19,7 +19,7 @@ const voteOnSocketHandler = async (data, emit) => {
 		let updateVotePromise;
 
 		if (!allowDuplication && candidateToDelete) {
-			updateVotePromise = addAndDelete(
+			updateVotePromise = swapVoteByGuestId(
 				GuestId,
 				CandidateId,
 				candidateToDelete,
