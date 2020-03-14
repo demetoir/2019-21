@@ -16,13 +16,21 @@ const voteOnSocketHandler = async (data, emit) => {
 			candidateToDelete,
 		} = data;
 
+		let updateVotePromise;
+
 		if (!allowDuplication && candidateToDelete) {
-			await addAndDelete(GuestId, CandidateId, candidateToDelete);
+			updateVotePromise = addAndDelete(
+				GuestId,
+				CandidateId,
+				candidateToDelete,
+			);
 		} else {
-			await addVote({GuestId, CandidateId});
+			updateVotePromise = addVote({GuestId, CandidateId});
 		}
 
-		await updateVoters(poll);
+		const updateVotersPromise = updateVoters(poll);
+
+		await Promise.all([updateVotePromise, updateVotersPromise]);
 
 		emit({
 			status: SOCKET_IO_RESPONSE_STATE_OK,
