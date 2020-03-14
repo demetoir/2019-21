@@ -2,11 +2,11 @@ import assert from "assert";
 import {before, beforeEach, describe, it} from "mocha";
 import models from "../../../DB/models";
 import {
-	addAndDelete,
 	addVote,
 	deleteVoteBy,
 	getCandidatesByGuestId,
 	getVotersByCandidateList,
+	swapVoteByGuestId,
 } from "../../../DB/queries/vote.js";
 import {createCandidate} from "../../../DB/queries/candidate.js";
 import {createGuest} from "../../../DB/queries/guest.js";
@@ -71,7 +71,7 @@ describe("vote DB query api", () => {
 		assert.equal(expectAsNull, null);
 	});
 
-	it(`should be able to ${addAndDelete.name}`, async () => {
+	it(`should be able to ${swapVoteByGuestId.name}`, async () => {
 		// given
 		const EventId = null;
 		const guest = await createGuest(EventId);
@@ -97,17 +97,20 @@ describe("vote DB query api", () => {
 		const CandidateIdToDelete = candidate1.id;
 		const CandidateIdToAdd = candidate2.id;
 
-		await addVote({GuestId, CandidateId: CandidateIdToDelete});
+		const vote = await addVote({GuestId, CandidateId: CandidateIdToDelete});
 
 		// when
-		const result = await addAndDelete(
+		const swappedVote = await swapVoteByGuestId(
 			GuestId,
 			CandidateIdToAdd,
 			CandidateIdToDelete,
 		);
 
 		// than
-		assert.equal(result, 1);
+		// expect swapped vote should be update CandidateId only
+		assert.equal(swappedVote.CandidateId, CandidateIdToAdd);
+		assert.equal(swappedVote.GuestId, GuestId);
+		assert.deepStrictEqual(swappedVote.createdAt, vote.createdAt);
 
 		// expect create new vote
 		const createdVote = (

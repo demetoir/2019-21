@@ -10,9 +10,7 @@ const rateOnSocketHandler = async (data, emit) => {
 	try {
 		const {GuestId, CandidateId, poll, index} = data;
 
-		await addVote({GuestId, CandidateId});
-
-		await updateVoters(poll);
+		await Promise.all([addVote({GuestId, CandidateId}), updateVoters(poll)]);
 
 		emit({
 			status: SOCKET_IO_RESPONSE_STATE_OK,

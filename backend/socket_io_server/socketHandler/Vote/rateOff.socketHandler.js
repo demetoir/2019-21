@@ -10,9 +10,7 @@ const rateOffSocketHandler = async (data, emit) => {
 	try {
 		const {GuestId, CandidateId, poll, index} = data;
 
-		await deleteVoteBy({GuestId, CandidateId});
-
-		await updateVoters(poll);
+		await Promise.all([deleteVoteBy({GuestId, CandidateId}), updateVoters(poll)]);
 
 		emit({
 			status: SOCKET_IO_RESPONSE_STATE_OK,
