@@ -7,15 +7,36 @@ const sequelize = models.sequelize;
 const Vote = models.Vote;
 const Op = Sequelize.Op;
 
-// todo add unit test
+
+/**
+ *
+ * @param GuestId {number|null}
+ * @param CandidateId {number|null}
+ * @return {Promise<object>}
+ */
 export async function addVote({GuestId, CandidateId}) {
-	return Vote.create({GuestId, CandidateId});
+	const result = await Vote.create({GuestId, CandidateId});
+
+	return result.get({plain: true});
 }
 
+/**
+ *
+ * @param GuestId {number|null}
+ * @param CandidateId {number|null}
+ * @return {Promise<number>} affected rows number
+ */
 export async function deleteVoteBy({GuestId, CandidateId}) {
 	return Vote.destroy({where: {GuestId, CandidateId}});
 }
 
+/**
+ *
+ * @param guestId {number|null}
+ * @param candidateToAdd {number|null}
+ * @param candidateToDelete {number|null}
+ * @return {Promise<number>} affected rows
+ */
 export async function addAndDelete(guestId, candidateToAdd, candidateToDelete) {
 	const GuestId = guestId;
 	let CandidateId = candidateToAdd;
@@ -59,8 +80,14 @@ export async function addAndDelete(guestId, candidateToAdd, candidateToDelete) {
 	return rows;
 }
 
+/**
+ *
+ * @param candidateList {number[]}
+ * @param guestId {number|null}
+ * @return {Promise<object[]>}
+ */
 export async function getCandidatesByGuestId(candidateList, guestId) {
-	return Vote.findAll({
+	const result = await Vote.findAll({
 		where: {
 			[Op.and]: [
 				{GuestId: guestId}, {
@@ -72,8 +99,15 @@ export async function getCandidatesByGuestId(candidateList, guestId) {
 		},
 		attributes: ["CandidateId"],
 	});
+
+	return result.map(x => x.get({plain: true}));
 }
 
+/**
+ *
+ * @param candidateList {number[]}
+ * @return {Promise<number>}
+ */
 export async function getVotersByCandidateList(candidateList) {
 	return Vote.count({
 		where: {

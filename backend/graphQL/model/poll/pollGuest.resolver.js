@@ -3,7 +3,6 @@ import {
 	getCandidateList,
 	getCandidatesByPolls,
 	setPollItems,
-	simplifyList,
 } from "./resolveHelper.js";
 import {getPollsByEventId} from "../../../DB/queries/poll.js";
 import {POLL_TYPE_RATING} from "../../../constants/pollType.js";
@@ -46,7 +45,6 @@ async function setVotedOnPolls(polls, guestId) {
 		// eslint-disable-next-line no-await-in-loop
 		let votedList = await getCandidatesByGuestId(candidateList, guestId);
 
-		votedList = simplifyList(votedList);
 		votedList = votedList.map(n => n.CandidateId);
 		setVotedOnCandidate(poll, votedList);
 	}
