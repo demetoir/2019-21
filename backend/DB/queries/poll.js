@@ -1,11 +1,7 @@
 import models from "../models";
 import logger from "../logger.js";
 import {createBulkCandidates} from "./candidate.js";
-import {
-	POLL_STATE_CLOSED,
-	POLL_STATE_RUNNING,
-	POLL_STATE_STAND_BY,
-} from "../../constants/pollState.js";
+import {POLL_STATE_CLOSED, POLL_STATE_RUNNING, POLL_STATE_STAND_BY} from "../../constants/pollState.js";
 import {POLL_TYPE_N_ITEMS} from "../../constants/pollType.js";
 
 const sequelize = models.sequelize;
@@ -135,15 +131,13 @@ export async function createPollAndCandidates(
 	candidates,
 ) {
 	let transaction;
-	let poll;
-	let nItems;
 
 	try {
 		// get transaction
 		transaction = await sequelize.transaction();
 
 		// step 1
-		poll = await createPoll(
+		const poll = await createPoll(
 			{EventId, pollName, pollType, selectionType, allowDuplication},
 			transaction,
 		);
@@ -151,12 +145,10 @@ export async function createPollAndCandidates(
 		// step 2
 		const candidateRows = makeCandidateRows(poll.id, pollType, candidates);
 
-		nItems = createBulkCandidates(candidateRows, transaction);
+		poll.nItems = await createBulkCandidates(candidateRows, transaction);
 
 		// commit
 		await transaction.commit();
-
-		poll.nItems = nItems;
 
 		return poll;
 	} catch (err) {
