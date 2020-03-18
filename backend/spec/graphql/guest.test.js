@@ -191,6 +191,8 @@ describe("graphql yoga guest model", () => {
 		} = res;
 
 		// than
+		// todo: 일관적이지 않은 graphql type 해결하기
+		// pk, fk 인 id 값이 number 와 string 이 혼용됨
 		const expected = {
 			event: {
 				id: event.id,
