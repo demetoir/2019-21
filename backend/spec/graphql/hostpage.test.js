@@ -362,4 +362,117 @@ describe("graphql yoga hostpage model", () => {
 
 		assert.deepStrictEqual(result, expected);
 	});
+
+	it("should be able to mutate 'createHashTags'", async () => {
+		// given
+		const host = await findOrCreateHostByOAuth({
+			oauthId: "oauthId",
+			email: "email",
+			image: "image",
+			name: "host name",
+		});
+		const HostId = host.id;
+		const event1 = await createEvent({
+			eventCode: "eventCode1",
+			eventName: "eventname1",
+			HostId,
+		});
+
+		const EventId = event1.id;
+		const hashTagName = "tag1";
+		const hashTags = [{name: hashTagName, EventId}];
+
+		// gql input
+		const query = `
+			mutation Mutation($hashTags: [HashTagInput]!) {
+				createHashTags(hashTags: $hashTags) {
+					id
+					name
+					createdAt
+					updatedAt
+					EventId
+				}
+			}
+		`;
+		const variables = {
+			hashTags,
+		};
+		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+		const root = null;
+
+		// when
+		await gqlTester.graphql(query, root, context, variables);
+
+		// than
+		const result = await models.Hashtag.findAll({
+			where: {EventId},
+			raw: true,
+		});
+
+		assert.equal(result.length, 1);
+		const resultHashtag = result[0];
+
+		assert.equal(resultHashtag.name, hashTagName);
+		assert.equal(resultHashtag.EventId, EventId);
+	});
+
+	it("should be able to pass schema test 'mutate createHashTags'", async () => {
+		const query = `
+			mutation Mutation($hashTags: [HashTagInput]!) {
+				createHashTags(hashTags: $hashTags) {
+					id
+					name
+					createdAt
+					updatedAt
+					EventId
+				}
+			}
+		`;
+
+		const variables = {
+			hashTags: [{name: "name", EventId: 2}],
+		};
+
+		await gqlTester.test(true, query.toString(), variables);
+	});
+
+	it("should be able to resolve 'createHashTags' by resolver", async () => {
+		// given
+		const host = await findOrCreateHostByOAuth({
+			oauthId: "oauthId",
+			email: "email",
+			image: "image",
+			name: "host name",
+		});
+		const HostId = host.id;
+		const event1 = await createEvent({
+			eventCode: "eventCode1",
+			eventName: "eventname1",
+			HostId,
+		});
+		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+		const EventId = event1.id;
+		const hashTagName = "tag1";
+		const hashTags = [{name: hashTagName, EventId}];
+
+		// when
+		await hostpageResolvers.Mutation.createHashTags(
+			null,
+			{
+				hashTags,
+			},
+			context,
+		);
+
+		const result = await models.Hashtag.findAll({
+			where: {EventId},
+			raw: true,
+		});
+
+		assert.equal(result.length, 1);
+		const resultHashtag = result[0];
+
+		assert.equal(resultHashtag.name, hashTagName);
+		assert.equal(resultHashtag.EventId, EventId);
+	});
 });
