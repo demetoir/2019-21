@@ -267,4 +267,99 @@ describe("graphql yoga hostpage model", () => {
 
 		assert.deepStrictEqual(result, expected);
 	});
+
+	it("should be able to query 'getEventOption'", async () => {
+		// given
+		const host = await findOrCreateHostByOAuth({
+			oauthId: "oauthId",
+			email: "email",
+			image: "image",
+			name: "host name",
+		});
+		const HostId = host.id;
+		const event1 = await createEvent({
+			eventCode: "eventCode1",
+			eventName: "eventname1",
+			HostId,
+		});
+		// gql input
+		const query = `
+			query get_init($EventId: ID!) {
+				getEventOption(EventId: $EventId) {
+					moderationOption
+					replyOption
+				}
+			}
+		`;
+		const variables = {
+			EventId: event1.id,
+		};
+		const context = null;
+		const root = null;
+
+		// when
+		let res = await gqlTester.graphql(query, root, context, variables);
+
+		// to remove [Object: null prototype]
+		res = JSON.parse(JSON.stringify(res));
+
+		const {
+			data: {getEventOption: result},
+		} = res;
+
+		// than
+		const expected = {
+			moderationOption: event1.moderationOption,
+			replyOption: event1.replyOption,
+		};
+
+		// assert(false);
+		assert.deepStrictEqual(result, expected);
+	});
+
+	it("should be able to pass schema test 'query getEventOption'", async () => {
+		const query = `
+			query get_init($EventId: ID!) {
+				getEventOption(EventId: $EventId) {
+					moderationOption
+					replyOption
+				}
+			}
+		`;
+
+		const variables = {
+			EventId: 2,
+		};
+
+		await gqlTester.test(true, query.toString(), variables);
+	});
+
+	it("should be able to resolve 'getEventOption' by resolver", async () => {
+		// given
+		const host = await findOrCreateHostByOAuth({
+			oauthId: "oauthId",
+			email: "email",
+			image: "image",
+			name: "host name",
+		});
+		const HostId = host.id;
+		const event1 = await createEvent({
+			eventCode: "eventCode1",
+			eventName: "eventname1",
+			HostId,
+		});
+
+		// when
+		const result = await hostpageResolvers.Query.getEventOption(null, {
+			EventId: event1.id,
+		});
+
+		// than
+		const expected = {
+			moderationOption: event1.moderationOption,
+			replyOption: event1.replyOption,
+		};
+
+		assert.deepStrictEqual(result, expected);
+	});
 });
