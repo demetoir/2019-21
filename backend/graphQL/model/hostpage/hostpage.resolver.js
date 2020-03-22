@@ -104,9 +104,7 @@ const updateEventResolver = async (_, {event}, authority) => {
 		endAt: event.endAt,
 	});
 
-	const updatedEvent = await getEventById(event.EventId);
-
-	return updatedEvent.get({plain: true});
+	return getEventById(event.EventId);
 };
 
 // noinspection JSUnusedGlobalSymbols
