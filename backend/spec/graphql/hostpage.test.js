@@ -475,4 +475,135 @@ describe("graphql yoga hostpage model", () => {
 		assert.equal(resultHashtag.name, hashTagName);
 		assert.equal(resultHashtag.EventId, EventId);
 	});
+
+	it("should be able to mutate 'createEvent'", async () => {
+		// given
+		const host = await findOrCreateHostByOAuth({
+			oauthId: "oauthId",
+			email: "email",
+			image: "image",
+			name: "host name",
+		});
+		const HostId = host.id;
+		const eventName = "eventName";
+		const startAt = new Date().toISOString();
+		const endAt = new Date().toISOString();
+
+		const info = {
+			HostId,
+			eventName,
+			startAt,
+			endAt,
+		};
+
+		// gql input
+		const query = `
+			mutation Query($info: EventInfo!) {
+				createEvent(info: $info) {
+					id
+					eventCode
+					eventName
+					moderationOption
+					replyOption
+					endAt
+					startAt
+					HostId
+				}
+			}
+		`;
+		const variables = {
+			info,
+		};
+		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+		const root = null;
+
+		// when
+		let gqlResult = await gqlTester.graphql(
+			query,
+			root,
+			context,
+			variables,
+		);
+
+		// to remove [Object: null prototype]
+		gqlResult = JSON.parse(JSON.stringify(gqlResult));
+
+		const {
+			data: {createEvent: result},
+		} = gqlResult;
+
+		assert.equal(result.eventName, eventName);
+		assert.equal(result.HostId, HostId);
+		assert.equal(
+			new Date(parseInt(result.startAt, 10)).toISOString(),
+			startAt,
+		);
+		assert.equal(new Date(parseInt(result.endAt, 10)).toISOString(), endAt);
+	});
+
+	it("should be able to pass schema test 'mutate createEvent'", async () => {
+		const query = `
+			mutation Query($info: EventInfo!) {
+				createEvent(info: $info) {
+					id
+					eventCode
+					eventName
+					moderationOption
+					replyOption
+					endAt
+					startAt
+					HostId
+				}
+			}
+		`;
+
+		const variables = {
+			info: {
+				HostId: 0,
+				eventName: "eventName",
+				startAt: "startAt",
+				endAt: "endAt",
+			},
+		};
+
+		await gqlTester.test(true, query.toString(), variables);
+	});
+
+	it("should be able to resolve 'createEvent' by resolver", async () => {
+		// given
+		const host = await findOrCreateHostByOAuth({
+			oauthId: "oauthId",
+			email: "email",
+			image: "image",
+			name: "host name",
+		});
+		const HostId = host.id;
+		const eventName = "eventName";
+		const startAt = new Date().toISOString();
+		const endAt = new Date().toISOString();
+
+		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+
+		const info = {
+			HostId,
+			eventName,
+			startAt,
+			endAt,
+		};
+
+		// when
+		const result = await hostpageResolvers.Mutation.createEvent(
+			null,
+			{
+				info,
+			},
+			context,
+		);
+
+		// than
+		assert.equal(result.eventName, eventName);
+		assert.equal(result.HostId, HostId);
+		assert.equal(result.startAt.toISOString(), startAt);
+		assert.equal(result.endAt.toISOString(), endAt);
+	});
 });
