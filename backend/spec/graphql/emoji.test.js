@@ -1,5 +1,6 @@
 import assert from "assert";
 import {after, before, beforeEach, describe, it} from "mocha";
+import gql from "graphql-tag";
 import EasyGraphQLTester from "easygraphql-tester";
 import emojiResolvers from "../../graphQL/model/emoji/emoji.resolver.js";
 import typeDefs from "../../graphQL/typeDefs.js";
@@ -50,15 +51,15 @@ describe("graphql yoga emoji model", () => {
 		const emoji = await createEmoji({GuestId, QuestionId, name, EventId});
 
 		// gql input
-		const query = `
-			query get_emojis($EventId: ID!) {
-				emojis(EventId: $EventId) {
-					name
-					count
-					QuestionId
-					createdAt
-				}
-			}
+		const query = gql`
+            query get_emojis($EventId: ID!) {
+                emojis(EventId: $EventId) {
+                    name
+                    count
+                    QuestionId
+                    createdAt
+                }
+            }
 		`;
 		const variables = {
 			EventId,
@@ -90,14 +91,14 @@ describe("graphql yoga emoji model", () => {
 	});
 
 	it("should be able to pass schema test 'query emojis'", async () => {
-		const query = `
-			query query_emojis($EventId: ID!) {
-				emojis(EventId: $EventId) {
-					name
-					count
-					QuestionId
-				}
-			}
+		const query = gql`
+            query query_emojis($EventId: ID!) {
+                emojis(EventId: $EventId) {
+                    name
+                    count
+                    QuestionId
+                }
+            }
 		`;
 
 		const variables = {
@@ -152,13 +153,13 @@ describe("graphql yoga emoji model", () => {
 
 		await createEmoji({GuestId, QuestionId, name, EventId});
 
-		const query = `
-			query get_emojipicks($EventId: ID!, $GuestId: ID!) {
-				emojiPicks(EventId: $EventId, GuestId: $GuestId) {
-					name
-					QuestionId
-				}
-			}
+		const query = gql`
+            query get_emojipicks($EventId: ID!, $GuestId: ID!) {
+                emojiPicks(EventId: $EventId, GuestId: $GuestId) {
+                    name
+                    QuestionId
+                }
+            }
 		`;
 		const variables = {
 			EventId,
@@ -177,13 +178,13 @@ describe("graphql yoga emoji model", () => {
 	});
 
 	it("should be able to pass schema test 'query emojiPicks'", async () => {
-		const query = `
-			query get_emojipicks($EventId: ID!, $GuestId: ID!) {
-				emojiPicks(EventId: $EventId, GuestId: $GuestId) {
-					name
-					QuestionId
-				}
-			}
+		const query = gql`
+            query get_emojipicks($EventId: ID!, $GuestId: ID!) {
+                emojiPicks(EventId: $EventId, GuestId: $GuestId) {
+                    name
+                    QuestionId
+                }
+            }
 		`;
 
 		const variables = {

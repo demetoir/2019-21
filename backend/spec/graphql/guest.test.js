@@ -1,4 +1,5 @@
 import assert from "assert";
+import gql from "graphql-tag";
 import EasyGraphQLTester from "easygraphql-tester";
 import {after, before, beforeEach, describe, it} from "mocha";
 import guestResolvers from "../../graphQL/model/guest/guest.resolver.js";
@@ -52,18 +53,18 @@ describe("graphql yoga guest model", () => {
 
 		const root = null;
 		const context = null;
-		const query = `
-		query getGuests(
-			$EventId: ID!
-		){
-			guests(EventId: $EventId) {
-				id
-				name
-				isAnonymous
-				company
-				email
-			}
-		}
+		const query = gql`
+            query getGuests(
+                $EventId: ID!
+            ){
+                guests(EventId: $EventId) {
+                    id
+                    name
+                    isAnonymous
+                    company
+                    email
+                }
+            }
 		`;
 
 		const variables = {
@@ -93,18 +94,18 @@ describe("graphql yoga guest model", () => {
 	});
 
 	it("should be able to pass schema test 'query guests'", async () => {
-		const query = `
-		query getGuests(
-			$EventId: ID!
-		){
-			guests(EventId: $EventId) {
-				id
-				name
-				isAnonymous
-				company
-				email
-			}
-		}
+		const query = gql`
+            query getGuests(
+                $EventId: ID!
+            ){
+                guests(EventId: $EventId) {
+                    id
+                    name
+                    isAnonymous
+                    company
+                    email
+                }
+            }
 		`;
 
 		const variables = {
@@ -160,25 +161,25 @@ describe("graphql yoga guest model", () => {
 		// when
 		const root = null;
 		const context = authority;
-		const query = `
-		query {
-			guestInEvent {
-				event {
-					id
-					eventCode
-					startAt
-					endAt
-					eventName
-					HostId
-				}
-				guest {
-					id
-					name
-					email
-					company
-				}
-			}
-		}
+		const query = gql`
+            query {
+                guestInEvent {
+                    event {
+                        id
+                        eventCode
+                        startAt
+                        endAt
+                        eventName
+                        HostId
+                    }
+                    guest {
+                        id
+                        name
+                        email
+                        company
+                    }
+                }
+            }
 		`;
 		const variables = {};
 		let res = await gqlTester.graphql(query, root, context, variables);
@@ -214,25 +215,25 @@ describe("graphql yoga guest model", () => {
 	});
 
 	it("should be able to pass schema test 'query guestInEvent'", async () => {
-		const query = `
-		query {
-			guestInEvent {
-				event {
-					id
-					eventCode
-					startAt
-					endAt
-					eventName
-					HostId
-				}
-				guest {
-					id
-					name
-					email
-					company
-				}
-			}
-		}
+		const query = gql`
+            query {
+                guestInEvent {
+                    event {
+                        id
+                        eventCode
+                        startAt
+                        endAt
+                        eventName
+                        HostId
+                    }
+                    guest {
+                        id
+                        name
+                        email
+                        company
+                    }
+                }
+            }
 		`;
 
 		const variables = {
