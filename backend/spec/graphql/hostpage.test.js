@@ -81,37 +81,37 @@ describe("graphql yoga hostpage model", () => {
 
 		// gql input
 		const query = gql`
-            query get_init {
-                init {
-                    host {
-                        id
-                        oauthId
-                        name
-                        email
-                        emailFeedBack
-                        image
-                    }
-                    events {
-                        id
-                        eventCode
-                        eventName
-                        moderationOption
-                        replyOption
-                        createdAt
-                        updatedAt
-                        startAt
-                        endAt
-                        HostId
-                        HashTags {
-                            id
-                            name
-                            createdAt
-                            updatedAt
-                            EventId
-                        }
-                    }
-                }
-            }
+			query get_init {
+				init {
+					host {
+						id
+						oauthId
+						name
+						email
+						emailFeedBack
+						image
+					}
+					events {
+						id
+						eventCode
+						eventName
+						moderationOption
+						replyOption
+						createdAt
+						updatedAt
+						startAt
+						endAt
+						HostId
+						HashTags {
+							id
+							name
+							createdAt
+							updatedAt
+							EventId
+						}
+					}
+				}
+			}
 		`;
 		const variables = {
 			GuestId,
@@ -189,37 +189,37 @@ describe("graphql yoga hostpage model", () => {
 
 	it("should be able to pass schema test 'query init'", async () => {
 		const query = gql`
-            query get_init {
-                init {
-                    host {
-                        id
-                        oauthId
-                        name
-                        email
-                        emailFeedBack
-                        image
-                    }
-                    events {
-                        id
-                        eventCode
-                        eventName
-                        moderationOption
-                        replyOption
-                        createdAt
-                        updatedAt
-                        startAt
-                        endAt
-                        HostId
-                        HashTags {
-                            id
-                            name
-                            createdAt
-                            updatedAt
-                            EventId
-                        }
-                    }
-                }
-            }
+			query get_init {
+				init {
+					host {
+						id
+						oauthId
+						name
+						email
+						emailFeedBack
+						image
+					}
+					events {
+						id
+						eventCode
+						eventName
+						moderationOption
+						replyOption
+						createdAt
+						updatedAt
+						startAt
+						endAt
+						HostId
+						HashTags {
+							id
+							name
+							createdAt
+							updatedAt
+							EventId
+						}
+					}
+				}
+			}
 		`;
 
 		const variables = {};
@@ -285,12 +285,12 @@ describe("graphql yoga hostpage model", () => {
 		});
 		// gql input
 		const query = gql`
-            query get_init($EventId: ID!) {
-                getEventOption(EventId: $EventId) {
-                    moderationOption
-                    replyOption
-                }
-            }
+			query get_init($EventId: ID!) {
+				getEventOption(EventId: $EventId) {
+					moderationOption
+					replyOption
+				}
+			}
 		`;
 		const variables = {
 			EventId: event1.id,
@@ -320,12 +320,12 @@ describe("graphql yoga hostpage model", () => {
 
 	it("should be able to pass schema test 'query getEventOption'", async () => {
 		const query = gql`
-            query get_init($EventId: ID!) {
-                getEventOption(EventId: $EventId) {
-                    moderationOption
-                    replyOption
-                }
-            }
+			query get_init($EventId: ID!) {
+				getEventOption(EventId: $EventId) {
+					moderationOption
+					replyOption
+				}
+			}
 		`;
 
 		const variables = {
@@ -385,15 +385,15 @@ describe("graphql yoga hostpage model", () => {
 
 		// gql input
 		const query = gql`
-            mutation Mutation($hashTags: [HashTagInput]!) {
-                createHashTags(hashTags: $hashTags) {
-                    id
-                    name
-                    createdAt
-                    updatedAt
-                    EventId
-                }
-            }
+			mutation Mutation($hashTags: [HashTagInput]!) {
+				createHashTags(hashTags: $hashTags) {
+					id
+					name
+					createdAt
+					updatedAt
+					EventId
+				}
+			}
 		`;
 		const variables = {
 			hashTags,
@@ -419,15 +419,15 @@ describe("graphql yoga hostpage model", () => {
 
 	it("should be able to pass schema test 'mutate createHashTags'", async () => {
 		const query = gql`
-            mutation Mutation($hashTags: [HashTagInput]!) {
-                createHashTags(hashTags: $hashTags) {
-                    id
-                    name
-                    createdAt
-                    updatedAt
-                    EventId
-                }
-            }
+			mutation Mutation($hashTags: [HashTagInput]!) {
+				createHashTags(hashTags: $hashTags) {
+					id
+					name
+					createdAt
+					updatedAt
+					EventId
+				}
+			}
 		`;
 
 		const variables = {
@@ -499,18 +499,18 @@ describe("graphql yoga hostpage model", () => {
 
 		// gql input
 		const query = gql`
-            mutation Query($info: EventInfo!) {
-                createEvent(info: $info) {
-                    id
-                    eventCode
-                    eventName
-                    moderationOption
-                    replyOption
-                    endAt
-                    startAt
-                    HostId
-                }
-            }
+			mutation Query($info: EventInfo!) {
+				createEvent(info: $info) {
+					id
+					eventCode
+					eventName
+					moderationOption
+					replyOption
+					endAt
+					startAt
+					HostId
+				}
+			}
 		`;
 		const variables = {
 			info,
@@ -544,18 +544,18 @@ describe("graphql yoga hostpage model", () => {
 
 	it("should be able to pass schema test 'mutate createEvent'", async () => {
 		const query = gql`
-            mutation Query($info: EventInfo!) {
-                createEvent(info: $info) {
-                    id
-                    eventCode
-                    eventName
-                    moderationOption
-                    replyOption
-                    endAt
-                    startAt
-                    HostId
-                }
-            }
+			mutation Query($info: EventInfo!) {
+				createEvent(info: $info) {
+					id
+					eventCode
+					eventName
+					moderationOption
+					replyOption
+					endAt
+					startAt
+					HostId
+				}
+			}
 		`;
 
 		const variables = {
@@ -604,6 +604,145 @@ describe("graphql yoga hostpage model", () => {
 		// than
 		assert.equal(result.eventName, eventName);
 		assert.equal(result.HostId, HostId);
+		assert.equal(result.startAt.toISOString(), startAt);
+		assert.equal(result.endAt.toISOString(), endAt);
+	});
+
+	it("should be able to mutate 'updateEvent'", async () => {
+		// given
+		const host = await findOrCreateHostByOAuth({
+			oauthId: "oauthId",
+			email: "email",
+			image: "image",
+			name: "host name",
+		});
+		const HostId = host.id;
+		const eventName = "eventName";
+		const eventCode = "eventCode";
+
+		const event = await createEvent({eventName, eventCode, HostId});
+		const EventId = event.id;
+
+		const startAt = new Date().toISOString();
+		const endAt = new Date().toISOString();
+
+		// gql input
+		const query = gql`
+			mutation Mutation($event: EventUpdate!) {
+				updateEvent(event: $event) {
+					id
+					eventCode
+					eventName
+					moderationOption
+					replyOption
+					endAt
+					startAt
+					HostId
+				}
+			}
+		`;
+		const variables = {
+			event: {
+				EventId,
+				eventName,
+				startAt,
+				endAt,
+			},
+		};
+		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+		const root = null;
+
+		// when
+		let gqlResult = await gqlTester.graphql(
+			query,
+			root,
+			context,
+			variables,
+		);
+
+		// to remove [Object: null prototype]
+		gqlResult = JSON.parse(JSON.stringify(gqlResult));
+
+		const {
+			data: {updateEvent: result},
+		} = gqlResult;
+
+		assert.equal(result.eventName, eventName);
+		assert.equal(result.HostId, HostId);
+		assert.equal(result.id, EventId);
+		assert.equal(
+			new Date(parseInt(result.startAt, 10)).toISOString(),
+			startAt,
+		);
+		assert.equal(new Date(parseInt(result.endAt, 10)).toISOString(), endAt);
+	});
+
+	it("should be able to pass schema test 'mutate updateEvent'", async () => {
+		const query = gql`
+			mutation Mutation($event: EventUpdate!) {
+				updateEvent(event: $event) {
+					id
+					eventCode
+					eventName
+					moderationOption
+					replyOption
+					endAt
+					startAt
+					HostId
+				}
+			}
+		`;
+
+		const variables = {
+			event: {
+				EventId: 0,
+				eventName: "eventName",
+				startAt: "startAt",
+				endAt: "endAt",
+			},
+		};
+
+		await gqlTester.test(true, query, variables);
+	});
+
+	it("should be able to resolve 'updateEvent' by resolver", async () => {
+		// given
+		const host = await findOrCreateHostByOAuth({
+			oauthId: "oauthId",
+			email: "email",
+			image: "image",
+			name: "host name",
+		});
+		const HostId = host.id;
+		const eventName = "eventName";
+		const eventCode = "eventCode";
+
+		const event = await createEvent({eventName, eventCode, HostId});
+		const EventId = event.id;
+
+		const startAt = new Date().toISOString();
+		const endAt = new Date().toISOString();
+
+		const context = {sub: AUTHORITY_TYPE_HOST, info: host};
+
+		// when
+		const result = await hostpageResolvers.Mutation.updateEvent(
+			null,
+			{
+				event: {
+					EventId,
+					eventName,
+					startAt,
+					endAt,
+				},
+			},
+			context,
+		);
+
+		// than
+		assert.equal(result.eventName, eventName);
+		assert.equal(result.HostId, HostId);
+		assert.equal(result.id, EventId);
 		assert.equal(result.startAt.toISOString(), startAt);
 		assert.equal(result.endAt.toISOString(), endAt);
 	});
