@@ -1,4 +1,5 @@
 import assert from "assert";
+import gql from "graphql-tag";
 import EasyGraphQLTester from "easygraphql-tester";
 import {after, before, beforeEach, describe, it} from "mocha";
 import typeDefs from "../../graphQL/typeDefs.js";
@@ -57,20 +58,20 @@ describe("graphql yoga question model", () => {
 		});
 
 		// gql input
-		const query = `
-			query getQuestions($EventId: ID!) {
-				questions(EventId: $EventId) {
-					id
-					EventId
-					GuestId
-					createdAt
-					content
-					state
-					isStared
-					likeCount
-					QuestionId
-				}
-			}
+		const query = gql`
+            query getQuestions($EventId: ID!) {
+                questions(EventId: $EventId) {
+                    id
+                    EventId
+                    GuestId
+                    createdAt
+                    content
+                    state
+                    isStared
+                    likeCount
+                    QuestionId
+                }
+            }
 		`;
 		const variables = {
 			EventId,
@@ -106,20 +107,20 @@ describe("graphql yoga question model", () => {
 	});
 
 	it("should be able to pass schema test 'query questions'", async () => {
-		const query = `
-			query getQuestions($EventId: ID!) {
-				questions(EventId: $EventId) {
-					id
-					EventId
-					GuestId
-					createdAt
-					content
-					state
-					isStared
-					likeCount
-					QuestionId
-				}
-			}
+		const query = gql`
+            query getQuestions($EventId: ID!) {
+                questions(EventId: $EventId) {
+                    id
+                    EventId
+                    GuestId
+                    createdAt
+                    content
+                    state
+                    isStared
+                    likeCount
+                    QuestionId
+                }
+            }
 		`;
 
 		const variables = {

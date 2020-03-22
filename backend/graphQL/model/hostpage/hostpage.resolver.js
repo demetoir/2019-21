@@ -69,6 +69,7 @@ const initQueryResolver = async (_, {param}, authority) => {
 	return {events, host};
 };
 
+// todo: resolver의 return 값 및 해당 scheme의 return type refactoring 필요
 const createHashTagsResolver = async (_, {hashTags}, authority) => {
 	verifySubjectHostJwt(authority.sub);
 	// todo fix to bulk insert
@@ -104,9 +105,7 @@ const updateEventResolver = async (_, {event}, authority) => {
 		endAt: event.endAt,
 	});
 
-	const updatedEvent = await getEventById(event.EventId);
-
-	return updatedEvent.get({plain: true});
+	return getEventById(event.EventId);
 };
 
 // noinspection JSUnusedGlobalSymbols

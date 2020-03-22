@@ -1,4 +1,5 @@
 import assert from "assert";
+import gql from "graphql-tag";
 import {after, before, beforeEach, describe, it} from "mocha";
 import EasyGraphQLTester from "easygraphql-tester";
 import typeDefs from "../../graphQL/typeDefs.js";
@@ -57,14 +58,12 @@ describe("graphql yoga like model", () => {
 		const like = await createLike({GuestId, QuestionId});
 
 		// gql input
-		const query = `
-			query get_didILikes(
-				$GuestId: ID!
-			) {
-				didILikes(GuestId: $GuestId) {
-					QuestionId  
-				}
-			}
+		const query = gql`
+            query get_didILikes($GuestId: ID!) {
+                didILikes(GuestId: $GuestId) {
+                    QuestionId
+                }
+            }
 		`;
 		const variables = {
 			GuestId,
@@ -93,14 +92,12 @@ describe("graphql yoga like model", () => {
 	});
 
 	it("should be able to pass schema test 'query didILikes'", async () => {
-		const query = `
-			query get_didILikes(
-			$GuestId: ID!
-		){
-			didILikes(GuestId: $GuestId) {
-				QuestionId  
-			}
-		}
+		const query = gql`
+            query get_didILikes($GuestId: ID!) {
+                didILikes(GuestId: $GuestId) {
+                    QuestionId
+                }
+            }
 		`;
 
 		const variables = {
