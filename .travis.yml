@@ -18,7 +18,17 @@ matrix:
     - script:
         - yarn install:backend
         - yarn test:backend
+    - script:
+        - yarn install:frontend:guest-app
+        - yarn test:frontend:guest-app
 
+    - script:
+        - yarn install:frontend:main-app
+        - yarn test:frontend:main-app
+
+    - script:
+        - yarn install:frontend:host-app
+        - yarn test:frontend:host-app
 #jobs:
 #  include:
 ##    - stage: install node_modules
