@@ -6,7 +6,7 @@ shell.echo("test backend");
 shell.cd("./backend");
 code = shell.exec("yarn test");
 if (code !== 0) {
-  shell.exit();
+  shell.exit(code);
 }
 shell.cd("..");
 
@@ -15,7 +15,7 @@ shell.echo("test front guest-app");
 shell.cd("./frontend/guest-app");
 code = shell.exec("yarn test a --watchAll=false");
 if (code !== 0) {
-  shell.exit();
+  shell.exit(code);
 }
 shell.cd("..");
 shell.cd("..");
@@ -25,7 +25,7 @@ shell.echo("test front host-app");
 shell.cd("./frontend/host-app");
 code = shell.exec("yarn test a --watchAll=false");
 if (code !== 0) {
-  shell.exit();
+  shell.exit(code);
 }
 shell.cd("..");
 shell.cd("..");
@@ -35,7 +35,7 @@ shell.echo("test front main-app");
 shell.cd("./frontend/main-app");
 code = shell.exec("yarn test a --watchAll=false");
 if (code !== 0) {
-  shell.exit();
+  shell.exit(code);
 }
 shell.cd("..");
 shell.cd("..");
