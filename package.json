@@ -11,12 +11,13 @@
     "start": "sh script/start.sh",
     "start:frontend": "sh script/start_frontend.sh",
     "start:backend": "sh script/start_backend.sh",
-    "install": "sh script/install.sh",
+    "install": "node ./script/install.js",
     "test": "sh script/test.sh"
-    },
+  },
   "license": "MIT",
   "dependencies": {
     "concurrently": "^5.0.0",
+    "shelljs": "^0.8.3",
     "uuid": "^3.3.3"
   }
 }
