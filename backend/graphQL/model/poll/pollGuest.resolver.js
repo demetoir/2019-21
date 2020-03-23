@@ -78,7 +78,6 @@ async function pollGuestResolver(_, {EventId, guestId}) {
 	return polls;
 }
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
 		pollGuest: pollGuestResolver,
