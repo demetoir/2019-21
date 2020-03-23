@@ -3,43 +3,49 @@ node_js:
   - 10
 cache:
   yarn: true
-  directories:
-    - ./backend/node_modules
-    - ./frontend/host-app/node_modules
-    - ./frontend/guest-app/node_modules
-    - ./frontend/main-app/node_modules
+#  directories:
+#    - ./backend/node_modules
+#    - ./frontend/host-app/node_modules
+#    - ./frontend/guest-app/node_modules
+#    - ./frontend/main-app/node_modules
 
 
 #install:
 #  - yarn install
 
-jobs:
+matrix:
   include:
-    - stage: install node_modules
-      name: install backend
-      script: yarn install:backend
-    -
-      name: install frontend host-app
-      script: yarn install:frontend:host-app
-    -
-      name: install frontend guest-app
-      script: yarn install:frontend:guest-app
-    -
-      name: install frontend main-app
-      script: yarn install:frontend:main-app
+    - script:
+        - yarn install:backend
+        - yarn test:backend
 
-    - stage: test
-      name: test backend
-      script: yarn test:backend
-    -
-      name: test frontend host-app
-      script: yarn test:frontend:host-app
-    -
-      name: test frontend main-app
-      script: yarn test:frontend:main-app
-    -
-      name: test frontend guest-app
-      script: yarn test:frontend:guest-app
-
-    - stage: build
-      script: yarn build
+#jobs:
+#  include:
+##    - stage: install node_modules
+##      name: install backend
+##      script: yarn install:backend
+##    -
+##      name: install frontend host-app
+##      script: yarn install:frontend:host-app
+##    -
+##      name: install frontend guest-app
+##      script: yarn install:frontend:guest-app
+##    -
+##      name: install frontend main-app
+##      script: yarn install:frontend:main-app
+#
+#    - stage: test
+#      name: test backend
+#      script: yarn test:backend
+#    -
+#      name: test frontend host-app
+#      script: yarn test:frontend:host-app
+#    -
+#      name: test frontend main-app
+#      script: yarn test:frontend:main-app
+#    -
+#      name: test frontend guest-app
+#      script: yarn test:frontend:guest-app
+#
+#    - stage: build
+#      script: yarn build
