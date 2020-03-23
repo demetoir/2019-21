@@ -1,0 +1,49 @@
+language: node_js
+node_js:
+  - 10
+
+#branches:
+#  only:
+#    - master
+#    - Develope
+
+cache:
+  yarn: true
+#  directories:
+#    - ./backend/node_modules
+#    - ./frontend/host-app/node_modules
+#    - ./frontend/guest-app/node_modules
+#    - ./frontend/main-app/node_modules
+
+
+
+install:
+  - yarn install
+
+jobs:
+  include:
+    - stage: test
+      name: backend
+      script:
+        - yarn install:backend
+        - yarn test:backend
+
+    - name: frontend host-app
+      script:
+        - yarn install:frontend:host-app
+        - yarn test:frontend:host-app
+
+    - name: frontend guest-app
+      script:
+        - yarn install:frontend:guest-app
+        - yarn test:frontend:guest-app
+
+    - name: frontend main-app
+      script:
+        - yarn install:frontend:main-app
+        - yarn test:frontend:main-app
+
+    - stage: build
+      script:
+        - yarn install:all
+        - yarn build

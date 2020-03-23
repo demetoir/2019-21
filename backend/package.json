@@ -8,7 +8,7 @@
   "scripts": {
     "node:babel": "node -r @babel/register",
     "reinstall": "rm -rf ../node_modules && yarn install",
-    "test": "cross-env NODE_ENV=test ./node_modules/.bin/mocha ./spec --recursive",
+    "test": "cross-env NODE_ENV=test ./node_modules/.bin/mocha ./spec -name '*.spec.js' --recursive --exit",
     "test:DB": "cross-env NODE_ENV=test ./node_modules/.bin/mocha ./spec -name '*.db.spec.js' --recursive --watch",
     "test:watch": "cross-env NODE_ENV=test ./node_modules/.bin/mocha ./spec --recursive --watch",
     "test:only": "cross-env NODE_ENV=test ./node_modules/.bin/mocha --watch",
