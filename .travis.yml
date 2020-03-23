@@ -3,32 +3,15 @@ node_js:
   - 10
 cache:
   yarn: true
-##  directories:
-##    - ./backend/node_modules
-##    - ./frontend/host-app/node_modules
-##    - ./frontend/guest-app/node_modules
-##    - ./frontend/main-app/node_modules
-#
-#
-##install:
-##  - yarn install
-#
-#matrix:
-#  include:
-#    - script:
-#        - yarn install:backend
-#        - yarn test:backend
-#    - script:
-#        - yarn install:frontend:guest-app
-#        - yarn test:frontend:guest-app
-#
-#    - script:
-#        - yarn install:frontend:main-app
-#        - yarn test:frontend:main-app
-#
-#    - script:
-#        - yarn install:frontend:host-app
-#        - yarn test:frontend:host-app
+#  directories:
+#    - ./backend/node_modules
+#    - ./frontend/host-app/node_modules
+#    - ./frontend/guest-app/node_modules
+#    - ./frontend/main-app/node_modules
+
+install:
+  - yarn install
+
 jobs:
   include:
     - stage: test
@@ -54,5 +37,5 @@ jobs:
 
     - stage: build
       script:
-        - yarn install
+        - yarn install:all
         - yarn build
