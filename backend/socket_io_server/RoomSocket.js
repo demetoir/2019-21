@@ -1,3 +1,5 @@
+import {SOCKET_IO_EVENT_JOIN_ROOM, SOCKET_IO_EVENT_LEAVE_ROOM} from "../constants/socket.io-Events.js";
+
 class RoomSocket {
 	constructor({socket, server, handlerEventPair}) {
 		this.socket = socket;
@@ -15,7 +17,7 @@ class RoomSocket {
 			this.addListener(eventName, handler),
 		);
 
-		this.socket.emit("joinRoom");
+		this.socket.emit(SOCKET_IO_EVENT_JOIN_ROOM);
 	}
 
 	leaveRoom() {
@@ -25,7 +27,7 @@ class RoomSocket {
 			this.socket.removeListener(eventName, handler),
 		);
 
-		this.socket.emit("leaveRoom");
+		this.socket.emit(SOCKET_IO_EVENT_LEAVE_ROOM);
 
 		this.room = null;
 		this.registeredHandler = [];
