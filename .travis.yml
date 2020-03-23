@@ -15,6 +15,7 @@ cache:
 #    - ./frontend/guest-app/node_modules
 #    - ./frontend/main-app/node_modules
 
+
 install:
   - yarn install
 
