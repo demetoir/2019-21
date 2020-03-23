@@ -24,7 +24,6 @@ async function pollHostResolver(_, {EventId}) {
 	return polls;
 }
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
 		pollHost: pollHostResolver,

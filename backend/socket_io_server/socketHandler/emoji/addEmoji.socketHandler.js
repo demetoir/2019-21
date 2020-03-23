@@ -9,7 +9,6 @@ const moveQuestionSocketHandler = async (data, emit) => {
 
 const eventName = "questionEmoji/create";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: moveQuestionSocketHandler,

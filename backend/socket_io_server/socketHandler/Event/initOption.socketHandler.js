@@ -17,7 +17,6 @@ const initOptionSocketHandler = async (data, emit) => {
 
 const eventName = "event/initOption";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: initOptionSocketHandler,

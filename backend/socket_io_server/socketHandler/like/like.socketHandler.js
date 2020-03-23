@@ -9,7 +9,6 @@ const handler = async (data, emit) => {
 
 const eventName = "questionLike/create";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler,

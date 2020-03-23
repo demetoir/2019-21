@@ -13,7 +13,6 @@ const emojisResolver = async (_, {EventId}) => {
 const emojiPickResolver = async (_, {EventId, GuestId}) =>
 	getEmojiPick({EventId, GuestId});
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
 		emojis: emojisResolver,

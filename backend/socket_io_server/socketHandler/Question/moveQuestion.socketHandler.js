@@ -27,7 +27,6 @@ const moveQuestionSocketHandler = async (data, emit) => {
 
 const eventName = "question/move";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: moveQuestionSocketHandler,

@@ -19,7 +19,6 @@ const toggleStarSocketHandler = async (data, emit) => {
 
 const eventName = "question/toggleStar";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: toggleStarSocketHandler,

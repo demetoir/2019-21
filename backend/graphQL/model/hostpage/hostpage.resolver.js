@@ -108,7 +108,6 @@ const updateEventResolver = async (_, {event}, authority) => {
 	return getEventById(event.EventId);
 };
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
 		init: initQueryResolver,

@@ -18,7 +18,6 @@ const guestInEventResolver = async (_, args, authority) => {
 	return {event, guest};
 };
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
 		guests: guestResolver,
