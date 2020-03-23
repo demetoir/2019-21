@@ -25,7 +25,6 @@ const toggleModerationSocketHandler = async (data, emit) => {
 
 const eventName = "moderation/toggle";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: toggleModerationSocketHandler,

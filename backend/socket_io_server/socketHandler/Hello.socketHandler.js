@@ -24,7 +24,6 @@ const helloHandler = async (data, emit) => {
 
 const eventName = "hello";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: helloHandler,

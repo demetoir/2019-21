@@ -10,7 +10,6 @@ const removeEmojiSocketHandler = async (data, emit) => {
 
 const eventName = "questionEmoji/remove";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: removeEmojiSocketHandler,

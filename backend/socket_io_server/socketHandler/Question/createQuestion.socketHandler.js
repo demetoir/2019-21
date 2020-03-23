@@ -88,7 +88,6 @@ const createQuestionSocketHandler = async (data, emit, socket) => {
 
 const eventName = "question/create";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: createQuestionSocketHandler,

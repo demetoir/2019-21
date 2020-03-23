@@ -8,7 +8,6 @@ const questionCreateSocketHandler = async (data, emit) => {
 
 const eventName = "question/remove";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: questionCreateSocketHandler,

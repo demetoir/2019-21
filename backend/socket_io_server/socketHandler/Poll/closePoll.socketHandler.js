@@ -30,7 +30,6 @@ const closePollSocketHandler = async (data, emit) => {
 
 const eventName = "poll/close";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: closePollSocketHandler,

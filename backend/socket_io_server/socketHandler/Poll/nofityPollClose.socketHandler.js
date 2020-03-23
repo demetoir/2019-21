@@ -17,7 +17,6 @@ const notifyPollCloseSocketHandler = async (data, emit) => {
 
 const eventName = "poll/notify_close";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: notifyPollCloseSocketHandler,

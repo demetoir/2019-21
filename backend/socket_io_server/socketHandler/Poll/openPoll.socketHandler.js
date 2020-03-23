@@ -29,7 +29,6 @@ const openPollSocketHandler = async (data, emit) => {
 
 const eventName = "poll/open";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: openPollSocketHandler,
