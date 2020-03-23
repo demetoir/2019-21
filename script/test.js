@@ -8,8 +8,6 @@ shell.exec("cp .env.example .env");
 code = shell.exec("yarn test").code;
 if (code !== 0) {
   shell.exit(code);
-  // console.log(code)
-  // process.exit(code);
 }
 shell.cd("..");
 
