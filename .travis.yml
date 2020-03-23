@@ -1,8 +1,20 @@
 language: node_js
 node_js:
   - 10
-cache: yarn
+cache:
+  directories:
+    - "node_modules"
+
 install:
   - yarn install
-script:
-  - yarn test
+
+jobs:
+  include:
+    - stage: test
+      script: yarn test:backend
+    - script: yarn test:frontend:host-app
+    - script: yarn test:frontend:main-app
+    - script: yarn test:frontend:guest-app
+
+    - stage: build
+      script: yarn build

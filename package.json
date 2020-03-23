@@ -12,7 +12,11 @@
     "start:frontend": "sh script/start_frontend.sh",
     "start:backend": "sh script/start_backend.sh",
     "install": "node ./script/install.js",
-    "test": "node script/test.js"
+    "test": "node script/test.js",
+    "test:backend": "node script/test.backend.js",
+    "test:frontend:host-app": "node script/test.frontend.host-app.js",
+    "test:frontend:guest-app": "node script/test.frontend.guest-app.js",
+    "test:frontend:main-app": "node script/test.frontend.main-app.js"
   },
   "license": "MIT",
   "dependencies": {
