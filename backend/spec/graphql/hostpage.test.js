@@ -8,7 +8,7 @@ import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
 import models from "../../DB/models";
 import hostpageResolvers from "../../graphQL/model/hostpage/hostpage.resolver.js";
 import {AUTHORITY_TYPE_HOST} from "../../constants/authorityTypes.js";
-import {createEvent} from "../../DB/queries/event.js";
+import {findOrCreateEvent} from "../../DB/queries/event.js";
 import {findOrCreateHostByOAuth} from "../../DB/queries/host.js";
 import {createHashtag} from "../../DB/queries/hashtag.js";
 
@@ -64,12 +64,12 @@ describe("graphql yoga hostpage model", () => {
 		});
 
 		const HostId = host.id;
-		const event1 = await createEvent({
+		const event1 = await findOrCreateEvent({
 			eventCode: "eventCode1",
 			eventName: "eventname1",
 			HostId,
 		});
-		const event2 = await createEvent({
+		const event2 = await findOrCreateEvent({
 			eventCode: "eventCode2",
 			eventName: "eventname2",
 			HostId,
@@ -237,12 +237,12 @@ describe("graphql yoga hostpage model", () => {
 		});
 
 		const HostId = host.id;
-		const event1 = await createEvent({
+		const event1 = await findOrCreateEvent({
 			eventCode: "eventCode1",
 			eventName: "eventname1",
 			HostId,
 		});
-		const event2 = await createEvent({
+		const event2 = await findOrCreateEvent({
 			eventCode: "eventCode2",
 			eventName: "eventname2",
 			HostId,
@@ -278,7 +278,7 @@ describe("graphql yoga hostpage model", () => {
 			name: "host name",
 		});
 		const HostId = host.id;
-		const event1 = await createEvent({
+		const event1 = await findOrCreateEvent({
 			eventCode: "eventCode1",
 			eventName: "eventname1",
 			HostId,
@@ -344,7 +344,7 @@ describe("graphql yoga hostpage model", () => {
 			name: "host name",
 		});
 		const HostId = host.id;
-		const event1 = await createEvent({
+		const event1 = await findOrCreateEvent({
 			eventCode: "eventCode1",
 			eventName: "eventname1",
 			HostId,
@@ -373,7 +373,7 @@ describe("graphql yoga hostpage model", () => {
 			name: "host name",
 		});
 		const HostId = host.id;
-		const event1 = await createEvent({
+		const event1 = await findOrCreateEvent({
 			eventCode: "eventCode1",
 			eventName: "eventname1",
 			HostId,
@@ -446,7 +446,7 @@ describe("graphql yoga hostpage model", () => {
 			name: "host name",
 		});
 		const HostId = host.id;
-		const event1 = await createEvent({
+		const event1 = await findOrCreateEvent({
 			eventCode: "eventCode1",
 			eventName: "eventname1",
 			HostId,
@@ -477,7 +477,7 @@ describe("graphql yoga hostpage model", () => {
 		assert.equal(resultHashtag.EventId, EventId);
 	});
 
-	it("should be able to mutate 'createEvent'", async () => {
+	it("should be able to mutate 'findOrCreateEvent'", async () => {
 		// given
 		const host = await findOrCreateHostByOAuth({
 			oauthId: "oauthId",
@@ -542,7 +542,7 @@ describe("graphql yoga hostpage model", () => {
 		assert.equal(new Date(parseInt(result.endAt, 10)).toISOString(), endAt);
 	});
 
-	it("should be able to pass schema test 'mutate createEvent'", async () => {
+	it("should be able to pass schema test 'mutate findOrCreateEvent'", async () => {
 		const query = gql`
 			mutation Query($info: EventInfo!) {
 				createEvent(info: $info) {
@@ -570,7 +570,7 @@ describe("graphql yoga hostpage model", () => {
 		await gqlTester.test(true, query, variables);
 	});
 
-	it("should be able to resolve 'createEvent' by resolver", async () => {
+	it("should be able to resolve 'findOrCreateEvent' by resolver", async () => {
 		// given
 		const host = await findOrCreateHostByOAuth({
 			oauthId: "oauthId",
@@ -620,7 +620,7 @@ describe("graphql yoga hostpage model", () => {
 		const eventName = "eventName";
 		const eventCode = "eventCode";
 
-		const event = await createEvent({eventName, eventCode, HostId});
+		const event = await findOrCreateEvent({eventName, eventCode, HostId});
 		const EventId = event.id;
 
 		const startAt = new Date().toISOString();
@@ -717,7 +717,7 @@ describe("graphql yoga hostpage model", () => {
 		const eventName = "eventName";
 		const eventCode = "eventCode";
 
-		const event = await createEvent({eventName, eventCode, HostId});
+		const event = await findOrCreateEvent({eventName, eventCode, HostId});
 		const EventId = event.id;
 
 		const startAt = new Date().toISOString();
