@@ -4,23 +4,23 @@ node_js:
 cache:
   yarn: true
 
-#install:
-#  - yarn install
+install:
+  - yarn install
 
 jobs:
   include:
-    - stage: install
-      name: install backend
-      script: yarn install:backend
-    -
-      name: install frontend host-app
-      script: yarn install:frontend:host-app
-    -
-      name: install frontend guest-app
-      script: yarn install:frontend:guest-app
-    -
-      name: install frontend main-app
-      script: yarn install:frontend:main-app
+#    - stage: install
+#      name: install backend
+#      script: yarn install:backend
+#    -
+#      name: install frontend host-app
+#      script: yarn install:frontend:host-app
+#    -
+#      name: install frontend guest-app
+#      script: yarn install:frontend:guest-app
+#    -
+#      name: install frontend main-app
+#      script: yarn install:frontend:main-app
 
     - stage: test
       name: test backend
