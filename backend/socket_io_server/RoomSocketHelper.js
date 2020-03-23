@@ -1,5 +1,6 @@
 import logger from "./logger.js";
 import RoomSocket from "./RoomSocket.js";
+import {SOCKET_IO_EVENT_JOIN_ROOM, SOCKET_IO_EVENT_LEAVE_ROOM} from "../constants/socket.io-Events.js";
 
 const RoomSocketHelper = ({server, socket, handlerEventPair}) => {
 	const id = socket.id;
@@ -38,8 +39,8 @@ const RoomSocketHelper = ({server, socket, handlerEventPair}) => {
 		}
 	};
 
-	socket.on("joinRoom", onJoinRoom);
-	socket.on("leaveRoom", onLeaveRoom);
+	socket.on(SOCKET_IO_EVENT_JOIN_ROOM, onJoinRoom);
+	socket.on(SOCKET_IO_EVENT_LEAVE_ROOM, onLeaveRoom);
 };
 
 export default RoomSocketHelper;

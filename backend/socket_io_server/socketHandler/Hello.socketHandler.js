@@ -8,7 +8,7 @@ function verySlowJob() {
 	);
 }
 
-const helloHandler = async (data, emit) => {
+const helloSocketHandler = async (data, emit) => {
 	try {
 		// console.log(data);
 
@@ -26,5 +26,5 @@ const eventName = "hello";
 
 export default {
 	eventName,
-	handler: helloHandler,
+	handler: helloSocketHandler,
 };

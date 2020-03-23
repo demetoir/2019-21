@@ -21,8 +21,7 @@ export async function getAllEvents() {
  * @param endAt {Date}
  * @returns {Promise<object>}
  */
-// todo: rename to findOrCreateEvent
-export async function createEvent({
+export async function findOrCreateEvent({
 	eventName,
 	eventCode,
 	HostId,

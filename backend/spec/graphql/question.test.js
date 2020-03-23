@@ -9,7 +9,7 @@ import models from "../../DB/models";
 import {createGuest} from "../../DB/queries/guest.js";
 import {createQuestion} from "../../DB/queries/question.js";
 import questionResolvers from "../../graphQL/model/question/question.resolver.js";
-import {createEvent} from "../../DB/queries/event.js";
+import {findOrCreateEvent} from "../../DB/queries/event.js";
 
 describe("graphql yoga question model", () => {
 	const sequelizeMock = new SequelizeTestHelper();
@@ -43,7 +43,7 @@ describe("graphql yoga question model", () => {
 
 	it("should be able to query 'questions'", async () => {
 		// given
-		const event = await createEvent({
+		const event = await findOrCreateEvent({
 			eventName: "event name",
 			eventCode: "event code",
 			HostId: null,

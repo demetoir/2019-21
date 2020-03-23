@@ -8,7 +8,7 @@ import {
 	updateHashtagById,
 } from "../../../DB/queries/hashtag.js";
 import models from "../../../DB/models";
-import {createEvent} from "../../../DB/queries/event.js";
+import {findOrCreateEvent} from "../../../DB/queries/event.js";
 
 describe("hashtag query api", () => {
 	before(async () => {
@@ -80,7 +80,7 @@ describe("hashtag query api", () => {
 			startAt: new Date(),
 			endAt: new Date(),
 		};
-		const oldEvent = await createEvent(oldData);
+		const oldEvent = await findOrCreateEvent(oldData);
 		const EventId = oldEvent.id;
 		const name = "name";
 

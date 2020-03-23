@@ -1,6 +1,6 @@
 import faker from "faker";
 import {
-	createEvent,
+	findOrCreateEvent,
 	getAllEvents,
 	getEventById,
 	getEventOptionByEventId,
@@ -85,7 +85,7 @@ const createHashTagsResolver = async (_, {hashTags}, authority) => {
 const createEventResolver = async (_, {info}, authority) => {
 	verifySubjectHostJwt(authority.sub);
 	const eventCode = await generateEventCode();
-	const event = await createEvent({
+	const event = await findOrCreateEvent({
 		eventName: info.eventName,
 		eventCode,
 		HostId: authority.info.id,

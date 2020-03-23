@@ -8,7 +8,7 @@ import typeDefs from "../../graphQL/typeDefs.js";
 import resolvers from "../../graphQL/resolvers.js";
 import models from "../../DB/models";
 import {createGuest} from "../../DB/queries/guest.js";
-import {createEvent} from "../../DB/queries/event.js";
+import {findOrCreateEvent} from "../../DB/queries/event.js";
 import {AUTHORITY_TYPE_GUEST} from "../../constants/authorityTypes.js";
 import {findOrCreateHostByOAuth} from "../../DB/queries/host.js";
 
@@ -46,7 +46,7 @@ describe("graphql yoga guest model", () => {
 		const HostId = null;
 		const eventName = "eventName";
 		const eventCode = "eventCord";
-		const event = await createEvent({eventCode, eventName, HostId});
+		const event = await findOrCreateEvent({eventCode, eventName, HostId});
 
 		const EventId = event.id;
 		const guest = await createGuest(EventId);
@@ -120,7 +120,7 @@ describe("graphql yoga guest model", () => {
 		const HostId = null;
 		const eventName = "eventName";
 		const eventCode = "eventCord";
-		const event = await createEvent({eventCode, eventName, HostId});
+		const event = await findOrCreateEvent({eventCode, eventName, HostId});
 
 		const EventId = event.id;
 		const guest = await createGuest(EventId);
@@ -150,7 +150,7 @@ describe("graphql yoga guest model", () => {
 		const HostId = host.id;
 		const eventName = "eventName";
 		const eventCode = "eventCord";
-		const event = await createEvent({eventCode, eventName, HostId});
+		const event = await findOrCreateEvent({eventCode, eventName, HostId});
 
 		const EventId = event.id;
 		const guest = await createGuest(EventId);
@@ -259,7 +259,7 @@ describe("graphql yoga guest model", () => {
 		const HostId = host.id;
 		const eventName = "eventName";
 		const eventCode = "eventCord";
-		const event = await createEvent({eventCode, eventName, HostId});
+		const event = await findOrCreateEvent({eventCode, eventName, HostId});
 
 		const EventId = event.id;
 		const guest = await createGuest(EventId);

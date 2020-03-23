@@ -8,7 +8,7 @@ import resolvers from "../../graphQL/resolvers.js";
 import SequelizeTestHelper from "../testHelper/SequelizeTestHelper.js";
 import {createEmoji} from "../../DB/queries/emoji.js";
 import models from "../../DB/models";
-import {createEvent} from "../../DB/queries/event.js";
+import {findOrCreateEvent} from "../../DB/queries/event.js";
 import {createQuestion} from "../../DB/queries/question.js";
 import {createGuest} from "../../DB/queries/guest.js";
 
@@ -39,7 +39,7 @@ describe("graphql yoga emoji model", () => {
 		const eventName = "event name";
 		const eventCode = "event code";
 		const HostId = null;
-		const event = await createEvent({eventName, eventCode, HostId});
+		const event = await findOrCreateEvent({eventName, eventCode, HostId});
 		const EventId = event.id;
 
 		const content = "content";
@@ -138,7 +138,7 @@ describe("graphql yoga emoji model", () => {
 		const eventName = "event name";
 		const eventCode = "event code";
 		const HostId = null;
-		const event = await createEvent({eventName, eventCode, HostId});
+		const event = await findOrCreateEvent({eventName, eventCode, HostId});
 		const EventId = event.id;
 
 		const guest = await createGuest(EventId);
