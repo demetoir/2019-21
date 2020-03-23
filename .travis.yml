@@ -1,6 +1,12 @@
 language: node_js
 node_js:
   - 10
+
+branches:
+  only:
+    - master
+    - Develope
+
 cache:
   yarn: true
 #  directories:
