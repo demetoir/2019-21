@@ -1,7 +1,0 @@
-type hello {
-	world: String
-}
-
-type Query {
-	hello(input: String!): [hello]
-}

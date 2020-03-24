@@ -232,9 +232,4 @@ describe("questions query api", () => {
 		// than
 		assert.deepStrictEqual(createdQuestion, question);
 	});
-
-	it("should able to updateEveryState", async () => {
-		// todo implement me
-		assert(false);
-	});
 });

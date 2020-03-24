@@ -153,6 +153,7 @@ export async function getQuestionById(id) {
 }
 
 // todo what ???
+// todo implement test code
 export async function updateEveryState(from, {state}) {
 	return Question.update(
 		{
