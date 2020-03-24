@@ -9,6 +9,14 @@ TopBarProgress.config({
 	shadowBlur: 5,
 });
 
+const topbar = {
+	show() {
+
+	},
+	hide() {
+	},
+};
+
 export default function TopProgressBar() {
-	return <TopBarProgress />;
+	return <TopBarProgress topbar={topbar}/>;
 }
