@@ -2,10 +2,9 @@ language: node_js
 node_js:
   - 10
 
-#branches:
-#  only:
-#    - master
-#    - Develope
+branches:
+  only:
+    - /.*/
 
 cache:
   yarn: true
@@ -14,8 +13,6 @@ cache:
 #    - ./frontend/host-app/node_modules
 #    - ./frontend/guest-app/node_modules
 #    - ./frontend/main-app/node_modules
-
-
 
 install:
   - yarn install
