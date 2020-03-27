@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build:frontend": "sh script/build_front.sh",
-    "build:backend": "sh script/build_backend.sh",
+    "build:backend": "node ./script/build.backend.js",
     "build": " yarn build:backend && yarn build:frontend",
     "deploy": "sh script/deploy.sh",
     "deploy:undo": "sh script/deploy_undo.sh",
@@ -24,6 +24,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@types/shelljs": "^0.8.7",
     "concurrently": "^5.0.0",
     "shelljs": "^0.8.3",
     "uuid": "^3.3.3"
