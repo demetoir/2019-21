@@ -1,4 +1,4 @@
-import React, {useReducer, useContext} from "react";
+import React, {useContext, useReducer} from "react";
 import styled from "styled-components";
 import uuidv1 from "uuid/v1";
 import {useMutation} from "@apollo/react-hooks";
@@ -13,7 +13,7 @@ import {generalSettingReducer} from "../../settingReducer/settingReducer";
 import ButtonField from "../ButtonField";
 import {HostContext} from "../../../../libs/hostContext";
 import config from "../../../../config";
-import {updateEvent} from "../../../../libs/gql";
+import {mutateUpdateEvent} from "../../../../libs/gql";
 
 const PopUpLayOutStyle = styled.div`
 	display: flex;
@@ -41,7 +41,7 @@ function convertDataToView(eventInfo) {
 }
 
 export default function GeneralSetting({handleClose}) {
-	const [mutaionUpdateEvent, {updatedEvent}] = useMutation(updateEvent());
+	const [mutaionUpdateEvent, {updatedEvent}] = useMutation(mutateUpdateEvent);
 	const {hostInfo, events, setEvents, allEvents} = useContext(HostContext);
 	const initialGeneralState = convertDataToView(events[0]);
 	const [generalSettingState, dispatch] = useReducer(

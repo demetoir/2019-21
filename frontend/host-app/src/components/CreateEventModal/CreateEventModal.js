@@ -1,17 +1,17 @@
-import React, {useReducer, useContext} from "react";
+import React, {useContext, useReducer} from "react";
 import {Modal} from "@material-ui/core";
+import {useMutation} from "@apollo/react-hooks";
 import styled from "styled-components";
 import moment from "moment";
 import InputEventName from "./InputEventName";
 import InputStartDate from "./InputStartDate";
-import {useMutation} from "@apollo/react-hooks";
 import InputHashTag from "./InputHashTag";
 import EndDateField from "./EndDateField";
 import HashTagsField from "./HashTagsField";
 import ButtonField from "./ButtonField";
 import AlertSnackbar from "./AlertSnackbar";
 import {eventModalReducer} from "./eventModalReducer";
-import {createEvent, createHashTags} from "../../libs/gql";
+import {mutateCreateEvent, mutateCreateHashTags} from "../../libs/gql";
 import {HostContext} from "../../libs/hostContext";
 import useSnackBar from "../../customhook/useSnackBar";
 
@@ -84,8 +84,8 @@ function CreateEventModal({open, handleClose}) {
 		eventModalReducer,
 		initialEventInfo,
 	);
-	const [mutaionEvent, {event}] = useMutation(createEvent());
-	const [mutationHashTags, {hashTags}] = useMutation(createHashTags());
+	const [mutaionEvent, {event}] = useMutation(mutateCreateEvent);
+	const [mutationHashTags, {hashTags}] = useMutation(mutateCreateHashTags);
 
 	const dispatchHandler = ({type, property, value}) => {
 		dispatchEventInfo({

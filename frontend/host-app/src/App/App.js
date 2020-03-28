@@ -4,7 +4,7 @@ import "./App.css";
 import Header from "../components/Header/Header";
 import NavBar from "../components/NavBar/NavBar.js";
 import {HostProvider} from "../libs/hostContext";
-import {getEventsByHost} from "../libs/gql";
+import {queryEventsByHost} from "../libs/gql";
 import {socketClient} from "../libs/socket.io-Client-wrapper";
 import AppSkeleton from "../components/Skeleton/AppSkeleton";
 import config from "../config";
@@ -19,7 +19,7 @@ const initialLoadEvents = (events, initialValue, dispatch, data) => {
 };
 
 function App() {
-	const {data, loading, error} = useQuery(getEventsByHost());
+	const {data, loading, error} = useQuery(queryEventsByHost);
 	const [events, setEvents] = useState(initialValue);
 	let activeEventsNum = 0;
 	let eventsNum = 0;
