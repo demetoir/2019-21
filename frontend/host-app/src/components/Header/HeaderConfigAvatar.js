@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 });
 
 function HeaderConfigAvatar({onClick}) {
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 
 	return (
 		<Avatar onClick={onClick} className={classes.headerAvatar}>

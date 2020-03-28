@@ -41,7 +41,7 @@ function convertDataToView(eventInfo) {
 }
 
 export default function GeneralSetting({handleClose}) {
-	const [mutaionUpdateEvent, {updatedEvent}] = useMutation(mutateUpdateEvent);
+	const [mutationUpdateEvent, {updatedEvent}] = useMutation(mutateUpdateEvent);
 	const {hostInfo, events, setEvents, allEvents} = useContext(HostContext);
 	const initialGeneralState = convertDataToView(events[0]);
 	const [generalSettingState, dispatch] = useReducer(
@@ -94,7 +94,7 @@ export default function GeneralSetting({handleClose}) {
 	};
 
 	const sendData = () => {
-		mutaionUpdateEvent({
+		mutationUpdateEvent({
 			variables: {
 				event: {
 					eventName: generalSettingState.eventName,

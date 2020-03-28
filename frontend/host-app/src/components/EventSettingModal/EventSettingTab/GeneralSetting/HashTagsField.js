@@ -23,7 +23,7 @@ const CustomChip = styled(Chip)({
 });
 
 function HashTagsField(props) {
-	const {hashTags, dispatch} = props;
+	const {hashTags} = props;
 
 	return (
 		<>

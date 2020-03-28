@@ -12,7 +12,7 @@ const QuestionsReducer = (state, action) => {
 			return {questions: [...newData]};
 		},
 		moveQuestion: () => {
-			let newData = [];
+			let newData;
 
 			if (action.data.id === "all") {
 				newData = state.questions.map(e => {
