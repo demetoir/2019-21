@@ -15,7 +15,7 @@ import {mutateCreateEvent, mutateCreateHashTags} from "../../libs/gql";
 import {HostContext} from "../../libs/hostContext";
 import useSnackBar from "../../customhook/useSnackBar";
 
-const modalHeight = 38; // 37;
+const modalHeight = 38;
 const modalWidth = 28.125;
 const PopUpLayOutStyle = styled.div`
 	position: relative;
@@ -26,7 +26,6 @@ const PopUpLayOutStyle = styled.div`
 	width: ${modalWidth}rem;
 	height: ${modalHeight}rem;
 	background-color: white;
-	// padding-left: 1.25rem;
 	padding: 0 1.5rem;
 	box-sizing: border-box;
 	border-radius: 15px;
@@ -82,7 +81,7 @@ function CreateEventModal({open, handleClose}) {
 		eventModalReducer,
 		initialEventInfo,
 	);
-	const [mutaionEvent, {event}] = useMutation(mutateCreateEvent);
+	const [mutationEvent, {event}] = useMutation(mutateCreateEvent);
 	const [mutationHashTags, {hashTags}] = useMutation(mutateCreateHashTags);
 
 	const dispatchHandler = ({type, property, value}) => {
@@ -100,7 +99,7 @@ function CreateEventModal({open, handleClose}) {
 			setSnackBarOpen(true);
 			return;
 		}
-		mutaionEvent({
+		mutationEvent({
 			variables: {
 				info: {
 					HostId: hostInfo.id,
