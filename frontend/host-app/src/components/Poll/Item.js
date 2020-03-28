@@ -31,27 +31,23 @@ const RightEnd = styled.div`
 	padding-right: 1rem;
 `;
 
+const grayColor = "#adb5bd";
+
 const GraphWrapper = styled.div`
 	opacity: 0.5;
 	position: absolute;
 	top: 0;
 	left: 0;
 	background-color: ${props =>
-		(props.firstPlace ? "yellow" : "#adb5bd")}; /* Gray5 */
+		(props.firstPlace ? "yellow" : grayColor)}; 
 	height: 100%;
 	width: ${props => props.ratio};
 	box-sizing: border-box;
 `;
 
-function Item({
-	content,
-	voters,
-	voted,
-	totalVoters,
-	firstPlace,
-}) {
+function Item({content, voters, voted, totalVoters, firstPlace}) {
 	return (
-		<RowWrapper left >
+		<RowWrapper left>
 			<div>{voted && <MdDone />}</div>
 			<div className="selection-name">{content}</div>
 			<RightEnd>
