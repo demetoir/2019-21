@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
-import EventForm from "./components/EventForm";
-import HostLoginMessage from "./components/HostLoginMessage";
+import EventForm from "../components/EventForm.js";
+import HostLoginMessage from "../components/HostLoginMessage.js";
 
 function App() {
 	return (
