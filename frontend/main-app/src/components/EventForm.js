@@ -1,11 +1,12 @@
 import React, {useState} from "react";
 import styled from "styled-components";
 import Cookie from "js-cookie";
-import {TextField, Button, Typography} from "@material-ui/core";
+import {Button, TextField, Typography} from "@material-ui/core";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {withStyles} from "@material-ui/core/styles";
 import config from "../config";
+import {GUEST_COOKIE_KEY, HOST_COOKIE_KEY} from "../constants/CookieKeys.js";
 
 const EventFormStyle = styled.div`
 	display: flex;
@@ -38,11 +39,7 @@ const StyledButton = withStyles({
 })(Button);
 
 function EventForm() {
-	const [code, setCode] = useState("");
-	const [errorMessage, setMessage] = useState(" ");
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const hostCookieName = "vaagle-host";
-	const guestCookieName = "vaagle-guest";
+	const [anchorEl, setAnchorEl] = useState(null);
 	const handleClick = event => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -50,20 +47,24 @@ function EventForm() {
 		setAnchorEl(null);
 	};
 
+	const initialErrorMessage = "";
+	const [errorMessage, setMessage] = useState(initialErrorMessage);
+	const initialCode = "";
+	const [code, setCode] = useState(initialCode);
 	const onChange = e => {
 		setCode(e.target.value);
-		setMessage(" ");
+		setMessage(initialErrorMessage);
 	};
-
 	const onEnterEvent = () => {
 		setMessage("이벤트 번호가 전달되었습니다.");
 		const path = window.btoa(code);
 
 		window.location.href = `${config.guestAppURL}/${path}`;
-		setCode("");
+		setCode(initialCode);
 	};
-	const hostCookie = Cookie.get(hostCookieName);
-	const guestCookie = Cookie.get(guestCookieName);
+
+	const hostCookie = Cookie.get(HOST_COOKIE_KEY);
+	const guestCookie = Cookie.get(GUEST_COOKIE_KEY);
 	const empty = !hostCookie && !guestCookie;
 
 	return (
