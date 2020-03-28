@@ -7,8 +7,8 @@ const SkeletonColumnStyle = styled.div`
 	justify-content: flex-start;
 	align-items: center;
 	border-radius: 8px;
-	min-width: "20rem";
-	height: "100%";
+	min-width: 20rem;
+	height: 100%;
 	box-sizing: border-box;
 	& + & {
 		margin-left: 8px;
