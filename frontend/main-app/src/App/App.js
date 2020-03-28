@@ -1,13 +1,13 @@
 import React from "react";
 import "./App.css";
-import EventForm from "../components/EventForm.js";
-import HostLoginMessage from "../components/HostLoginMessage.js";
+import AppFooter from "../components/AppFooter.js";
+import AppBody from "../components/AppBody.js";
 
 function App() {
 	return (
 		<div className="App">
-			<EventForm />
-			<HostLoginMessage />
+			<AppBody />
+			<AppFooter />
 		</div>
 	);
 }
