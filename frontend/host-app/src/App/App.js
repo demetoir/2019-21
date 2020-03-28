@@ -15,7 +15,6 @@ import {
 	SOCKET_IO_EVENT_LEAVE_ROOM,
 } from "../constants/socket.io-Events.js";
 
-
 const initialEvents = "";
 
 const initialLoadEvents = (events, initialValue, dispatch, data) => {
@@ -46,9 +45,7 @@ function App() {
 		activeEvents = events.filter(event => {
 			const eventDeadLine = new Date(parseInt(event.endAt, 10));
 
-			if (compareCurrentDateToTarget(eventDeadLine) > 0) {
-				return event;
-			}
+			return compareCurrentDateToTarget(eventDeadLine) > 0;
 		});
 		activeEventsNum = activeEvents.length;
 		if (activeEventsNum) {
