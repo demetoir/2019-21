@@ -9,6 +9,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import Container from "@material-ui/core/Container";
 import moment from "moment";
 import {validDate} from "../../libs/eventValidation";
+import {SET_ERROR_STATE, SET_PROPERTY} from "./eventModalActions.js";
 
 const marginTopLength = 20;
 
@@ -35,22 +36,22 @@ function InputStartDate(props) {
 
 	const calcEndDate = (lastTime, startTime = startDate) => {
 		const hour = moment(lastTime).format("HH");
-		const minuate = moment(lastTime).format("mm");
+		const minute = moment(lastTime).format("mm");
 		let addedTime = moment(startTime)
 			.add(hour, "h")
 			.toDate();
 
 		addedTime = moment(addedTime)
-			.add(minuate, "m")
+			.add(minute, "m")
 			.toDate();
 		dispatch({
-			type: "SET_PROPERTY",
+			type: SET_PROPERTY,
 			property: "endDate",
 			value: moment(addedTime),
 		});
 		setLastTime(lastTime);
 		dispatch({
-			type: "SET_ERROR_STATE",
+			type: SET_ERROR_STATE,
 			property: "date",
 			value: !validDate(startTime, addedTime),
 		});
@@ -58,7 +59,7 @@ function InputStartDate(props) {
 
 	const setDate = event => {
 		dispatch({
-			type: "SET_PROPERTY",
+			type: SET_PROPERTY,
 			property: "startDate",
 			value: event,
 		});

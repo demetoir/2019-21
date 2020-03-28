@@ -1,12 +1,16 @@
+import {SET_ERROR_STATE, SET_PROPERTY} from "./eventModalActions.js";
+
 const eventModalReducer = (state, action) => {
 	switch (action.type) {
-		case "SET_PROPERTY": {
+		case SET_PROPERTY: {
 			return {...state, [action.property]: action.value};
 		}
-		case "SET_ERROR_STATE": {
+		case SET_ERROR_STATE: {
 			const errorState = state.errorState;
+
 			Object.assign(errorState, {[action.property]: action.value});
-			return {...state, errorState: errorState};
+
+			return {...state, errorState};
 		}
 		default: {
 			console.error(action);
@@ -15,4 +19,4 @@ const eventModalReducer = (state, action) => {
 	}
 };
 
-export {eventModalReducer};
+export default eventModalReducer;

@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import {styled} from "@material-ui/core/styles";
 import {TextField} from "@material-ui/core";
 import {validEventName} from "../../libs/eventValidation";
+import {SET_ERROR_STATE, SET_PROPERTY} from "./eventModalActions.js";
 
 const CustomTextField = styled(TextField)({
 	marginTop: "1rem",
@@ -20,12 +21,12 @@ function InputEventName(props) {
 			value={eventName}
 			onChange={event => {
 				dispatch({
-					type: "SET_ERROR_STATE",
+					type: SET_ERROR_STATE,
 					property: "eventName",
 					value: !validEventName(event.target.value),
 				});
 				dispatch({
-					type: "SET_PROPERTY",
+					type: SET_PROPERTY,
 					property: "eventName",
 					value: event.target.value,
 				});

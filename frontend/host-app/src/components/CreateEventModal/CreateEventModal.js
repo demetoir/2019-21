@@ -10,7 +10,7 @@ import EndDateField from "./EndDateField";
 import HashTagsField from "./HashTagsField";
 import ButtonField from "./ButtonField";
 import AlertSnackbar from "./AlertSnackbar";
-import {eventModalReducer} from "./eventModalReducer";
+import eventModalReducer from "./eventModalReducer";
 import {mutateCreateEvent, mutateCreateHashTags} from "../../libs/gql";
 import {HostContext} from "../../libs/hostContext";
 import useSnackBar from "../../customhook/useSnackBar";
@@ -49,21 +49,19 @@ const Header = styled.div`
 
 const initEndDate = (startTime, lastTime) => {
 	const hour = moment(lastTime).format("HH");
-	const minuate = moment(lastTime).format("mm");
+	const minute = moment(lastTime).format("mm");
 	let addedTime = moment(startTime)
 		.add(hour, "h")
 		.toDate();
 
 	addedTime = moment(addedTime)
-		.add(minuate, "m")
+		.add(minute, "m")
 		.toDate();
 	return addedTime;
 };
 
 function verifyInputData(errorState) {
-	const isInValid = Object.values(errorState).some(inputValue => inputValue);
-
-	return isInValid;
+	return Object.values(errorState).some(inputValue => inputValue);
 }
 
 function formattingDate(date) {
