@@ -8,7 +8,7 @@ const initialGeneralState = {
 	eventCode: "A87E",
 };
 
-const initialAdavanceState = {
+const initialAdvanceState = {
 	allowReply: true,
 	anonymousReply: false,
 	closeQuestion: false,
@@ -19,7 +19,7 @@ const initialAdavanceState = {
 const advanceSettingReducer = (state, action) => {
 	switch (action.type) {
 		case "reset": {
-			return {...initialAdavanceState};
+			return {...initialAdvanceState};
 		}
 		case "setAlloReply": {
 			return {...state, allowReply: action.allowReply};
@@ -74,6 +74,6 @@ const generalSettingReducer = (state, action) => {
 export {
 	initialGeneralState,
 	generalSettingReducer,
-	initialAdavanceState,
+	initialAdvanceState,
 	advanceSettingReducer,
 };

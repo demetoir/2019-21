@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 
 function HeaderAccountAvatar() {
 	const {hostInfo} = useContext(HostContext);
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 
 	return (
 		<Avatar className={classes.headerAvatar}>

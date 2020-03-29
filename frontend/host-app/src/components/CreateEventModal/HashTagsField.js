@@ -4,6 +4,7 @@ import Chip from "@material-ui/core/Chip";
 import Paper from "@material-ui/core/Paper";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import {Scrollbars} from "react-custom-scrollbars";
+import {SET_PROPERTY} from "./eventModalActions.js";
 
 const MyPaper = styled(Paper)({
 	marginTop: 10,
@@ -26,7 +27,7 @@ function HashTagField(props) {
 		);
 
 		dispatch({
-			type: "SET_PROPERTY",
+			type: SET_PROPERTY,
 			property: "hashTags",
 			value: deletedHashTagList,
 		});

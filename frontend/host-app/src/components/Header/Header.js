@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
 
 function Header() {
 	const [settingModalOpen, handleOpen, handleClose] = useModal();
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 
 	return (
 		<AppBar position="static">

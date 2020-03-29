@@ -11,7 +11,7 @@ const Container = styled.div`
 
 const CancelTextButton = styled.div`
 	font-size: 1.25rem;
-	color: balck;
+	color: black;
 	:hover {
 		font-weight: bold;
 	}

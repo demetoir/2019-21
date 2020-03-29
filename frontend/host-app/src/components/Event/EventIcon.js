@@ -42,4 +42,5 @@ EventIcon.propTypes = {
 EventIcon.defaultProps = {
 	isLive: false,
 };
+
 export default EventIcon;

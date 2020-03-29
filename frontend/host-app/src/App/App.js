@@ -4,13 +4,18 @@ import "./App.css";
 import Header from "../components/Header/Header";
 import NavBar from "../components/NavBar/NavBar.js";
 import {HostProvider} from "../libs/hostContext";
-import {getEventsByHost} from "../libs/gql";
+import {queryEventsByHost} from "../libs/gql";
 import {socketClient} from "../libs/socket.io-Client-wrapper";
 import AppSkeleton from "../components/Skeleton/AppSkeleton";
 import config from "../config";
 import {compareCurrentDateToTarget} from "../libs/utils";
+import {
+	SOCKET_IO_EVENT_EVENT_INIT_OPTION,
+	SOCKET_IO_EVENT_JOIN_ROOM,
+	SOCKET_IO_EVENT_LEAVE_ROOM,
+} from "../constants/socket.io-Events.js";
 
-const initialValue = "";
+const initialEvents = "";
 
 const initialLoadEvents = (events, initialValue, dispatch, data) => {
 	if (events === initialValue) {
@@ -19,8 +24,8 @@ const initialLoadEvents = (events, initialValue, dispatch, data) => {
 };
 
 function App() {
-	const {data, loading, error} = useQuery(getEventsByHost());
-	const [events, setEvents] = useState(initialValue);
+	const {data, loading, error} = useQuery(queryEventsByHost);
+	const [events, setEvents] = useState(initialEvents);
 	let activeEventsNum = 0;
 	let eventsNum = 0;
 	let activeEvents = [];
@@ -31,25 +36,24 @@ function App() {
 		window.location.href = config.inValidHostRedirectURL;
 		return <div />;
 	}
-	initialLoadEvents(events, initialValue, setEvents, data.init.events);
+	initialLoadEvents(events, initialEvents, setEvents, data.init.events);
 
 	const hostInfo = data.init.host;
 
 	eventsNum = events.length;
 	if (eventsNum) {
 		activeEvents = events.filter(event => {
-			const eventDeadLine = new Date(parseInt(event.endAt));
-			if (compareCurrentDateToTarget(eventDeadLine) > 0) {
-				return event;
-			}
+			const eventDeadLine = new Date(parseInt(event.endAt, 10));
+
+			return compareCurrentDateToTarget(eventDeadLine) > 0;
 		});
 		activeEventsNum = activeEvents.length;
 		if (activeEventsNum) {
 			const eventId = activeEvents[0].id;
 
-			socketClient.emit("leaveRoom");
-			socketClient.emit("joinRoom", {room: eventId});
-			socketClient.emit("event/initOption", eventId);
+			socketClient.emit(SOCKET_IO_EVENT_LEAVE_ROOM);
+			socketClient.emit(SOCKET_IO_EVENT_JOIN_ROOM, {room: eventId});
+			socketClient.emit(SOCKET_IO_EVENT_EVENT_INIT_OPTION, eventId);
 		}
 	}
 

@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import NavBarTab from "./NavBarTab.js";
 import NavBarTabs from "./NavBarTabs.js";
 import EventDashboard from "../EventDashboard/EventDashboard";
-import EventCardList from "../Event/EventCardList";
 import EmptyContent from "../EventDashboard/EmptyContent";
 
 const useStyles = makeStyles(theme => ({

@@ -7,14 +7,20 @@ const handleQuestionDatas = (questions, id, from, to) => {
 };
 
 const handleStar = (questions, id) => {
-	const toggleMsg = questions.questions.reduce((acc, e) => {
-		if (e.isStared) { acc.from.push({id: e.id, isStared: !e.isStared}); }
-		if (e.id === id) { acc.to.push({id: e.id, isStared: !e.isStared}); }
-		return acc;
-	}, {from: [], to: []});
+	const toggleMsg = questions.questions.reduce(
+		(acc, e) => {
+			if (e.isStared) {
+				acc.from.push({id: e.id, isStared: !e.isStared});
+			}
+			if (e.id === id) {
+				acc.to.push({id: e.id, isStared: !e.isStared});
+			}
+			return acc;
+		},
+		{from: [], to: []},
+	);
 
 	socketClient.emit("question/toggleStar", toggleMsg);
 };
 
 export {handleQuestionDatas, handleStar};
-
