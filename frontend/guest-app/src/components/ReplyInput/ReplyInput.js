@@ -26,6 +26,11 @@ function ReplyInput(props) {
 	const {guest} = useGlobalData();
 	const [userName] = useState(guest.name);
 
+	const onClickReplyInput = () => {
+		onConfirm(replyContent);
+		setReplyContent("");
+	};
+
 	return (
 		<Grid container direction={"column"}>
 			<ReplyContentInput
@@ -33,7 +38,7 @@ function ReplyInput(props) {
 				content={replyContent}
 				setContent={setReplyContent}
 			/>
-			<Divider style={{marginTop: "0.5rem", marginBottom: "0.5rem"}} />
+			<Divider style={{marginTop: "0.5rem", marginBottom: "0.5rem"}}/>
 			<FlexedSpaceBetweenDiv>
 				<FlexedCenterDiv>
 					<ReplierInfoInput
@@ -43,12 +48,9 @@ function ReplyInput(props) {
 				</FlexedCenterDiv>
 				<FlexedCenterDiv>
 					<Button
-						variant="contained"
+						variant={"contained"}
 						color={"primary"}
-						onClick={() => {
-							onConfirm(replyContent);
-							setReplyContent("");
-						}}
+						onClick={onClickReplyInput}
 					>
 						{confirmButtonText}
 					</Button>

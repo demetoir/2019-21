@@ -24,6 +24,9 @@ const QuestionContainerStyle = styled.div`
 function QuestionContainer() {
 	const {dispatch, questions, replies} = useQuestions();
 
+	const staredQuestions = questions.filter(e => e.isStared);
+	const nonStaredQuestions = questions.filter(e => !e.isStared);
+
 	const {
 		newQuestionInputDrawer,
 		editQuestionInputDrawer,
@@ -52,8 +55,11 @@ function QuestionContainer() {
 				tabIdx={tabIdx}
 				onSelectTab={onContainerSelectTab}
 			/>
-			<QuestionCardList questions={questions.filter(e => e.isStared)} replies={replies} />
-			<QuestionCardList questions={questions.filter(e => !e.isStared)} replies={replies} />
+			<QuestionCardList questions={staredQuestions} replies={replies} />
+			<QuestionCardList
+				questions={nonStaredQuestions}
+				replies={replies}
+			/>
 			<PaddingArea />
 			<AddQuestionInputButton
 				onClick={() => newQuestionInputDrawer.setOn()}
