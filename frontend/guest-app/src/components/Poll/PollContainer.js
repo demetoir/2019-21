@@ -6,13 +6,14 @@ import reducer from "../../reducers/PollsReducer.js";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
 import usePolls from "../../contexts/Polls/usePolls.js";
 
+const colorGray3 = "#dee2e6";
 const ColumnWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
 	box-sizing: border-box;
-	border: 1px solid #dee2e6; /* Gray3 */
+	border: 1px solid ${colorGray3};
 	padding: 1rem;
 	width: 100%;
 `;

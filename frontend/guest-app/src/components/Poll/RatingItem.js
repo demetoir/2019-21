@@ -3,6 +3,7 @@ import Rating from "@material-ui/lab/Rating";
 import styled from "styled-components";
 import ActiveRating from "./ActiveRating";
 
+const colorGray3 = "#dee2e6";
 const ColumnWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -12,7 +13,7 @@ const ColumnWrapper = styled.div`
 	width: 80%;
 	padding: 1rem;
 	box-sizing: border-box;
-	border: 1px solid #dee2e6; /* Gray3 */
+	border: 1px solid ${colorGray3};
 `;
 
 function RatingItem({
