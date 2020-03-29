@@ -14,10 +14,10 @@ function ReplyContentInput(props) {
 			multiline
 			fullWidth
 			label={"댓글 내용"}
-			rowsMax="10"
+			rowsMax={"10"}
 			value={content}
 			onChange={onChange}
-			margin="normal"
+			margin={"normal"}
 			helperText={`${content.length}/${maxTextLength}자`}
 			InputLabelProps={{
 				shrink: true,

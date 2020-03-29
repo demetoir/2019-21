@@ -19,7 +19,7 @@ function UserInfoInput(props) {
 			<UserAvatar userName={userName} userNameRef={userNameRef} />
 			<TextFieldStyle
 				value={userName}
-				margin="normal"
+				margin={"normal"}
 				inputRef={userNameRef}
 			/>
 		</>

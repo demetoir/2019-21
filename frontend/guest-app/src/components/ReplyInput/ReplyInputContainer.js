@@ -48,7 +48,7 @@ function ReplyInputContainer(props) {
 			<CardContent style={{paddingTop: "1rem", paddingBottom: "0"}}>
 				<ReplyInput
 					onConfirm={onConfirmNewReply}
-					confirmButtonText="댓글달기"
+					confirmButtonText={"댓글달기"}
 					userNameRef={userNameRef}
 					questionRef={questionRef}
 				/>

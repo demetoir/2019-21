@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment"
+import moment from "moment";
 import PropTypes from "prop-types";
 import {Grid} from "@material-ui/core";
 import {blue} from "@material-ui/core/colors";
@@ -9,12 +9,12 @@ import Typography from "@material-ui/core/Typography";
 import useSideMenuStyles from "./UseSideMenuStyles.js";
 
 const style = {background: blue[600]};
-const dateFormat="YYYY년 MM월 DD일 HH시 mm분";
+const dateFormat = "YYYY년 MM월 DD일 HH시 mm분";
 
 function getDateRangeString(startAt, endAt) {
 	const start = new Date(parseInt(startAt, 10));
-	const end = new Date(parseInt(endAt, 10));
 	const startDate = moment(start).format(dateFormat);
+	const end = new Date(parseInt(endAt, 10));
 	const endDate = moment(end).format(dateFormat);
 
 	return `${startDate} ~ ${endDate}`;
