@@ -10,6 +10,7 @@ import PollTabIcon from "./PollTabIcon.js";
 import QuestionsProvider from "../../contexts/Questions/QuestionsProvider.js";
 import PollsProvider from "../../contexts/Polls/PollsProvider.js";
 import PollContainer from "../Poll/PollContainer.js";
+import {POLL_TAB_IDX, QUESTION_TAB_IDX} from "../../constants/tab_idx.js";
 
 const TabGroupStyle = styled.div`
 	position: fixed;
@@ -17,9 +18,6 @@ const TabGroupStyle = styled.div`
 	width: 100%;
 	z-index: 1;
 `;
-
-const QUESTION_TAB_IDX = 0;
-const POLL_TAB_IDX = 1;
 
 function TabGroup({showQnABadge = true, showPollBadge}) {
 	const {tabIdx, selectTabIdx} = useTabs(QUESTION_TAB_IDX);

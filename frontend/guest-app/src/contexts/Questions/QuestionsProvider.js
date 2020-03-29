@@ -6,61 +6,94 @@ import {useSocket} from "../../socket.io";
 import buildQuestions from "../../apollo/asembleGetQuestionQuerys.js";
 import QuestionsContext from "./QuestionsContext.js";
 import useGlobalData from "../GlobalData/useGlobalData.js";
+import {
+	SOCKET_IO_EVENT_EMOJI_CREATE,
+	SOCKET_IO_EVENT_EMOJI_REMOVE,
+	SOCKET_IO_EVENT_QUESTION_CREATE,
+	SOCKET_IO_EVENT_QUESTION_LIKE_CREATE,
+	SOCKET_IO_EVENT_QUESTION_LIKE_REMOVE,
+	SOCKET_IO_EVENT_QUESTION_MOVE,
+	SOCKET_IO_EVENT_QUESTION_REMOVE,
+	SOCKET_IO_EVENT_QUESTION_TOGGLE_STAR,
+	SOCKET_IO_EVENT_QUESTION_UPDATE,
+} from "../../constants/socket.io-event.js";
+
+const QUESTION_STATE_ACTIVE = "active";
+
+const QUESTION_ACTION_TYPE_LOAD = "load";
+const QUESTION_ACTION_TYPE_ADD_NEW_QUESTION = "addNewQuestion";
+const QUESTION_ACTION_TYPE_UPDATE_QUESTION = "updateQuestion";
+const QUESTION_ACTION_TYPE_MOVE_QUESTION = "moveQuestion";
+const QUESTION_ACTION_TYPE_TOGGLE_STAR_QUESTION = "toggleStarQuestion";
+const QUESTION_ACTION_TYPE_ADD_EMOJI = "addQuestionEmoji";
+const QUESTION_ACTION_TYPE_REMOVE_EMOJI = "removeQuestionEmoji";
+const QUESTION_ACTION_TYPE_REMOVE_QUESTION = "removeQuestion";
+const QUESTION_ACTION_TYPE_LIKE_QUESTION = "LikeQuestion";
+const QUESTION_ACTION_TYPE_UNDO_LIKE = "undoLikeQuestion";
 
 const useDataLoadEffect = (dispatch, data) => {
 	useEffect(() => {
 		if (data) {
 			const buildData = buildQuestions(data);
 
-			dispatch({type: "load", data: buildData});
+			dispatch({type: QUESTION_ACTION_TYPE_LOAD, data: buildData});
 		}
 	}, [data, dispatch]);
 };
 
 const useSocketHandler = (dispatch, guestGlobal) => {
-	useSocket("question/create", req => {
+	useSocket(SOCKET_IO_EVENT_QUESTION_CREATE, req => {
 		req.guestGlobal = guestGlobal;
-		dispatch({type: "addNewQuestion", data: req});
+
+		dispatch({type: QUESTION_ACTION_TYPE_ADD_NEW_QUESTION, data: req});
 	});
 
-	useSocket("questionLike/create", req => {
+	useSocket(SOCKET_IO_EVENT_QUESTION_LIKE_CREATE, req => {
 		req.guestGlobal = guestGlobal;
-		dispatch({type: "LikeQuestion", data: req});
+
+		dispatch({type: QUESTION_ACTION_TYPE_LIKE_QUESTION, data: req});
 	});
 
-	useSocket("questionLike/remove", req => {
+	useSocket(SOCKET_IO_EVENT_QUESTION_LIKE_REMOVE, req => {
 		req.guestGlobal = guestGlobal;
-		dispatch({type: "undoLikeQuestion", data: req});
+
+		dispatch({type: QUESTION_ACTION_TYPE_UNDO_LIKE, data: req});
 	});
 
-	useSocket("questionEmoji/create", req => {
+	useSocket(SOCKET_IO_EVENT_EMOJI_CREATE, req => {
 		req.guestGlobal = guestGlobal;
-		dispatch({type: "addQuestionEmoji", data: req});
+
+		dispatch({type: QUESTION_ACTION_TYPE_ADD_EMOJI, data: req});
 	});
 
-	useSocket("questionEmoji/remove", req => {
+	useSocket(SOCKET_IO_EVENT_EMOJI_REMOVE, req => {
 		req.guestGlobal = guestGlobal;
-		dispatch({type: "removeQuestionEmoji", data: req});
+
+		dispatch({type: QUESTION_ACTION_TYPE_REMOVE_EMOJI, data: req});
 	});
 
-	useSocket("question/remove", req => {
+	useSocket(SOCKET_IO_EVENT_QUESTION_REMOVE, req => {
 		req.guestGlobal = guestGlobal;
-		dispatch({type: "removeQuestion", data: req});
+
+		dispatch({type: QUESTION_ACTION_TYPE_REMOVE_QUESTION, data: req});
 	});
 
-	useSocket("question/update", req => {
+	useSocket(SOCKET_IO_EVENT_QUESTION_UPDATE, req => {
 		req.guestGlobal = guestGlobal;
-		dispatch({type: "updateQuestion", data: req});
+
+		dispatch({type: QUESTION_ACTION_TYPE_UPDATE_QUESTION, data: req});
 	});
 
-	useSocket("question/move", req => {
+	useSocket(SOCKET_IO_EVENT_QUESTION_MOVE, req => {
 		req.guestGlobal = guestGlobal;
-		dispatch({type: "moveQuestion", data: req});
+
+		dispatch({type: QUESTION_ACTION_TYPE_MOVE_QUESTION, data: req});
 	});
 
-	useSocket("question/toggleStar", req => {
+	useSocket(SOCKET_IO_EVENT_QUESTION_TOGGLE_STAR, req => {
 		req.guestGlobal = guestGlobal;
-		dispatch({type: "toggleStarQuestion", data: req});
+
+		dispatch({type: QUESTION_ACTION_TYPE_TOGGLE_STAR_QUESTION, data: req});
 	});
 };
 
@@ -76,7 +109,9 @@ function QuestionsProvider(props) {
 	useSocketHandler(dispatch, guest);
 
 	const questions = state.filter(
-		question => question.QuestionId === null && question.state === "active",
+		question =>
+			question.QuestionId === null &&
+			question.state === QUESTION_STATE_ACTIVE,
 	);
 	const replies = state.filter(question => question.QuestionId !== null);
 

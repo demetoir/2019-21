@@ -5,6 +5,28 @@ import {useSocket} from "../../socket.io";
 import reducer from "../../reducers/PollsReducer.js";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
 import usePolls from "../../contexts/Polls/usePolls.js";
+import {
+	SOCKET_IO_EVENT_POLL_NOTIFY_CLOSE,
+	SOCKET_IO_EVENT_POLL_NOTIFY_OPEN,
+	SOCKET_IO_EVENT_RATE_OFF,
+	SOCKET_IO_EVENT_RATE_ON,
+	SOCKET_IO_EVENT_VOTE_OFF,
+	SOCKET_IO_EVENT_VOTE_ON,
+} from "../../constants/socket.io-event.js";
+import {
+	POLL_STATE_CLOSED,
+	POLL_STATE_RUNNING,
+} from "../../constants/poll_state.js";
+import {
+	POLL_ACTION_TYPE_CANCEL_RATING,
+	POLL_ACTION_TYPE_NOTIFY_CLOSE,
+	POLL_ACTION_TYPE_NOTIFY_OPEN,
+	POLL_ACTION_TYPE_RATE,
+	POLL_ACTION_TYPE_SOMEONE_RATE,
+	POLL_ACTION_TYPE_SOMEONE_VOTE,
+	POLL_ACTION_TYPE_VOTE,
+} from "../../constants/poll_action_type.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../constants/socket_io_response.js";
 
 const colorGray3 = "#dee2e6";
 const ColumnWrapper = styled.div`
@@ -31,8 +53,8 @@ function PollContainer() {
 	if (data) {
 		const initialPolls = data;
 
-		rPolls = initialPolls.filter(poll => poll.state === "running");
-		cPolls = initialPolls.filter(poll => poll.state === "closed");
+		rPolls = initialPolls.filter(poll => poll.state === POLL_STATE_RUNNING);
+		cPolls = initialPolls.filter(poll => poll.state === POLL_STATE_CLOSED);
 	}
 
 	const [runningPolls, dispatch] = useReducer(reducer, rPolls);
@@ -40,10 +62,10 @@ function PollContainer() {
 
 	// guest가 N지선다형 투표를 했을때 호출되는 handler
 	const onVote = (id, candidateId, number, state) => {
-		if (state !== "running") return;
+		if (state !== POLL_STATE_RUNNING) return;
 
 		dispatch({
-			type: "VOTE",
+			type: POLL_ACTION_TYPE_VOTE,
 			pollId: id,
 			candidateId,
 			number,
@@ -53,10 +75,10 @@ function PollContainer() {
 
 	// guest가 별점매기기 투표를 했을때 호출되는 handler
 	const onChange = (value, state, id) => {
-		if (state !== "running") return;
+		if (state !== POLL_STATE_RUNNING) return;
 
 		dispatch({
-			type: "RATE",
+			type: POLL_ACTION_TYPE_RATE,
 			value,
 			pollId: id,
 			GuestId,
@@ -65,10 +87,10 @@ function PollContainer() {
 
 	// guest가 별점매기기 투표를 취소했을때 호출되는 handler
 	const onCancelRating = (id, state) => {
-		if (state !== "running") return;
+		if (state !== POLL_STATE_RUNNING) return;
 
 		dispatch({
-			type: "CANCEL_RATING",
+			type: POLL_ACTION_TYPE_CANCEL_RATING,
 			pollId: id,
 			GuestId,
 		});
@@ -77,13 +99,14 @@ function PollContainer() {
 	// host가 투표를 open했음을 guest들에게 socket.io 서버로 emit 하면
 	// guest들은 아래 함수를 통해 listen하고 있다가
 	// useReduer를 호출하여 투표에 상태를 update 함
-	useSocket("poll/notify_open", res => {
-		if (res.status === "error") {
+
+	useSocket(SOCKET_IO_EVENT_POLL_NOTIFY_OPEN, res => {
+		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
 			return;
 		}
 
 		dispatch({
-			type: "NOTIFY_OPEN",
+			type: POLL_ACTION_TYPE_NOTIFY_OPEN,
 			poll: res.poll,
 			GuestId,
 		});
@@ -92,19 +115,20 @@ function PollContainer() {
 	// host가 투표를 close했음을 guest들에게 socket.io 서버로 emit 하면
 	// guest들은 아래 함수를 통해 listen하고 있다가
 	// useReduer를 호출하여 투표에 상태를 update 함
-	useSocket("poll/notify_close", res => {
-		if (res.status === "error") {
+
+	useSocket(SOCKET_IO_EVENT_POLL_NOTIFY_CLOSE, res => {
+		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
 			return;
 		}
 
 		const {pollId} = res;
 		const thePoll = {...runningPolls.find(poll => poll.id === pollId)};
 
-		thePoll.state = "closed";
+		thePoll.state = POLL_STATE_CLOSED;
 		setClosedPolls([thePoll].concat(closedPolls));
 
 		dispatch({
-			type: "NOTIFY_CLOSE",
+			type: POLL_ACTION_TYPE_NOTIFY_CLOSE,
 			pollId,
 		});
 	});
@@ -112,16 +136,18 @@ function PollContainer() {
 	// 다른 guest들이 투표했음을 socket.io 서버로 emit 하면
 	// guest는 아래 함수를 통해 listen하고 있다가
 	// useReduer를 호출하여 투표에 상태를 update 함
-	useSocket("vote/on", res => {
-		if (res.status === "error") {
+
+	useSocket(SOCKET_IO_EVENT_VOTE_ON, res => {
+		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
 			// eslint-disable-next-line no-console
 			console.error("vote/on ERROR");
 			return;
 		}
 		// 하나의 브라우저에서 여러개의 tab으로 guest들을 생성한 경우,
 		// 해당 guest를 제외한 나머지 guest에 상태가 적용되지 않아서 comment 처리했음
+
 		dispatch({
-			type: "SOMEONE_VOTE",
+			type: POLL_ACTION_TYPE_SOMEONE_VOTE,
 			pollId: res.poll.id,
 			poll: res.poll,
 			GuestId,
@@ -131,8 +157,9 @@ function PollContainer() {
 	// 다른 guest들이 투표했음을 socket.io 서버로 emit 하면
 	// guest는 아래 함수를 통해 listen하고 있다가
 	// useReduer를 호출하여 투표에 상태를 update 함
-	useSocket("vote/off", res => {
-		if (res.status === "error") {
+
+	useSocket(SOCKET_IO_EVENT_VOTE_OFF, res => {
+		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
 			// eslint-disable-next-line no-console
 			console.error("vote/off ERROR");
 			return;
@@ -140,7 +167,7 @@ function PollContainer() {
 		// 하나의 브라우저에서 여러개의 tab으로 guest들을 생성한 경우,
 		// 해당 guest를 제외한 나머지 guest에 상태가 적용되지 않아서 comment 처리했음
 		dispatch({
-			type: "SOMEONE_VOTE",
+			type: POLL_ACTION_TYPE_SOMEONE_VOTE,
 			pollId: res.poll.id,
 			poll: res.poll,
 			GuestId,
@@ -150,14 +177,15 @@ function PollContainer() {
 	// 다른 guest들이 별점매기기 했음을 socket.io 서버로 emit 하면
 	// guest는 아래 함수를 통해 listen하고 있다가
 	// useReduer를 호출하여 투표에 상태를 update 함
-	useSocket("rate/on", res => {
-		if (res.status === "error") {
+
+	useSocket(SOCKET_IO_EVENT_RATE_ON, res => {
+		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
 			return;
 		}
 		// 하나의 브라우저에서 여러개의 tab으로 guest들을 생성한 경우,
 		// 해당 guest를 제외한 나머지 guest에 상태가 적용되지 않아서 comment 처리했음
 		dispatch({
-			type: "SOMEONE_RATE",
+			type: POLL_ACTION_TYPE_SOMEONE_RATE,
 			pollId: res.poll.id,
 			poll: res.poll,
 			GuestId,
@@ -167,14 +195,15 @@ function PollContainer() {
 	// 다른 guest들이 별점매기기를 취소했음을 socket.io 서버로 emit 하면
 	// guest는 아래 함수를 통해 listen하고 있다가
 	// useReduer를 호출하여 투표에 상태를 update 함
-	useSocket("rate/off", res => {
-		if (res.status === "error") {
+
+	useSocket(SOCKET_IO_EVENT_RATE_OFF, res => {
+		if (res.status === SOCKET_IO_RESPONSE_STATE_ERROR) {
 			return;
 		}
 		// 하나의 브라우저에서 여러개의 tab으로 guest들을 생성한 경우,
 		// 해당 guest를 제외한 나머지 guest에 상태가 적용되지 않아서 comment 처리했음
 		dispatch({
-			type: "SOMEONE_RATE",
+			type: POLL_ACTION_TYPE_SOMEONE_RATE,
 			pollId: res.poll.id,
 			poll: res.poll,
 			GuestId,

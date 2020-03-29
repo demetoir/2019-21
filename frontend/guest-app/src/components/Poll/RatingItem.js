@@ -2,6 +2,10 @@ import React from "react";
 import Rating from "@material-ui/lab/Rating";
 import styled from "styled-components";
 import ActiveRating from "./ActiveRating";
+import {
+	POLL_STATE_CLOSED,
+	POLL_STATE_RUNNING,
+} from "../../constants/poll_state.js";
 
 const colorGray3 = "#dee2e6";
 const ColumnWrapper = styled.div`
@@ -27,7 +31,7 @@ function RatingItem({
 }) {
 	return (
 		<ColumnWrapper>
-			{state === "running" && (
+			{state === POLL_STATE_RUNNING && (
 				<ActiveRating
 					id={id}
 					rated={rated}
@@ -38,7 +42,7 @@ function RatingItem({
 					onCancelRating={onCancelRating}
 				/>
 			)}
-			{state === "closed" && (
+			{state === POLL_STATE_CLOSED && (
 				<>
 					<div>{rated === true && "투표했음"}</div>
 					<div>{rated === false && "투표 안했음"}</div>

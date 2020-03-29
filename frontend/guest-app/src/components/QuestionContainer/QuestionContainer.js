@@ -12,9 +12,14 @@ import EditQuestionInputDrawer from "./EditQuestionInputDrawer.js";
 import MyQuestionsDrawer from "./MyQuestionDrawer.js";
 import useUIController from "../../contexts/UIController/useUIController.js";
 import useQuestions from "../../contexts/Questions/useQuestions.js";
+import {
+	QUESTION_ACTION_TYPE_SORT_BY_LIKE_COUNT,
+	QUESTIONS_ACTION_TYPE_SORT_BY_RECENT,
+} from "../../constants/question_action_types.js";
+import {SOCKET_IO_EVENT_QUESTION_REMOVE} from "../../constants/socket.io-event.js";
+import {POPULAR_TAB_IDX, RECENT_TAB_IDX} from "../../constants/Question_tab_inner_TabBar_idx.js";
 
-const RECENT_TAB_IDX = 1;
-const POPULAR_TAB_IDX = 2;
+
 
 const QuestionContainerStyle = styled.div`
 	overflow-y: scroll;
@@ -39,14 +44,22 @@ function QuestionContainer() {
 
 	const onContainerSelectTab = (event, newValue) => {
 		if (newValue === RECENT_TAB_IDX) {
-			dispatch({type: "sortByRecent"});
+			dispatch({type: QUESTIONS_ACTION_TYPE_SORT_BY_RECENT});
 		}
 
 		if (newValue === POPULAR_TAB_IDX) {
-			dispatch({type: "sortByLikeCount"});
+			dispatch({type: QUESTION_ACTION_TYPE_SORT_BY_LIKE_COUNT});
 		}
 
 		selectTabIdx(event, newValue);
+	};
+
+	const onDeleteQuestion = () => {
+		socketClient.emit(
+			SOCKET_IO_EVENT_QUESTION_REMOVE,
+			questionEditMenuReducer.data,
+		);
+		questionEditMenuReducer.setOff();
 	};
 
 	return (
@@ -77,13 +90,7 @@ function QuestionContainer() {
 			<QuestionCardEditMenuDrawer
 				isOpen={questionEditMenuReducer.state}
 				onClose={() => questionEditMenuReducer.setOff()}
-				onDelete={() => {
-					socketClient.emit(
-						"question/remove",
-						questionEditMenuReducer.data,
-					);
-					questionEditMenuReducer.setOff();
-				}}
+				onDelete={onDeleteQuestion}
 				onEdit={() => {
 					editQuestionInputDrawer.setOn(questionEditMenuReducer.data);
 				}}

@@ -2,12 +2,13 @@ import React from "react";
 import {socketClient} from "../../socket.io";
 import QuestionInputDrawer from "./QuestionInputDrawer.js";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
+import {SOCKET_IO_EVENT_QUESTION_UPDATE} from "../../constants/socket.io-event.js";
 
 function EditQuestionInputDrawer({userNameRef, questionRef, toggleReducer}) {
 	const {event, guest} = useGlobalData();
 
 	const onConfirmEditQuestion = () => {
-		socketClient.emit("question/update", {
+		socketClient.emit(SOCKET_IO_EVENT_QUESTION_UPDATE, {
 			id: toggleReducer.data.id,
 			guestName: userNameRef.current.value,
 			EventId: event.id,
