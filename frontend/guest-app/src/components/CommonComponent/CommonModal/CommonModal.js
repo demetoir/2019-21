@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 function CommonModal(props) {
 	const {isOpened, onCancelClick} = props;
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 	const [modalStyle] = React.useState(getModalStyle);
 
 	return (
