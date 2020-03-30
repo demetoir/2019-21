@@ -6,6 +6,7 @@ import LikeButton from "../LikeButton/LikeButton.js";
 import QuestionCardDate from "./QuestionsCardDate.js";
 import QuestionUserName from "./QuestionCardUserName.js";
 
+// todo fix css
 const QuestionInfo = styled.div`
 	display: flex;
 	flex-direction: column;

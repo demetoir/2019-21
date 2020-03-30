@@ -15,7 +15,7 @@ function NamedAvatar({userName, remainder}) {
 			marginLeft: 5,
 		},
 	});
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 	const inner = remainder ? `+${remainder}` : userName.slice(0, 1);
 
 	return <Avatar className={classes.randomAvatar}>{inner}</Avatar>;
@@ -30,7 +30,7 @@ function AnonymousAvatar() {
 			fontSize: "0.5rem",
 		},
 	});
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 
 	return (
 		<Avatar className={classes.avatar}>

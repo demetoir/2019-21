@@ -2,6 +2,7 @@ import React from "react";
 import {socketClient} from "../../socket.io";
 import QuestionInputDrawer from "./QuestionInputDrawer.js";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
+import {SOCKET_IO_EVENT_QUESTION_CREATE} from "../../constants/socket.io-event.js";
 
 function getNewQuestion({EventId, GuestId, guestName, content}) {
 	return {
@@ -18,7 +19,7 @@ function NewQuestionInputDrawer({userNameRef, questionRef, toggleReducer}) {
 
 	const onConfirmNewQuestion = () => {
 		socketClient.emit(
-			"question/create",
+			SOCKET_IO_EVENT_QUESTION_CREATE,
 			getNewQuestion({
 				guestName: userNameRef.current.value,
 				EventId: event.id,

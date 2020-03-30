@@ -5,8 +5,9 @@ import CardContent from "@material-ui/core/CardContent";
 import ReplyInput from "./ReplyInput.js";
 import {socketClient} from "../../socket.io";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
+import {SOCKET_IO_EVENT_QUESTION_CREATE} from "../../constants/socket.io-event.js";
 
-const createNewReply = ({
+const toNewReplyDTO = ({
 	EventId,
 	GuestId,
 	guestName,
@@ -32,8 +33,8 @@ function ReplyInputContainer(props) {
 		}
 
 		socketClient.emit(
-			"question/create",
-			createNewReply({
+			SOCKET_IO_EVENT_QUESTION_CREATE,
+			toNewReplyDTO({
 				guestName: userNameRef.current.value,
 				EventId: event.id,
 				GuestId: guest.id,
@@ -48,7 +49,7 @@ function ReplyInputContainer(props) {
 			<CardContent style={{paddingTop: "1rem", paddingBottom: "0"}}>
 				<ReplyInput
 					onConfirm={onConfirmNewReply}
-					confirmButtonText="댓글달기"
+					confirmButtonText={"댓글달기"}
 					userNameRef={userNameRef}
 					questionRef={questionRef}
 				/>

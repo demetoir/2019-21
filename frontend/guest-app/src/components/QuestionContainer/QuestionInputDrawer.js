@@ -24,6 +24,14 @@ function QuestionInputDrawer(props) {
 		onConfirm,
 	} = props;
 
+	// todo refactoring
+	const onConfirm1 = () => {
+		if (onConfirm && questionRef.current.value.trim() !== "") {
+			onConfirm();
+			onClose();
+		}
+	};
+
 	return (
 		<AppDrawer
 			anchor={anchor}
@@ -34,14 +42,7 @@ function QuestionInputDrawer(props) {
 			<Card style={fullSizeCardStyle}>
 				<CardContent>
 					<QuestionInput
-						onConfirm={() => {
-							if (onConfirm) {
-								if (questionRef.current.value.trim() !== "") {
-									onConfirm();
-									onClose();
-								}
-							}
-						}}
+						onConfirm={onConfirm1}
 						onCancel={onClose}
 						questionRef={questionRef}
 						userNameRef={userNameRef}

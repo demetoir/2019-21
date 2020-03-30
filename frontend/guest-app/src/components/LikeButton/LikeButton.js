@@ -5,6 +5,9 @@ import useCommonModal from "../CommonComponent/CommonModal/useCommonModal.js";
 import UndoLikeConfirmModal from "./LikeUndoModal.js";
 import {socketClient} from "../../socket.io";
 import useGlobalData from "../../contexts/GlobalData/useGlobalData.js";
+import {
+	SOCKET_IO_EVENT,
+} from "../../constants/socket.io-event.js";
 
 function LikeButtonAtom({isLikeClicked, onLikeButtonClicked, likeCount}) {
 	return (
@@ -25,14 +28,14 @@ function LikeButtonAtom({isLikeClicked, onLikeButtonClicked, likeCount}) {
 }
 
 function emitQuestionLikeCreate(GuestId, QuestionId) {
-	socketClient.emit("questionLike/create", {
+	socketClient.emit(SOCKET_IO_EVENT.CREATE_QUESTION_LIKE, {
 		GuestId,
 		QuestionId,
 	});
 }
 
 function emitQuestionLikeRemove(GuestId, QuestionId) {
-	socketClient.emit("questionLike/remove", {
+	socketClient.emit(SOCKET_IO_EVENT.REMOVE_QUESTION_LIKE, {
 		GuestId,
 		QuestionId,
 	});

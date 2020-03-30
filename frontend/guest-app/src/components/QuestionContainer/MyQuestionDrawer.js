@@ -18,6 +18,7 @@ function MyQuestionsDrawer(props) {
 	const {isOpen, onClose} = props;
 	const {guest} = useGlobalData();
 	const {questions, replies} = useQuestions();
+	const myQuestions = questions.filter(x => x.GuestId === guest.id);
 
 	return (
 		<AppDrawer
@@ -27,10 +28,7 @@ function MyQuestionsDrawer(props) {
 			onClose={onClose}
 		>
 			<Scrollbars style={fullSizeCardStyle}>
-				<QuestionCardList
-					questions={questions.filter(x => x.GuestId === guest.id)}
-					replies={replies}
-				/>
+				<QuestionCardList questions={myQuestions} replies={replies} />
 				<PaddingArea />
 			</Scrollbars>
 		</AppDrawer>

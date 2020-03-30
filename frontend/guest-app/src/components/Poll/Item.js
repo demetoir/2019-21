@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import {MdDone, MdPerson} from "react-icons/md";
 
+const colorGray1 = "#f1f3f5";
+const colorGray5 = "#adb5bd";
 const RowWrapper = styled.div`
 	position: relative;
 	display: flex;
@@ -11,7 +13,7 @@ const RowWrapper = styled.div`
 	width: 100%;
 	height: 3rem;
 	box-sizing: border-box;
-	background-color: #f1f3f5; /* Gray1 */
+	background-color: ${colorGray1};
 	& + & {
 		margin-top: 0.5rem;
 	}
@@ -40,7 +42,7 @@ const GraphWrapper = styled.div`
 	top: 0;
 	left: 0;
 	background-color: ${props =>
-		(props.firstPlace ? "yellow" : "#adb5bd")}; /* Gray5 */
+		(props.firstPlace ? "yellow" : colorGray5)}; 
 	height: 100%;
 	width: ${props => props.ratio};
 	box-sizing: border-box;
