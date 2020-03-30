@@ -1,21 +1,12 @@
-import {
-	updateEveryState,
-	updateQuestionById,
-} from "../../../DB/queries/question";
+import {updateQuestionById} from "../../../DB/queries/question";
 import logger from "../../logger.js";
 import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../../constants/socket.ioResponseState.js";
-import {QUESTION_STATE_ACTIVE} from "../../../constants/questionState.js";
 
 const moveQuestionSocketHandler = async (data, emit) => {
 	try {
-		const id = data.id;
-		const state = data.to;
+		const {id, to} = data;
 
-		if (id === "all") {
-			await updateEveryState(QUESTION_STATE_ACTIVE, {state});
-		} else {
-			await updateQuestionById({id, state});
-		}
+		await updateQuestionById({id, state: to});
 
 		emit(data);
 	} catch (e) {

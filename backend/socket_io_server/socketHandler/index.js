@@ -1,3 +1,4 @@
+/* eslint-disable array-element-newline */
 import addEmoji from "./emoji/addEmoji.socketHandler.js";
 import removeEmoji from "./emoji/removeEmoji.socketHandler.js";
 import initOption from "./Event/initOption.socketHandler.js";
@@ -19,6 +20,7 @@ import rateOff from "./Vote/rateOff.socketHandler.js";
 import voteOn from "./Vote/voteOn.socketHandler.js";
 import voteOff from "./Vote/voteOff.socketHandler.js";
 import hello from "./Hello.socketHandler.js";
+import moveQuestions from "./Question/moveQuestions.socketHandler.js";
 
 const socketHandlers = [
 	addEmoji,
@@ -42,6 +44,7 @@ const socketHandlers = [
 	voteOn,
 	voteOff,
 	hello,
+	moveQuestions,
 ];
 
 export default socketHandlers;

@@ -38,7 +38,8 @@ const onQuestionLike = (state, data) => {
 
 const onUndoQuestionLike = (state, data) => {
 	const guestGlobal = data.guestGlobal;
-	const newState = state.map(x => {
+
+	return state.map(x => {
 		const {QuestionId, GuestId} = data;
 
 		if (x.id !== QuestionId) {
@@ -55,8 +56,6 @@ const onUndoQuestionLike = (state, data) => {
 
 		return newX;
 	});
-
-	return newState;
 };
 
 const onAddQuestionEmoji = (state, data) => {
@@ -66,7 +65,7 @@ const onAddQuestionEmoji = (state, data) => {
 
 	newState.forEach(question => {
 		if (question.id !== QuestionId) {
-			return question;
+			return;
 		}
 
 		let isFound = false;
@@ -152,22 +151,26 @@ const onUpdateQuestion = (state, data) => {
 	return newState;
 };
 
-const onMoveQuestion = (state, data) => {
+const onMoveQuestions = (state, data) => {
 	const newState = _.cloneDeep(state);
 
-	if (data.id === "all") {
-		return newState.map(e => {
-			if (e.state === data.from) {
-				e.state = data.to;
-			}
-			return e;
-		});
-	}
+	return newState.map(e => {
+		if (e.state === data.from) {
+			e.state = data.to;
+		}
+
+		return e;
+	});
+};
+
+const onMoveQuestion = (state, data) => {
+	const newState = _.cloneDeep(state);
 
 	return newState.map(e => {
 		if (e.id === data.id) {
 			e.state = data.to;
 		}
+
 		return e;
 	});
 };
@@ -203,6 +206,7 @@ const QuestionsRepliesReducer = (state, action) => {
 		removeQuestion: onRemoveQuestion,
 		updateQuestion: onUpdateQuestion,
 		moveQuestion: onMoveQuestion,
+		moveQuestions: onMoveQuestions,
 		toggleStarQuestion: onToggleStarQuestion,
 	};
 
