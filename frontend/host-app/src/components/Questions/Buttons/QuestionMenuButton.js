@@ -4,7 +4,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {Icon} from "@material-ui/core";
 import useStyle from "./useButtonStyles";
-import {handleQuestionDatas} from "../../EventEmiter/QuestionSocketEventEmiter.js";
+import {handleMoveQuestion} from "../../EventEmiter/QuestionSocketEventEmiter.js";
 
 const ITEM_HEIGHT = 48;
 
@@ -22,7 +22,7 @@ export default function QuestionMenuButton(props) {
 	};
 
 	const handleDelete = () => {
-		handleQuestionDatas(props.data, props.id, props.type, "deleted");
+		handleMoveQuestion(props.data, props.id, props.type, "deleted");
 		handleClose();
 	};
 

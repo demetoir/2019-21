@@ -95,6 +95,12 @@ const useSocketHandler = (dispatch, guestGlobal) => {
 
 		dispatch({type: QUESTION_ACTION_TYPE_TOGGLE_STAR_QUESTION, data: req});
 	});
+
+	useSocket("questions/move", req => {
+		req.guestGlobal = guestGlobal;
+
+		dispatch({type: "moveQuestions", data: req});
+	});
 };
 
 function QuestionsProvider(props) {

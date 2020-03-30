@@ -14,6 +14,10 @@ const useQuestionSocketEventHandler = dispatch => {
 		dispatch({type: "moveQuestion", data: req}),
 	);
 
+	useSocket("questions/move", req =>
+		dispatch({type: "moveQuestions", data: req}),
+	);
+
 	useSocket("question/remove", req =>
 		dispatch({type: "removeQuestion", data: req}),
 	);

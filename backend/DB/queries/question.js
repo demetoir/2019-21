@@ -152,13 +152,7 @@ export async function getQuestionById(id) {
 	return res;
 }
 
-// todo what ???
 // todo implement test code
-export async function updateEveryState(from, {state}) {
-	return Question.update(
-		{
-			state,
-		},
-		{where: {state: from}},
-	);
+export async function updateQuestionsByStateAndEventId({from, to, EventId}) {
+	return Question.update({state: to}, {where: {state: from, EventId}});
 }
