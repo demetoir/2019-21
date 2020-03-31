@@ -8,13 +8,19 @@ const ERROR_MESSAGE = {
 	dateError: "시작날짜를 다시 선택해주세요",
 };
 
-function AlertSnackbar(props) {
-	const {handleClose, open, errorState} = props;
+function getErrorMessage(errorState) {
 	let message = ERROR_MESSAGE.dateError;
 
 	if (errorState.eventName === true) {
 		message = ERROR_MESSAGE.nameError;
 	}
+
+	return message;
+}
+
+function AlertSnackbar(props) {
+	const {handleClose, open, errorState} = props;
+	const errorMsg = getErrorMessage(errorState);
 
 	return (
 		<Snackbar
@@ -22,13 +28,11 @@ function AlertSnackbar(props) {
 				vertical: "bottom",
 				horizontal: "center",
 			}}
-			open={open}
 			autoHideDuration={6000}
-			onClose={handleClose}
 			ContentProps={{
 				"aria-describedby": "can't create event",
 			}}
-			message={<span id="message-id">{message}</span>}
+			message={<span id="message-id">{errorMsg}</span>}
 			action={[
 				<IconButton
 					key="close"
@@ -39,6 +43,8 @@ function AlertSnackbar(props) {
 					<CloseIcon />
 				</IconButton>,
 			]}
+			open={open}
+			onClose={handleClose}
 		/>
 	);
 }
