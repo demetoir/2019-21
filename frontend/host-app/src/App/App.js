@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "./App.css";
 import Header from "../components/Header/Header";
-import NavBar from "../components/NavBar/NavBar.js";
+import AppBody from "./AppBody.js";
 import {HostProvider} from "../libs/hostContext";
 import {socketClient} from "../libs/socket.io-Client-wrapper";
 import {compareCurrentDateToTarget} from "../libs/utils";
@@ -43,7 +43,7 @@ function App(props) {
 		<HostProvider value={hostProviderValue}>
 			<div className="App">
 				<Header />
-				<NavBar eventNum={activeEventsNum} />
+				<AppBody eventNum={activeEventsNum} />
 			</div>
 		</HostProvider>
 	);
