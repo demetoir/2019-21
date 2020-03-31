@@ -1,9 +1,10 @@
 import React, {useReducer, useState} from "react";
 import Column from "./Column";
-import {ContentStyle} from "./ComponentsStyle";
+import {ColumnContainerStyle} from "./ComponentsStyle";
 import QuestionsReducer from "../Questions/QuestionReducer";
 import useQuestionSocketEventHandler from "../EventHandler/useQuestionSocketEventHandler";
 import useModerationEventHandler from "../EventHandler/useModerationEventHandler";
+import ColumnTypes from "./ColumnTypes.js";
 
 function EventDashboard({data, option}) {
 	const questions = data;
@@ -16,20 +17,16 @@ function EventDashboard({data, option}) {
 	useQuestionSocketEventHandler(dispatch);
 	useModerationEventHandler(setModeration);
 
-	const columnTypes = ["moderation", "newQuestion", "popularQuestion", "completeQuestion"];
+	const common = {state: moderationState, data: questionsStore};
 
 	return (
-		<ContentStyle>
-			{columnTypes.map((e, i) => (
-				<Column
-					type={e}
-					state={moderationState}
-					data={questionsStore}
-					key={i}
-				/>
-			))}
-			<Column type="poll" data={{questions: []}}/>
-		</ContentStyle>
+		<ColumnContainerStyle>
+			<Column type={ColumnTypes.MODERATION} {...common} />
+			<Column type={ColumnTypes.NEW_QUESTION} {...common} />
+			<Column type={ColumnTypes.POPULAR_QUESTION} {...common} />
+			<Column type={ColumnTypes.COMPLETE_QUESTION} {...common} />
+			<Column type={ColumnTypes.POLL} data={{questions: []}} />
+		</ColumnContainerStyle>
 	);
 }
 
