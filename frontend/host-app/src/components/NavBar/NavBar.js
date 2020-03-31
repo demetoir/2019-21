@@ -20,7 +20,7 @@ const NAV_BAR_DEFAULT_TAB_IDX = 0;
 function NavBar(props) {
 	const {eventNum} = props;
 	const [tabIdx, selectTab] = useState(0);
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 
 	const onChange = (e, selectedTabIdx) => {
 		selectTab(selectedTabIdx);

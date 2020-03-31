@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function TitleBadge({dataLength, type}) {
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 
 	return (
 		<Badge
