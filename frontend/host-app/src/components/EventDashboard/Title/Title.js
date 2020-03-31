@@ -13,6 +13,7 @@ const isModeration = type => type === ColumnTypes.MODERATION;
 
 function Title({data, type, state}) {
 	const {events} = useContext(HostContext);
+	// todo fix to global current Event Id
 	const eventId = events[0].id;
 
 	return (

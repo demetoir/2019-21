@@ -21,6 +21,7 @@ const CustomChip = styled(Chip)({
 
 function HashTagField(props) {
 	const {hashTags, dispatch} = props;
+	// todo 이 부분은 reducer가 해야야할일이다
 	const deleteHashTag = hashTagToDelete => () => {
 		const isDeletedHashTag = hashTag => hashTag.key !== hashTagToDelete.key;
 		const deletedHashTagList = hashTags.filter(isDeletedHashTag);

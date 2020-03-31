@@ -37,6 +37,7 @@ function InputStartDate(props) {
 	const {startDate, dispatch, errorState} = props;
 	const [lastTime, setLastTime] = useState(defaultInputTime);
 
+	// todo do some thing
 	const calcEndDate = (lastTime, startTime = startDate) => {
 		const hour = moment(lastTime).format("HH");
 		const minute = moment(lastTime).format("mm");
