@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./App.css";
-import Header from "../components/Header/Header";
+import AppHeader from "./AppHeader/AppHeader.js";
 import AppBody from "./AppBody.js";
 import {HostProvider} from "../libs/hostContext";
 import {socketClient} from "../libs/socket.io-Client-wrapper";
@@ -42,7 +42,7 @@ function App(props) {
 	return (
 		<HostProvider value={hostProviderValue}>
 			<div className="App">
-				<Header />
+				<AppHeader />
 				<AppBody eventNum={activeEventsNum} />
 			</div>
 		</HostProvider>
