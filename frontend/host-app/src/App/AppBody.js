@@ -1,8 +1,8 @@
 import React from "react";
-import EventDashboard from "../components/EventDashboard/EventDashboard.js";
 import EmptyContent from "../components/EventDashboard/EmptyContent.js";
 import NavBar from "../components/NavBar/NavBar.js";
 import useNavBar from "../components/NavBar/useNavBar.js";
+import EventDashboardLoadingWrapper from "../components/EventDashboard/EventDashboardLoadingWrapper.js";
 
 function AppBody(props) {
 	const {eventNum} = props;
@@ -12,7 +12,7 @@ function AppBody(props) {
 		<>
 			<NavBar onChange={onChange} tabIdx={tabIdx} />
 			{eventNum ? (
-				<EventDashboard value={tabIdx} index={0} />
+				<EventDashboardLoadingWrapper value={tabIdx} index={0} />
 			) : (
 				<EmptyContent value={tabIdx} index={0} />
 			)}
