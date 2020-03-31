@@ -1,13 +1,15 @@
 import React, {useContext} from "react";
-import {TitleStyle, TitleBox, RightSide} from "../ComponentsStyle";
+import {RightSide, TitleBox, TitleStyle} from "../ComponentsStyle";
 import CompleteAllQuestionButton from "../Buttons/CompleteAllQuestionButton";
 import TitleBadge from "./TitleBadge";
 import {HostContext} from "../../../libs/hostContext";
 import titleNameMap from "./titleNameMap";
 import ModerationButton from "../Buttons/ModerationButton";
+import ColumnTypes from "../ColumnTypes.js";
 
-const isActive = type => (type === "newQuestion" || type === "popularQuestion");
-const isModeration = type => (type === "moderation");
+const isActive = type =>
+	type === ColumnTypes.NEW_QUESTION || type === ColumnTypes.POPULAR_QUESTION;
+const isModeration = type => type === ColumnTypes.MODERATION;
 
 function Title({data, type, state}) {
 	const {events} = useContext(HostContext);
