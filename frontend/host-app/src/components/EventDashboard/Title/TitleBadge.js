@@ -14,11 +14,12 @@ function TitleBadge({dataLength, type}) {
 
 	return (
 		<Badge
+			showZero
 			color="secondary"
 			badgeContent={isPoll(type) ? "P" : dataLength}
-			showZero
 			className={classes.margin}
-			children={""}/>
+			children={""}
+		/>
 	);
 }
 

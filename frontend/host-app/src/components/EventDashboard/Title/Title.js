@@ -16,11 +16,15 @@ function Title({data, type, state}) {
 	return (
 		<>
 			<TitleBox>
-				<TitleBadge dataLength={data.questions.length} type={type}/>
+				<TitleBadge dataLength={data.questions.length} type={type} />
 				<TitleStyle>{titleNameMap[type]}</TitleStyle>
 				<RightSide>
-					{ isModeration(type) && <ModerationButton state={state} eventId={eventId}/>}
-					{ isActive(type) && <CompleteAllQuestionButton data={data}/>}
+					{isModeration(type) && (
+						<ModerationButton state={state} eventId={eventId} />
+					)}
+					{isActive(type) && (
+						<CompleteAllQuestionButton data={data} />
+					)}
 				</RightSide>
 			</TitleBox>
 		</>
