@@ -22,9 +22,8 @@ const CustomChip = styled(Chip)({
 function HashTagField(props) {
 	const {hashTags, dispatch} = props;
 	const deleteHashTag = hashTagToDelete => () => {
-		const deletedHashTagList = hashTags.filter(
-			hashTag => hashTag.key !== hashTagToDelete.key,
-		);
+		const isDeletedHashTag = hashTag => hashTag.key !== hashTagToDelete.key;
+		const deletedHashTagList = hashTags.filter(isDeletedHashTag);
 
 		dispatch({
 			type: SET_PROPERTY,
@@ -36,14 +35,14 @@ function HashTagField(props) {
 	return (
 		<Scrollbars>
 			<MyPaper>
-				{hashTags.map(data => (
+				{hashTags.map(hashTag => (
 					<CustomChip
 						icon={<LocalOfferIcon />}
 						color="primary"
 						variant="outlined"
-						key={data.key}
-						label={data.label}
-						onDelete={deleteHashTag(data)}
+						key={hashTag.key}
+						label={hashTag.label}
+						onDelete={deleteHashTag(hashTag)}
 					/>
 				))}
 			</MyPaper>
