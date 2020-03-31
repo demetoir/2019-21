@@ -1,54 +1,32 @@
-import React, {useState, useContext, useReducer} from "react";
+import React, {useReducer, useState} from "react";
 import Column from "./Column";
-import useQueryQuestions from "../../libs/useQueryQuestions";
-import {HostContext} from "../../libs/hostContext";
-import {ContentStyle} from "./ComponentsStyle";
+import {ColumnContainerStyle} from "./ComponentsStyle";
 import QuestionsReducer from "../Questions/QuestionReducer";
-import SkeletonContent from "../Skeleton/SkeletonContent";
 import useQuestionSocketEventHandler from "../EventHandler/useQuestionSocketEventHandler";
 import useModerationEventHandler from "../EventHandler/useModerationEventHandler";
+import ColumnTypes from "./ColumnTypes.js";
 
-function Inner({data, option}) {
-	const [moderationState, setModeration] = useState(option.moderationOption);
-	const [questions, dispatch] = useReducer(QuestionsReducer, {
-		questions: data,
+function EventDashboard({data, option}) {
+	const questions = data;
+
+	const [questionsStore, dispatch] = useReducer(QuestionsReducer, {
+		questions,
 	});
-	const columnTypes = ["moderation", "newQuestion", "popularQuestion", "completeQuestion"];
+	const [moderationState, setModeration] = useState(option.moderationOption);
 
 	useQuestionSocketEventHandler(dispatch);
 	useModerationEventHandler(setModeration);
 
-	return (
-		<ContentStyle>
-			{columnTypes.map((e, i) => (
-				<Column
-					type={e}
-					state={moderationState}
-					data={questions}
-					key={i}
-				/>
-			))}
-			<Column type="poll" data={{questions: []}} />
-		</ContentStyle>
-	);
-}
-
-function EventDashboard(props) {
-	const {value, index} = props;
-	const {events} = useContext(HostContext);
-	const {loading, error, data} = useQueryQuestions({
-		variables: {EventId: events[0].id},
-	});
-
-	if (loading) return <SkeletonContent />;
-	if (error) return <p>Error :(</p>;
+	const common = {state: moderationState, data: questionsStore};
 
 	return (
-		<>
-			{value === index && (
-				<Inner data={data.newData} option={data.newOption} />
-			)}
-		</>
+		<ColumnContainerStyle>
+			<Column type={ColumnTypes.MODERATION} {...common} />
+			<Column type={ColumnTypes.NEW_QUESTION} {...common} />
+			<Column type={ColumnTypes.POPULAR_QUESTION} {...common} />
+			<Column type={ColumnTypes.COMPLETE_QUESTION} {...common} />
+			<Column type={ColumnTypes.POLL} data={{questions: []}} />
+		</ColumnContainerStyle>
 	);
 }
 

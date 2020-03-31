@@ -72,6 +72,7 @@ export function JSONNestJoin2(parents, children, parentKey, childKey, func) {
 		const joinValue = parent[parentKey];
 		if (mapped[joinValue]) {
 			const childElement = mapped[joinValue];
+			// noinspection JSUnusedAssignment
 			parent = func(parent, childElement);
 		}
 	});

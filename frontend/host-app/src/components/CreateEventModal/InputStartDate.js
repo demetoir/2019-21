@@ -12,6 +12,9 @@ import {validDate} from "../../libs/eventValidation";
 import {SET_ERROR_STATE, SET_PROPERTY} from "./eventModalActions.js";
 
 const marginTopLength = 20;
+const defaultInputTime = new Date().setHours(1, 0);
+const dateTimePickerFormat = "yyyy년 MM월 dd일 HH시 mm분";
+const timePickerFormat = "HH시간 mm분";
 
 const CustomContainer = styled(Container)({
 	display: "flex",
@@ -32,8 +35,9 @@ const CustomTimePicker = styled(TimePicker)({
 
 function InputStartDate(props) {
 	const {startDate, dispatch, errorState} = props;
-	const [lastTime, setLastTime] = useState(new Date().setHours(1, 0));
+	const [lastTime, setLastTime] = useState(defaultInputTime);
 
+	// todo do some thing
 	const calcEndDate = (lastTime, startTime = startDate) => {
 		const hour = moment(lastTime).format("HH");
 		const minute = moment(lastTime).format("mm");
@@ -73,17 +77,17 @@ function InputStartDate(props) {
 					label="시작날짜"
 					error={errorState.date}
 					value={startDate}
-					format={"yyyy년 MM월 dd일 HH시 mm분"}
+					format={dateTimePickerFormat}
 					onChange={setDate}
 				/>
 				<CustomTimePicker
 					clearable
 					ampm={false}
 					label="유효시간"
-					value={lastTime}
-					onChange={calcEndDate}
-					format={"HH시간 mm분"}
 					minutesStep={5}
+					value={lastTime}
+					format={timePickerFormat}
+					onChange={calcEndDate}
 				/>
 			</MuiPickersUtilsProvider>
 		</CustomContainer>

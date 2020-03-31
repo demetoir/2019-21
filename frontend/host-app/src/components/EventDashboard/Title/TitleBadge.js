@@ -1,8 +1,10 @@
-import Badge from "@material-ui/core/Badge/Badge";
 import React from "react";
+import Badge from "@material-ui/core/Badge/Badge";
 import {makeStyles} from "@material-ui/core";
+import ColumnTypes from "../ColumnTypes.js";
 
-const isPoll = type => type === "poll";
+const isPoll = type => type === ColumnTypes.POLL;
+
 const useStyles = makeStyles(theme => ({
 	margin: {
 		margin: theme.spacing(2),
@@ -10,15 +12,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function TitleBadge({dataLength, type}) {
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 
 	return (
 		<Badge
+			showZero
 			color="secondary"
 			badgeContent={isPoll(type) ? "P" : dataLength}
-			showZero
 			className={classes.margin}
-			children={""}/>
+			children={""}
+		/>
 	);
 }
 

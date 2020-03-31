@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {MockedProvider} from "@apollo/react-testing";
-import App from "./App.js";
+import AppLoadingWrapper from "./AppLoadingWrapper.js";
 
 it("renders loading page without crashing", () => {
 	const div = document.createElement("div");
 
 	ReactDOM.render(
 		<MockedProvider mocks={[]}>
-			<App/>
+			<AppLoadingWrapper/>
 		</MockedProvider>,
 		div);
 	ReactDOM.unmountComponentAtNode(div);

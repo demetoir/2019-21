@@ -12,6 +12,19 @@ const CustomTextField = styled(TextField)({
 function InputEventName(props) {
 	const {dispatch, errorState, eventName} = props;
 
+	const onChange = event => {
+		dispatch({
+			type: SET_ERROR_STATE,
+			property: "eventName",
+			value: !validEventName(event.target.value),
+		});
+		dispatch({
+			type: SET_PROPERTY,
+			property: "eventName",
+			value: event.target.value,
+		});
+	};
+
 	return (
 		<CustomTextField
 			id="eventName"
@@ -19,18 +32,7 @@ function InputEventName(props) {
 			color="primary"
 			error={errorState.eventName}
 			value={eventName}
-			onChange={event => {
-				dispatch({
-					type: SET_ERROR_STATE,
-					property: "eventName",
-					value: !validEventName(event.target.value),
-				});
-				dispatch({
-					type: SET_PROPERTY,
-					property: "eventName",
-					value: event.target.value,
-				});
-			}}
+			onChange={onChange}
 			autoFocus
 		/>
 	);

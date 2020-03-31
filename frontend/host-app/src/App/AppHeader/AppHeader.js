@@ -4,9 +4,9 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import HeaderAccountAvatar from "./HeaderAccountAvatar.js";
-import HeaderConfigAvatar from "./HeaderConfigAvatar";
-import EventSettingModal from "../EventSettingModal/EventSettingModal";
-import useModal from "../../customhook/useModal";
+import HeaderConfigAvatar from "./HeaderConfigAvatar.js";
+import EventSettingModal from "../../components/EventSettingModal/EventSettingModal.js";
+import useModal from "../../customhook/useModal.js";
 
 const useStyles = makeStyles(() => ({
 	header: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-function Header() {
+function AppHeader() {
 	const [settingModalOpen, handleOpen, handleClose] = useModal();
 	const classes = useStyles(undefined);
 
@@ -41,4 +41,4 @@ function Header() {
 	);
 }
 
-export default Header;
+export default AppHeader;
