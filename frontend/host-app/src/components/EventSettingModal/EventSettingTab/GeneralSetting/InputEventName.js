@@ -9,6 +9,7 @@ const CustomTextField = styled(TextField)({
 
 function InputEventName(props) {
 	const errorState = !validEventName(props.eventName);
+
 	return (
 		<CustomTextField
 			error={errorState}

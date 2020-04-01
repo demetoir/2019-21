@@ -11,5 +11,4 @@ function EventName(props) {
 	);
 }
 
-
 export default EventName;

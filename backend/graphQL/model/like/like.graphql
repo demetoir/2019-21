@@ -2,6 +2,6 @@ type didILike {
 	QuestionId: ID!
 }
 
-type Query {
+extend type Query {
 	didILikes(GuestId: ID!): [didILike]!
 }

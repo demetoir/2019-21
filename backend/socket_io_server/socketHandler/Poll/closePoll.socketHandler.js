@@ -1,29 +1,35 @@
 import {closePoll} from "../../../DB/queries/poll";
 import logger from "../../logger.js";
+import {
+	SOCKET_IO_RESPONSE_STATE_ERROR,
+	SOCKET_IO_RESPONSE_STATE_OK,
+} from "../../../constants/socket.ioResponseState.js";
 
 const closePollSocketHandler = async (data, emit) => {
 	try {
-		let status = "ok";
+		let status = SOCKET_IO_RESPONSE_STATE_OK;
 		const {pollId} = data;
 
-		const result = await closePoll(pollId);
+		const affectedRows = await closePoll(pollId);
 
-		if (result[0] !== 1) {
+		if (affectedRows !== 1) {
 			logger.error(
-				`Something wrong with poll/close: affected number of rows = ${result[0]}`,
+				`Something wrong with poll/close: affected number of rows = ${affectedRows}`,
 			);
-			status = "error";
+
+			status = SOCKET_IO_RESPONSE_STATE_ERROR;
 		}
+
 		emit({status, pollId});
 	} catch (e) {
 		logger.error(e);
-		emit({status: "error", e});
+
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 
 const eventName = "poll/close";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: closePollSocketHandler,

@@ -9,7 +9,7 @@ function EmojiPickerModal({open, onClose, onSelect}) {
 		<Picker
 			style={{position: "absolute", bottom: "20px", right: "20px"}}
 			onSelect={onSelect}
-			title="Pick your emoji…"
+			title="Pick your emoji"
 			custom={customEmojis}
 		/>
 	</Modal>;

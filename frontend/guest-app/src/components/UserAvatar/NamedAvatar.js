@@ -12,7 +12,7 @@ function NamedAvatar({userName}) {
 			backgroundColor: randomMC.getColor({text: userName}),
 		},
 	});
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 	const inner = userName.slice(0, 1);
 
 	return <Avatar className={classes.randomAvatar}>{inner}</Avatar>;

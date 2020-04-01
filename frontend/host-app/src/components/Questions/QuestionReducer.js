@@ -11,32 +11,34 @@ const QuestionsReducer = (state, action) => {
 
 			return {questions: [...newData]};
 		},
+		moveQuestions: () => {
+			const newData = state.questions.map(e => {
+				if (e.state === action.data.from) {
+					e.state = action.data.to;
+				}
+
+				return e;
+			});
+
+			return {questions: [...newData]};
+		},
 		moveQuestion: () => {
-			let newData = [];
+			const newData = state.questions.map(e => {
+				if (e.id === action.data.id) {
+					e.state = action.data.to;
+				}
 
-			if (action.data.id === "all") {
-				newData = state.questions.map(e => {
-					if (e.state === action.data.from) {
-						e.state = action.data.to;
-					}
-
-					return e;
-				});
-			} else {
-				newData = state.questions.map(e => {
-					if (e.id === action.data.id) {
-						e.state = action.data.to;
-					}
-
-					return e;
-				});
-			}
+				return e;
+			});
 
 			return {questions: [...newData]};
 		},
 		updateQuestion: () => {
 			const newData = state.questions.map(e => {
-				if (e.id === action.data.id) { e.content = action.data.content; }
+				if (e.id === action.data.id) {
+					e.content = action.data.content;
+				}
+
 				return e;
 			});
 

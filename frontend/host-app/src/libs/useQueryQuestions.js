@@ -8,7 +8,6 @@ function buildQuestions(object) {
 	let {questions, emojis, guests,} = copyData;
 
 	questions = JSONNestJoin2(questions, guests, "GuestId", "id", (a, b) => {
-
 		a.guestName = b.name;
 		a.isAnonymous = b.isAnonymous;
 
@@ -17,17 +16,20 @@ function buildQuestions(object) {
 
 	questions = questions.map(x => {
 		x.didILike = false;
+
 		return x;
 	});
 
 	emojis = emojis.map(x => {
 		x.key = `${x.QuestionId}_${x.name}`;
 		x.didIPick = false;
+
 		return x;
 	});
 
 	questions = JSONNestJoin(questions, emojis, "id", "QuestionId", (a, b) => {
 		a.emojis = b;
+
 		return a;
 	});
 
@@ -75,6 +77,7 @@ export default function useQueryQuestions(
 	const {data, loading, error} = useQuery(QUERY_INIT_QUESTIONS, options);
 	let newData = undefined;
 	let newOption = undefined;
+
 	if (data) {
 		newOption = data.getEventOption;
 		newData = buildQuestions(data);

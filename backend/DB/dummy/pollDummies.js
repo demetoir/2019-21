@@ -1,5 +1,11 @@
 import faker from "faker";
 import config from "./initialConfig";
+import {POLL_TYPE_N_ITEMS, POLL_TYPE_RATING} from "../../constants/pollType.js";
+import {
+	POLL_SELECTION_TYPE_DATE,
+	POLL_SELECTION_TYPE_TEXT,
+} from "../../constants/pollSelectionType.js";
+import {POLL_STATE_CLOSED} from "../../constants/pollState.js";
 
 const {INIT_SEED, EVENT_NUM, POLL_NUM} = config;
 
@@ -16,18 +22,18 @@ export default function makePollDummy(number = POLL_NUM) {
 		let selectionType;
 
 		if (type === 0) {
-			pollType = "nItems";
-			selectionType = "text";
+			pollType = POLL_TYPE_N_ITEMS;
+			selectionType = POLL_SELECTION_TYPE_TEXT;
 		} else if (type === 1) {
-			pollType = "nItems";
-			selectionType = "date";
+			pollType = POLL_TYPE_N_ITEMS;
+			selectionType = POLL_SELECTION_TYPE_DATE;
 		} else {
-			pollType = "rating";
+			pollType = POLL_TYPE_RATING;
 			selectionType = Number(10).toString();
 		}
 
 		const allowDuplication = faker.random.boolean();
-		const state = "closed";
+		const state = POLL_STATE_CLOSED;
 		const createdAt = faker.date.past(1);
 		const updatedAt = createdAt;
 		const pollDate = createdAt;

@@ -1,11 +1,8 @@
-import React, {useState} from "react";
+import React from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import NavBarTab from "./NavBarTab.js";
 import NavBarTabs from "./NavBarTabs.js";
-import EventDashboard from "../EventDashboard/EventDashboard";
-import EventCardList from "../Event/EventCardList";
-import EmptyContent from "../EventDashboard/EmptyContent";
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -16,32 +13,18 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-const NAV_BAR_DEFAULT_TAB_IDX = 0;
-
 function NavBar(props) {
-	const {eventNum} = props;
-	const [tabIdx, selectTab] = useState(0);
-	const classes = useStyles();
-
-	const onChange = (e, selectedTabIdx) => {
-		selectTab(selectedTabIdx);
-	};
+	const {tabIdx, onChange} = props;
+	const classes = useStyles(undefined);
 
 	return (
-		<>
-			<div className={classes.root}>
-				<div className={classes.navBar}>
-					<NavBarTabs value={tabIdx} onChange={onChange}>
-						<NavBarTab label="라이브 이벤트" />
-					</NavBarTabs>
-				</div>
+		<div className={classes.root}>
+			<div className={classes.navBar}>
+				<NavBarTabs value={tabIdx} onChange={onChange}>
+					<NavBarTab label="라이브 이벤트" />
+				</NavBarTabs>
 			</div>
-			{eventNum ? (
-				<EventDashboard value={tabIdx} index={0} />
-			) : (
-				<EmptyContent value={tabIdx} index={0} />
-			)}
-		</>
+		</div>
 	);
 }
 
@@ -52,7 +35,7 @@ NavBar.propTypes = {
 
 NavBar.defaultProps = {
 	onChange: undefined,
-	tabIdx: NAV_BAR_DEFAULT_TAB_IDX,
+	tabIdx: 0,
 };
 
 export default NavBar;

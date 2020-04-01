@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
 function EventCard(props) {
 	const className = "none";
-	const classes = useStyles();
+	const classes = useStyles(undefined);
 	const {isLive} = props;
 
 	return (

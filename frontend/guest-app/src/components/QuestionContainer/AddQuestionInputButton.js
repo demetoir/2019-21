@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {Card, CardContent} from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 
+const backgroundColorBlue = "#3f51b5";
 const cardStyle = {
 	width: "calc(100% - 2rem)",
 	position: "fixed",
@@ -10,7 +11,7 @@ const cardStyle = {
 	left: "0rem",
 	zIndex: 100,
 	margin: "1rem",
-	backgroundColor: "#3f51b5",
+	backgroundColor: backgroundColorBlue,
 	cursor: "pointer",
 };
 

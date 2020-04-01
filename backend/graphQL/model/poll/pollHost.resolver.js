@@ -1,13 +1,14 @@
 import {getPollsByEventId} from "../../../DB/queries/poll.js";
-import {getCandidatesByPolls, setPollItems, simplifyList} from "./resolveHelper.js";
+import {getCandidatesByPolls, setPollItems} from "./resolveHelper.js";
 
 /**
  *
+ * @param _
  * @param {int} EventId
  *
  * Yoga Resolver
  */
-async function pollHostResolver(EventId) {
+async function pollHostResolver(_, {EventId}) {
 	/**
 	 * getEventIdByEventCode(eventCode)
 	 * getPollsByEventId(event.id)
@@ -17,17 +18,14 @@ async function pollHostResolver(EventId) {
 
 	let polls = await getPollsByEventId(EventId);
 
-	polls = simplifyList(polls);
-
 	const candidates = await getCandidatesByPolls(polls);
 
 	polls = await setPollItems(polls, candidates);
 	return polls;
 }
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
-		pollHost: (_, {EventId}) => pollHostResolver(EventId),
+		pollHost: pollHostResolver,
 	},
 };

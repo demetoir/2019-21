@@ -1,19 +1,22 @@
 import logger from "../../logger.js";
+import {
+	SOCKET_IO_RESPONSE_STATE_ERROR,
+	SOCKET_IO_RESPONSE_STATE_OK,
+} from "../../../constants/socket.ioResponseState.js";
 
 const notifyPollCloseSocketHandler = async (data, emit) => {
 	try {
 		const {pollId} = data;
 
-		emit({status: "ok", pollId});
+		emit({status: SOCKET_IO_RESPONSE_STATE_OK, pollId});
 	} catch (e) {
 		logger.error(e);
-		emit({status: "error", e});
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 
 const eventName = "poll/notify_close";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: notifyPollCloseSocketHandler,

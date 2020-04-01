@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import {styled} from "@material-ui/core/styles";
 import {Typography} from "@material-ui/core";
 
+const colorBlue = "#3f51b5";
 const TextField = styled(Typography)({
 	marginLeft: 10,
 	textAlign: "center",
 	textDecoration: "none",
 	cursor: "pointer",
 	"&:hover": {
-		color: "#3f51b5",
+		color: colorBlue,
 	},
 });
 

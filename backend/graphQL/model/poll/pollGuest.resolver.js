@@ -3,10 +3,9 @@ import {
 	getCandidateList,
 	getCandidatesByPolls,
 	setPollItems,
-	simplifyList,
 } from "./resolveHelper.js";
 import {getPollsByEventId} from "../../../DB/queries/poll.js";
-
+import {POLL_TYPE_RATING} from "../../../constants/pollType.js";
 
 // todo 이함수 동장이 무엇인지 알아내기
 // noinspection JSClosureCompilerSyntax,JSCommentMatchesSignature
@@ -21,7 +20,7 @@ const setVotedOnCandidate = (poll, votedList) => {
 	poll.nItems.forEach((item, index) => {
 		if (votedList.includes(item.id)) {
 			item.voted = true;
-			if (poll.pollType === "rating") {
+			if (poll.pollType === POLL_TYPE_RATING) {
 				poll.rated = true;
 				poll.ratingValue = index + 1;
 				// console.log("Rated", poll.id, poll.ratingValue, poll.rated);
@@ -46,7 +45,6 @@ async function setVotedOnPolls(polls, guestId) {
 		// eslint-disable-next-line no-await-in-loop
 		let votedList = await getCandidatesByGuestId(candidateList, guestId);
 
-		votedList = simplifyList(votedList);
 		votedList = votedList.map(n => n.CandidateId);
 		setVotedOnCandidate(poll, votedList);
 	}
@@ -56,12 +54,13 @@ async function setVotedOnPolls(polls, guestId) {
 
 /**
  *
+ * @param _
  * @param {int} EventId
  * @param {int} guestId
  *
  * Yoga Resolver
  */
-async function pollGuestResolver(EventId, guestId) {
+async function pollGuestResolver(_, {EventId, guestId}) {
 	/**
 	 * getEventIdByEventCode(eventCode)
 	 * getPollsByEventId(event.id)
@@ -71,8 +70,6 @@ async function pollGuestResolver(EventId, guestId) {
 
 	let polls = await getPollsByEventId(EventId);
 
-	polls = simplifyList(polls);
-
 	const candidates = await getCandidatesByPolls(polls);
 
 	polls = await setPollItems(polls, candidates);
@@ -81,10 +78,8 @@ async function pollGuestResolver(EventId, guestId) {
 	return polls;
 }
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
-		pollGuest: (_, {EventId, guestId}) =>
-			pollGuestResolver(EventId, guestId),
+		pollGuest: pollGuestResolver,
 	},
 };

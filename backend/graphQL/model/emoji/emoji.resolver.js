@@ -1,15 +1,21 @@
-import {getEmojiCountByEventIdGroupByQuestionId, getEmojiPick} from "../../../DB/queries/emoji.js";
+import {
+	getEmojiCountByEventIdGroupByQuestionId,
+	getEmojiPick,
+} from "../../../DB/queries/emoji.js";
 
-const emojiResolver = async EventId => getEmojiCountByEventIdGroupByQuestionId({EventId});
+const emojisResolver = async (_, {EventId}) => {
+	const res = await getEmojiCountByEventIdGroupByQuestionId({EventId});
 
-const emojiPickResolver = async (EventId, GuestId) =>
+	// convert type of createdAt from date to ISOString
+	return res.map(x => ({...x, createdAt: x.createdAt.toISOString()}));
+};
+
+const emojiPickResolver = async (_, {EventId, GuestId}) =>
 	getEmojiPick({EventId, GuestId});
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
-		emojis: (_, {EventId}) => emojiResolver(EventId),
-		emojiPicks: (_, {EventId, GuestId}) =>
-			emojiPickResolver(EventId, GuestId),
+		emojis: emojisResolver,
+		emojiPicks: emojiPickResolver,
 	},
 };

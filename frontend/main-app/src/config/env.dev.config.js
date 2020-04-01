@@ -1,7 +1,9 @@
+const baseURL = "http://localhost:3001";
+
 const config = {
-	authLoginURL: "http://localhost:3001/auth/login",
-	guestAppURL: "http://localhost:3001/guest",
-	hostAppURL: "http://localhost:3001/host",
+	authLoginURL: `${baseURL}/auth/login`,
+	guestAppURL: `${baseURL}/guest`,
+	hostAppURL: `${baseURL}/host`,
 };
 
 export default config;

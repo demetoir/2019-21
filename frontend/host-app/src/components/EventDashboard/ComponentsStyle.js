@@ -65,7 +65,7 @@ const EmptyContentDiv = styled.div`
 	}
 `;
 
-const ContentStyle = styled.div`
+const ColumnContainerStyle = styled.div`
 	display: flex;
 	flex-direction: row;
 	flex: 1;
@@ -119,7 +119,7 @@ export {
 	RightSide,
 	EmptyContentBox,
 	EmptyContentDiv,
-	ContentStyle,
+	ColumnContainerStyle,
 	QuestionStyle,
 	ModerationStyle,
 };

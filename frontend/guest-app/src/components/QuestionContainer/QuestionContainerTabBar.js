@@ -6,9 +6,7 @@ import Tabs from "@material-ui/core/Tabs";
 import gray from "@material-ui/core/colors/grey.js";
 import PropTypes from "prop-types";
 import useQuestions from "../../contexts/Questions/useQuestions.js";
-
-const RECENT_TAB_IDX = 1;
-const POPULAR_TAB_IDX = 2;
+import {POPULAR_TAB_IDX, RECENT_TAB_IDX} from "../../constants/Question_tab_inner_TabBar_idx.js";
 
 function QuestionContainerTabBar(props) {
 	const {questions} = useQuestions();

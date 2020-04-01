@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
 import models from "../models";
 import logger from "../logger.js";
+import {QUESTION_STATE_ACTIVE} from "../../constants/questionState.js";
 
 const sequelize = models.sequelize;
 const Op = Sequelize.Op;
@@ -21,7 +22,7 @@ export async function createQuestion({
 	content,
 	GuestId,
 	QuestionId,
-	state = "active",
+	state = QUESTION_STATE_ACTIVE,
 }) {
 	const res = await Question.create({
 		content,
@@ -151,12 +152,7 @@ export async function getQuestionById(id) {
 	return res;
 }
 
-// todo what ???
-export async function updateEveryState(from, {state}) {
-	return Question.update(
-		{
-			state,
-		},
-		{where: {state: from}},
-	);
+// todo implement test code
+export async function updateQuestionsByStateAndEventId({from, to, EventId}) {
+	return Question.update({state: to}, {where: {state: from, EventId}});
 }

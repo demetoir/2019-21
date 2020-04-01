@@ -1,7 +1,7 @@
 import assert from "assert";
 import {before, describe, it} from "mocha";
 import {
-	createEvent,
+	findOrCreateEvent,
 	getAllEvents,
 	getEventByEventCode,
 	getEventById,
@@ -21,7 +21,7 @@ describe("event query api", () => {
 		const eventName = "event name";
 		const HostId = null;
 
-		await createEvent({eventCode, HostId, eventName});
+		await findOrCreateEvent({eventCode, HostId, eventName});
 
 		const res = await getAllEvents();
 
@@ -34,7 +34,7 @@ describe("event query api", () => {
 		const eventName = "event name";
 		const HostId = null;
 
-		const res = await createEvent({eventCode, HostId, eventName});
+		const res = await findOrCreateEvent({eventCode, HostId, eventName});
 
 		assert(typeof res === "object");
 		assert(res.id > 0);
@@ -59,7 +59,7 @@ describe("event query api", () => {
 			startAt: new Date(),
 			endAt: new Date(),
 		};
-		const oldEvent = await createEvent(oldData);
+		const oldEvent = await findOrCreateEvent(oldData);
 		const id = oldEvent.id;
 
 		const event = await getEventById(id);
@@ -107,7 +107,7 @@ describe("event query api", () => {
 			startAt: new Date(),
 			endAt: new Date(),
 		};
-		const oldEvent = await createEvent(oldData);
+		const oldEvent = await findOrCreateEvent(oldData);
 		const id = oldEvent.id;
 
 		const event = await getEventByEventCode(oldData.eventCode);
@@ -142,7 +142,7 @@ describe("event query api", () => {
 			endAt: new Date(),
 		};
 
-		await createEvent(oldData);
+		await findOrCreateEvent(oldData);
 
 		const events = await getEventsByHostId(oldData.HostId);
 
@@ -159,7 +159,7 @@ describe("event query api", () => {
 			startAt: new Date(),
 			endAt: new Date(),
 		};
-		const oldEvent = await createEvent(oldData);
+		const oldEvent = await findOrCreateEvent(oldData);
 		const id = oldEvent.id;
 
 		const event = await getEventOptionByEventId(id);
@@ -179,7 +179,7 @@ describe("event query api", () => {
 			endAt: new Date(),
 		};
 
-		await createEvent(oldData);
+		await findOrCreateEvent(oldData);
 		const id = 7777;
 
 		const event = await getEventOptionByEventId(id);

@@ -4,13 +4,14 @@ import {MdPerson} from "react-icons/md";
 import SelectionItems from "./SelectionItems";
 import RatingItem from "./RatingItem";
 
+const colorGray3 = "#adb5bd";
 const ColumnWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
 	box-sizing: border-box;
-	border: 1px solid #dee2e6; /* Gray3 */
+	border: 1px solid ${colorGray3};
 	width: 100%;
 	margin-top: 1rem;
 	background-color: white;
@@ -52,11 +53,13 @@ function PollCard(props) {
 	// socket.io, sequelize, graphQL 을 거치면서 format이 변경되어서 그때그때 처리하기 위함
 	if (pollDate) {
 		localePollDate = pollDate;
+
 		if (localePollDate.includes("-")) {
 			localePollDate = new Date(localePollDate);
 		} else {
 			localePollDate = new Date(parseInt(localePollDate, 10));
 		}
+
 		localePollDate = `
 			${localePollDate.getMonth() + 1}월 
 			${localePollDate.getDate()}일 

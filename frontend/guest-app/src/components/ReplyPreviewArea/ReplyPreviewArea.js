@@ -18,7 +18,7 @@ export default function ReplyPreviewArea(props) {
 				<AddReplyButton onClick={openReplies}/>
 			)}
 			<AppDrawer
-				anchor="bottom"
+				anchor={"bottom"}
 				isOpen={repliesIsOpened}
 				onClose={closeReplies}
 				title={"댓글"}

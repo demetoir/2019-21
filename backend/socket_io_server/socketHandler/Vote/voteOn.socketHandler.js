@@ -1,6 +1,10 @@
-import {addVote, addAndDelete} from "../../../DB/queries/vote";
+import {swapVoteByGuestId, addVote} from "../../../DB/queries/vote";
 import updateVoters from "./updateVoters";
 import logger from "../../logger.js";
+import {
+	SOCKET_IO_RESPONSE_STATE_ERROR,
+	SOCKET_IO_RESPONSE_STATE_OK,
+} from "../../../constants/socket.ioResponseState.js";
 
 const voteOnSocketHandler = async (data, emit) => {
 	try {
@@ -12,22 +16,31 @@ const voteOnSocketHandler = async (data, emit) => {
 			candidateToDelete,
 		} = data;
 
+		let updateVotePromise;
+
 		if (!allowDuplication && candidateToDelete) {
-			await addAndDelete(GuestId, CandidateId, candidateToDelete);
+			updateVotePromise = swapVoteByGuestId(
+				GuestId,
+				CandidateId,
+				candidateToDelete,
+			);
 		} else {
-			await addVote({GuestId, CandidateId});
+			updateVotePromise = addVote({GuestId, CandidateId});
 		}
 
-		await updateVoters(poll);
+		const updateVotersPromise = updateVoters(poll);
+
+		await Promise.all([updateVotePromise, updateVotersPromise]);
 
 		emit({
-			status: "ok",
+			status: SOCKET_IO_RESPONSE_STATE_OK,
 			GuestId,
 			poll,
 		});
 	} catch (e) {
 		logger.error(e);
-		emit({status: "error", e});
+
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 

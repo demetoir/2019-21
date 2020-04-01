@@ -1,29 +1,34 @@
 import {openPoll} from "../../../DB/queries/poll";
 import logger from "../../logger.js";
+import {
+	SOCKET_IO_RESPONSE_STATE_ERROR,
+	SOCKET_IO_RESPONSE_STATE_OK,
+} from "../../../constants/socket.ioResponseState.js";
 
 const openPollSocketHandler = async (data, emit) => {
 	try {
-		let status = "ok";
+		let status = SOCKET_IO_RESPONSE_STATE_OK;
 		const {pollId} = data;
+		const affectedRows = await openPoll(pollId);
 
-		const result = await openPoll(pollId);
-
-		if (result[0] !== 1) {
+		if (affectedRows !== 1) {
 			logger.error(
-				`Something wrong with poll/open: affected number of rows = ${result[0]}`,
+				`Something wrong with poll/open: affected number of rows = ${affectedRows}`,
 			);
-			status = "error";
+
+			status = SOCKET_IO_RESPONSE_STATE_ERROR;
 		}
+
 		emit({status, pollId});
 	} catch (e) {
 		logger.error(e);
-		emit({status: "error", e});
+
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 
 const eventName = "poll/open";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: openPollSocketHandler,

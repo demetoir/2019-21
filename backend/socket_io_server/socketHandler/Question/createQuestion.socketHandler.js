@@ -2,10 +2,12 @@ import {createQuestion} from "../../../DB/queries/question";
 import {updateGuestById} from "../../../DB/queries/guest";
 import eventCache from "../../EventCache.js";
 import logger from "../../logger.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../../constants/socket.ioResponseState.js";
+import {QUESTION_STATE_ACTIVE} from "../../../constants/questionState.js";
 
 const QUESTION_STATE_MODERATION = "moderation";
 
-function getNewQuestion({
+function toQuestionRequestDTO({
 	EventId,
 	GuestId,
 	guestName,
@@ -17,7 +19,7 @@ function getNewQuestion({
 	isShowEditButton = true,
 	didILike = false,
 	likeCount = 0,
-	state = "active",
+	state = QUESTION_STATE_ACTIVE,
 	QuestionId = null,
 	isStared = false,
 }) {
@@ -40,7 +42,7 @@ function getNewQuestion({
 
 const createQuestionSocketHandler = async (data, emit, socket) => {
 	try {
-		const newQuestion = getNewQuestion(data);
+		const questionRequestDTO = toQuestionRequestDTO(data);
 		const {
 			EventId,
 			content,
@@ -48,53 +50,44 @@ const createQuestionSocketHandler = async (data, emit, socket) => {
 			guestName,
 			isAnonymous,
 			QuestionId,
-		} = newQuestion;
+		} = questionRequestDTO;
 
 		logger.debug(data);
 
 		const event = await eventCache.get(EventId);
-		const currentModerationOption = event.moderationOption;
-		const reqData = newQuestion;
-		let state;
+		const isModerationMode = event.moderationOption;
+		const responseDTO = questionRequestDTO;
 
-		if (currentModerationOption) {
-			reqData.state = QUESTION_STATE_MODERATION;
-			state = QUESTION_STATE_MODERATION;
+		if (isModerationMode) {
+			responseDTO.state = QUESTION_STATE_MODERATION;
 		}
 
-		// todo 성능 개선: 위해 여러개의 DB query를 promise.all 처리해야함
-		const newData = await createQuestion({
+		const createQuestionPromise = createQuestion({
 			EventId,
 			content,
 			GuestId,
 			QuestionId,
-			state,
+			state: responseDTO.state,
 		});
-
-		await updateGuestById({
+		const updateGuestByIdPromise = updateGuestById({
 			id: GuestId,
 			name: guestName,
 			isAnonymous,
 		});
+		const [question] = await Promise.all([createQuestionPromise, updateGuestByIdPromise]);
 
-		reqData.id = newData.id;
-		if (QuestionId) {
-			reqData.QuestionId = QuestionId;
-		} else {
-			reqData.QuestionId = null;
-		}
+		responseDTO.id = question.id;
 
 		// todo 성능 개선: moderation기능이 on인경우 host에만 send 하도록 수정
-		emit(reqData);
+		emit(responseDTO);
 	} catch (e) {
 		logger.error(`${e.toString()}\n${e.stack}`);
-		socket.send({status: "error", error: e});
+		socket.send({status: SOCKET_IO_RESPONSE_STATE_ERROR, error: e});
 	}
 };
 
 const eventName = "question/create";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: createQuestionSocketHandler,

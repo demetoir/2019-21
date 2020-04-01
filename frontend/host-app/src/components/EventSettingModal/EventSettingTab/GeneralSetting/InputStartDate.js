@@ -36,14 +36,14 @@ function InputStartDate(props) {
 
 	const calcEndDate = inputTime => {
 		const hour = moment(inputTime).format("HH");
-		const minuate = moment(inputTime).format("mm");
+		const minute = moment(inputTime).format("mm");
 
 		let addedDate = moment()
 			.add(hour, "h")
 			.toDate();
 
 		addedDate = moment(addedDate)
-			.add(minuate, "m")
+			.add(minute, "m")
 			.toDate();
 		setEndDate(addedDate);
 		handleLastTimeChange(inputTime);

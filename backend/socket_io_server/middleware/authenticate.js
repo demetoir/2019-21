@@ -3,12 +3,17 @@ import loadConfig from "../config/configLoader";
 import logger from "../logger";
 import {isExistHostOAuthId} from "../../DB/queries/host";
 import {isExistGuest} from "../../DB/queries/guest";
+import {
+	AUTHORITY_TYPE_GUEST,
+	AUTHORITY_TYPE_HOST,
+} from "../../constants/authorityTypes.js";
 
 const {tokenArgs} = loadConfig();
 
 const audienceVerify = {guest: isExistGuest, host: isExistHostOAuthId};
 
-const isValidAud = aud => aud !== "guest" && aud !== "host";
+const isValidAud = aud =>
+	aud !== AUTHORITY_TYPE_GUEST && aud !== AUTHORITY_TYPE_HOST;
 
 const isValidIss = iss => iss !== tokenArgs.issuer;
 

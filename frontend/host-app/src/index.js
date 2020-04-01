@@ -3,11 +3,11 @@ import ReactDOM from "react-dom";
 import Cookies from "js-cookie";
 import {ApolloProvider} from "@apollo/react-hooks";
 import "./index.css";
-import App from "./App/App.js";
 import * as serviceWorker from "./libs/serviceWorker.js";
 import {initSocketIoClientWrapper} from "./libs/socket.io-Client-wrapper.js";
 import config from "./config";
 import createApolloClient from "./libs/createApolloClient";
+import AppLoadingWrapper from "./App/AppLoadingWrapper.js";
 
 const NAME_SPACE = "event";
 
@@ -24,7 +24,7 @@ const client = createApolloClient(config.apolloURI, token);
 
 ReactDOM.render(
 	<ApolloProvider client={client}>
-		<App />
+		<AppLoadingWrapper />
 	</ApolloProvider>,
 	document.getElementById("root"),
 );

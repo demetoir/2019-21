@@ -3,11 +3,12 @@ import {
 	getGuestByGuestSid,
 } from "../../../DB/queries/guest.js";
 import {getEventById} from "../../../DB/queries/event.js";
+import {AUTHORITY_TYPE_GUEST} from "../../../constants/authorityTypes.js";
 
-const guestResolver = async EventId => getGuestByEventId(EventId);
+const guestResolver = async (_, {EventId}) => getGuestByEventId(EventId);
 
-const guestInEventResolver = async authority => {
-	if (authority.sub !== "guest") {
+const guestInEventResolver = async (_, args, authority) => {
+	if (authority.sub !== AUTHORITY_TYPE_GUEST) {
 		throw Error("AuthenticationError in guestInEventResolver");
 	}
 
@@ -17,11 +18,9 @@ const guestInEventResolver = async authority => {
 	return {event, guest};
 };
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	Query: {
-		guests: (_, {EventId}) => guestResolver(EventId),
-		// eslint-disable-next-line no-empty-pattern
-		guestInEvent: (_, {}, authority) => guestInEventResolver(authority),
+		guests: guestResolver,
+		guestInEvent: guestInEventResolver,
 	},
 };

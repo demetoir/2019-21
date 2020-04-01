@@ -1,21 +1,21 @@
-import React, {useReducer, useContext} from "react";
+import React, {useContext, useReducer} from "react";
 import {Modal} from "@material-ui/core";
+import {useMutation} from "@apollo/react-hooks";
 import styled from "styled-components";
 import moment from "moment";
 import InputEventName from "./InputEventName";
 import InputStartDate from "./InputStartDate";
-import {useMutation} from "@apollo/react-hooks";
 import InputHashTag from "./InputHashTag";
 import EndDateField from "./EndDateField";
 import HashTagsField from "./HashTagsField";
 import ButtonField from "./ButtonField";
 import AlertSnackbar from "./AlertSnackbar";
-import {eventModalReducer} from "./eventModalReducer";
-import {createEvent, createHashTags} from "../../libs/gql";
+import eventModalReducer from "./eventModalReducer";
+import {mutateCreateEvent, mutateCreateHashTags} from "../../libs/gql";
 import {HostContext} from "../../libs/hostContext";
 import useSnackBar from "../../customhook/useSnackBar";
 
-const modalHeight = 38; // 37;
+const modalHeight = 38;
 const modalWidth = 28.125;
 const PopUpLayOutStyle = styled.div`
 	position: relative;
@@ -26,7 +26,6 @@ const PopUpLayOutStyle = styled.div`
 	width: ${modalWidth}rem;
 	height: ${modalHeight}rem;
 	background-color: white;
-	// padding-left: 1.25rem;
 	padding: 0 1.5rem;
 	box-sizing: border-box;
 	border-radius: 15px;
@@ -49,21 +48,19 @@ const Header = styled.div`
 
 const initEndDate = (startTime, lastTime) => {
 	const hour = moment(lastTime).format("HH");
-	const minuate = moment(lastTime).format("mm");
+	const minute = moment(lastTime).format("mm");
 	let addedTime = moment(startTime)
 		.add(hour, "h")
 		.toDate();
 
 	addedTime = moment(addedTime)
-		.add(minuate, "m")
+		.add(minute, "m")
 		.toDate();
 	return addedTime;
 };
 
 function verifyInputData(errorState) {
-	const isInValid = Object.values(errorState).some(inputValue => inputValue);
-
-	return isInValid;
+	return Object.values(errorState).some(inputValue => inputValue);
 }
 
 function formattingDate(date) {
@@ -84,8 +81,8 @@ function CreateEventModal({open, handleClose}) {
 		eventModalReducer,
 		initialEventInfo,
 	);
-	const [mutaionEvent, {event}] = useMutation(createEvent());
-	const [mutationHashTags, {hashTags}] = useMutation(createHashTags());
+	const [mutationEvent, {event}] = useMutation(mutateCreateEvent);
+	const [mutationHashTags, {hashTags}] = useMutation(mutateCreateHashTags);
 
 	const dispatchHandler = ({type, property, value}) => {
 		dispatchEventInfo({
@@ -102,7 +99,7 @@ function CreateEventModal({open, handleClose}) {
 			setSnackBarOpen(true);
 			return;
 		}
-		mutaionEvent({
+		mutationEvent({
 			variables: {
 				info: {
 					HostId: hostInfo.id,

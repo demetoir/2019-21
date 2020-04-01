@@ -10,7 +10,6 @@ const handler = async (data, emit) => {
 
 const eventName = "questionLike/remove";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler,

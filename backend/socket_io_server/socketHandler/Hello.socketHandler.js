@@ -1,3 +1,5 @@
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../constants/socket.ioResponseState.js";
+
 function verySlowJob() {
 	return new Promise(resolve =>
 		setTimeout(() => {
@@ -6,7 +8,7 @@ function verySlowJob() {
 	);
 }
 
-const helloHandler = async (data, emit) => {
+const helloSocketHandler = async (data, emit) => {
 	try {
 		// console.log(data);
 
@@ -16,14 +18,13 @@ const helloHandler = async (data, emit) => {
 		emit(data);
 	} catch (e) {
 		// console.log(e);
-		emit({status: "error", e});
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 
 const eventName = "hello";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
-	handler: helloHandler,
+	handler: helloSocketHandler,
 };

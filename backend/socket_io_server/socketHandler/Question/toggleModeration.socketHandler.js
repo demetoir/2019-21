@@ -1,6 +1,7 @@
 import {updateEventById} from "../../../DB/queries/event";
 import eventCache from "../../EventCache";
 import logger from "../../logger.js";
+import {SOCKET_IO_RESPONSE_STATE_ERROR} from "../../../constants/socket.ioResponseState.js";
 
 const toggleModerationSocketHandler = async (data, emit) => {
 	try {
@@ -13,16 +14,17 @@ const toggleModerationSocketHandler = async (data, emit) => {
 		});
 		currentOption.moderationOption = currentState;
 		await eventCache.set(data.eventId, currentOption);
+
 		emit({eventId: data.eventId, state: currentState});
 	} catch (e) {
 		logger.error(e);
-		emit({status: "error", e});
+
+		emit({status: SOCKET_IO_RESPONSE_STATE_ERROR, e});
 	}
 };
 
 const eventName = "moderation/toggle";
 
-// noinspection JSUnusedGlobalSymbols
 export default {
 	eventName,
 	handler: toggleModerationSocketHandler,

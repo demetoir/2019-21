@@ -1,15 +1,21 @@
-import * as path from "path";
-import {fileLoader} from "merge-graphql-schemas";
+import emojiResolvers from "./model/emoji/emoji.resolver.js";
+import hostpageResolvers from "./model/hostpage/hostpage.resolver.js";
+import guestResolvers from "./model/guest/guest.resolver.js";
+import likeResolvers from "./model/like/like.resolver.js";
+import questionResolvers from "./model/question/question.resolver.js";
+import pollGuestResolvers from "./model/poll/pollGuest.resolver.js";
+import pollHostResolvers from "./model/poll/pollHost.resolver.js";
+import helloResolvers from "./model/hello/hello.resolver.js";
 
-/* MANUAL APPROACH: Update this file manually with each resolver file */
-// import userResolvers from "./user.resolvers";
-// import welcomeResolvers from "./welcome.resolvers";
-// const resolversArray = [userResolvers, welcomeResolvers];
-
-/*  AUTOMATED APPROACH: Put your resolvers anywhere
-    with ".[js/ts]" naming convention */
-const resolvers = fileLoader(path.join(__dirname, "./model/**/*.resolver.js"));
-
-// console.log(resolvers);
+const resolvers = [
+	emojiResolvers,
+	hostpageResolvers,
+	guestResolvers,
+	likeResolvers,
+	questionResolvers,
+	pollGuestResolvers,
+	pollHostResolvers,
+	helloResolvers,
+];
 
 export default resolvers;
